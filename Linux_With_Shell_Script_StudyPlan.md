@@ -331,8 +331,64 @@ Most Asked interview question about user Management - Fields in /etc/passwd file
 Commands: ln -s destination source => softlink
           ln destination source => hardlink
 
+# User Profiles :-
 
-            
+When we create a user account the user environment files or profile files will be copied from /etc/skel directory to every user home fdirectory
+  
+  The user Environment files :- 
+
+                          .bash_logout :  We can write the logout scripts in these files ==> It will execute when user session exists,
+                                          here usually we can write clear the screen, remove temp files kill the all process realted users..
+
+                          .bash_profiles: we can write the startup programms ==> it will run at starting the session once and it load bashrc, usually we are storing environment varibles of us, if we put your env varibles in .bashrc every new terminal it will load and create the performace issues
+
+                          .bashrc : we can write the  user's alias commands => it will be terminal config file,  you can modify how you want and function aliases  
+  We Have Two types of Profile :-
+                           1. Global Profiles - /etc/profile 
+                             If you write anything here, It will replicate for all users, If you write " echo Hi it will be print in all the user's terminal"
+                           2. Local Profiles
+                              if you want to same thing for local or particular user you can right it from his .bash_profile if user is using sh shell the it will be .profile
+# Below are the some widely used shell profile and user files
+
+| -------- | ------------------------------------------------------------------ |
+
+  | Shell  |    Global            User              User            User         |
+| -------- | ------------------------------------------------------------------ |
+| **Bash** | `/etc/profile` – `.bash_profile` – `.bashrc` – `.bash_logout`   
+
+| **Zsh**  | `/etc/zprofile` – `.zprofile` – `.zshrc` – `.zlogout` 
+
+| **Tcsh** | `/etc/csh.login` – `.login` – `.cshrc` – `.logout`     
+
+| **Ksh**  | `/etc/profile` – `.profile` – `.kshrc` – (no logout) 
+
+| **Dash** | `/etc/profile` – `.profile` – (no rc) – (no logout)  
+
+| **Fish** | `/etc/fish/config.fish` – (no login) – `config.fish` – (no logout)
+ 
+
+| -------- | ------------------------------------------------------------------ |
+
+# let's talk about some user related commands/ user monitoring commands
+
+      commands:- 
+              
+              whoami :- The whoami tells you your username ; echo $USER
+              who    :- it will tells us who logged in the system , Basically it will get the
+                       details from /var/run/utmp file which holding active login details
+              who am i : here the who command will display only the line pointing to your 
+                         current session
+              w         :-  it will shows you who logged on and what they are doing
+
+              id      :- it will give user id, primary group and list of the blonging groups
+                       id username
+              su       : su vcse, it will allow to run as shell as another user.
+
+              su root ; su username :- it will just switch to another user , But still the environmet is yours and you will be in your home directory
+
+              su - root :- here complete environment change to swithed user.
+
+                        
                  
 
 
