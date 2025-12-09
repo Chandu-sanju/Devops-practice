@@ -92,7 +92,7 @@ Related file commands:-
 
                          head :- To see top lines by default 10 line
                          head -n 100 - To see top 100 lines
-                         tail => To see bottom of the lines from file
+                         tail => To see bottom of the lines from file by default 10 lines
                          tail -n 100 - to see the bottom 100 lines
                          tail -f => more usefull when troubleshooting and give live logs
                          wc => word count 
@@ -100,7 +100,7 @@ Related file commands:-
                               wc -w => how many words
                               wc -c => How many characters
                         more => it will show the file contents page by page - space bar you can use
-                        less => it will show till file contents fit the scree
+                        less => it will show till file contents fit the screen
                         strings => to read the binary files
      Question :- If a file contain 200 lines, To see lines from 100 to 110 how you can do ?
      addition:- how many ways you can see the how many lines in a file.
@@ -126,7 +126,7 @@ Related file commands:-
 # Changing/managing File Permissions:-
 
    when you do ls -l filename / ls -ld dirname => it list the current permissions
-   here we can three portions => drwxr-xr-x  2 vcse users 4096 Aug 31 07:51 Desktop
+   here we can three portions => drwx r-x r-x  2 vcse users 4096 Aug 31 07:51 Desktop
                                first portion(u) -- the owner permissions
                                second portion (g) -- Owner Primary group permissions
                                third portion  (o) -- Except owner and primary group members 
