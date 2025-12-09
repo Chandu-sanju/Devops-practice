@@ -35,7 +35,7 @@
               mkdir -m dirname -- along with permissions
               rmdir $dirname => when dir is empty #not useful
  
-Deal with files :-
+# Deal with files :-
 
 Everything in linux is a file, directory is also file
 Types of Files in Linux:-
