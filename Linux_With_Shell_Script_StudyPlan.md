@@ -279,9 +279,9 @@ Related file commands:-
 
 # Group managemet :- 
 
-  A group is collection of users, Instead of giving permission to indiviadual , we can combined group of people into one group and create a group and give the permission, SO i will be easier as well as decrease administrative workload.
+   A group is collection of users, Instead of giving permission to indiviadual , we can combined group of people into one group and create a group and give the  permission, SO i will be easier as well as decrease administrative workload.
 
-  Important group Management commands:- 
+   Important group Management commands:- 
 
     groupadd groupname => assigned default gid and create
 
@@ -398,6 +398,9 @@ Related file commands:-
  Commands: ln -s destination source => softlink
           ln destination source => hardlink
 
+
+# Bouns Tip:- apropos keyword, If Stuck at anywhere and you are not able remember related command so that time you can use it
+>> Example you stuck at while doing lvm => so use apropos lvm it will give related command by checking the man pages similar like man -k
 
 
 
