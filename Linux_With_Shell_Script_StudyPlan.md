@@ -282,14 +282,23 @@ Related file commands:-
   A group is collection of users, Instead of giving permission to indiviadual , we can combined group of people into one group and create a group and give the permission, SO i will be easier as well as decrease administrative workload.
 
   Important group Management commands:- 
+
     groupadd groupname => assigned default gid and create
+
     groupadd -g 10021 groupname => we can specify the gid
+
     groupinfo -- /etc/group
+
     grouppasswd info - /etc/gshadow
+
     groupmod -g 11222 aws => we can chage the gid
+
     groupdell groupname =- to delete the group
+
     we can also edit /etc/group and user, afer if we use below
+
     grpck -- to find the error if any it will show
+    
     gpasswd - to set the password and by using this we can add / remove users from the group
 
 
