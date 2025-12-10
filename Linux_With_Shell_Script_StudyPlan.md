@@ -102,8 +102,8 @@ Related file commands:-
                         more => it will show the file contents page by page - space bar you can use
                         less => it will show till file contents fit the screen
                         strings => to read the binary files
-     Question :- If a file contain 200 lines, To see lines from 100 to 110 how you can do ?
-     addition:- how many ways you can see the how many lines in a file.
+        Question :- If a file contain 200 lines, To see lines from 100 to 110 how you can do ?
+           addition:- how many ways you can see the how many lines in a file.
 
 # File Permissions Commands:-
 
@@ -125,14 +125,14 @@ Related file commands:-
 
 # Changing/managing File Permissions:-
 
-   when you do ls -l filename / ls -ld dirname => it list the current permissions
-   here we can three portions => drwx r-x r-x  2 vcse users 4096 Aug 31 07:51 Desktop
+     when you do ls -l filename / ls -ld dirname => it list the current permissions
+      here we can three portions => drwx r-x r-x  2 vcse users 4096 Aug 31 07:51 Desktop
                                first portion(u) -- the owner permissions
                                second portion (g) -- Owner Primary group permissions
                                third portion  (o) -- Except owner and primary group members 
                                all are the comes under others
-     We can manage in two ways numeric and albhabetical way
-      Numeric => Recommeded
+      We can manage in two ways numeric and albhabetical way
+       Numeric => Recommeded
                 r=4 ; w=2 ; x =1
                 usually file permission start with 000 -- no permission
                                                    001 -- -x -1
@@ -221,11 +221,11 @@ Related file commands:-
     -f inactive days login after pasword expiry 
     username:- The user which we are going to create
 
-Most Asked interview question about user Management - Fields in /etc/passwd file
+  Most Asked interview question about user Management - Fields in /etc/passwd file
 
- chandu:x:1001:1001:developer:/home/chandu:/bin/bash
+    chandu:x:1001:1001:developer:/home/chandu:/bin/bash
    
- There are 7 fileds seperated by colons :
+   There are 7 fileds seperated by colons :
                                         1.  username/loginname - chandu
                                         2.  x - Password place holder - means password stored  in /etc/shadow
                                         3.  UID - Unique user id of the user
@@ -234,7 +234,7 @@ Most Asked interview question about user Management - Fields in /etc/passwd file
                                         6. Home directory - /home/chandu
                                         7. Login Shell - /bin/bash
 
-# Fileds in /etc/Shadow file:-
+   Fileds in /etc/Shadow file:-
                                  
                       chandu:$6$hashvalue$abc123:19500:0:99999:7:::
 
@@ -264,17 +264,17 @@ Most Asked interview question about user Management - Fields in /etc/passwd file
                                    # chage -d 0 username - Same thing but it will setup last passwd changed to 0 so, User needs to change the passwd after first login
 
 
-                 # If password is set & locked it will be looks below that means double !! and encrypted password
+                  If password is set & locked it will be looks below that means double !! and encrypted password
                         shobha:!!$6$EWkhaqTE9VPvxycS$vkHnhcCE5MyjrAo2yzPAEBKWfGzcSMuoAL6aeS.4YmVyknQ9UgzprHwitCtzVS3A41DEsY.nLEGngDfQP7FvP/:20429:0:99999:7::: 
 
-                      # If password is set and not locked then there will be no ! and you can also 
+                      If password is set and not locked then there will be no ! and you can also 
                         find the passwd -S useranme
                          hari:$6$JvAu/.v3vbF4BP9m$DIdu.b77.kIfGc/OY5XkACC8r5eAdOx0d7wGNN4QThdqJ94FQ1FJ3X2IpD1dUoZyKuxb6wh.UMQYe4Hcmdlae:20429:0:99999:7:::
-                     # If Password is not set then it will be like
+                      If Password is not set then it will be like
                             ramm:!!:20429:0:99999:7:::
-                 # There is another if user password is set and account itself locked the it will be ## usermod -L to lock usermod -U , to unlock 
+                  There is another if user password is set and account itself locked the it will be ## usermod -L to lock usermod -U , to unlock 
                        sanju:!$6$xQYM8H/YQRIeBbkU$Q5o053qOQeGmi18z7PLBPoHUHCiQy.cOfbiV/k1RTfks2usMQg338TR8x3cAp6q7S/M/6V38D1Ag6rP2LJZUA1:20429:0:99999:7:::
-           # How to change the Password the age of the user
+           => How to change the Password the age of the user
               chage -m 10 -M 20 -W 5 username
 
 # Group managemet :- 
@@ -305,7 +305,7 @@ Most Asked interview question about user Management - Fields in /etc/passwd file
            => Permissions (r-w-x)
            => Timestamps (Created, modified, when accessed)
            => Pointer/links to the actual data blocks on disk
-  Layman terms:- 
+   Layman terms:- 
      if a file is a book, Indoe is an index of that book.
        index doesn't have the book name but where is the book who owns it and when it published , the chapter but not actual content.
 
@@ -328,12 +328,12 @@ Most Asked interview question about user Management - Fields in /etc/passwd file
              4. In hardlink main file deleted also we can have the data from until last link
 
 
-Commands: ln -s destination source => softlink
+ Commands: ln -s destination source => softlink
           ln destination source => hardlink
 
 # User Profiles :-
 
-When we create a user account the user environment files or profile files will be copied from /etc/skel directory to every user home fdirectory
+ When we create a user account the user environment files or profile files will be copied from /etc/skel directory to every user home fdirectory
   
   The user Environment files :- 
 
@@ -350,24 +350,24 @@ When we create a user account the user environment files or profile files will b
                               if you want to same thing for local or particular user you can right it from his .bash_profile if user is using sh shell the it will be .profile
 # Below are the some widely used shell profile and user files
 
-| -------- | ------------------------------------------------------------------ |
+  | -------- | ------------------------------------------------------------------ |
 
   | Shell  |    Global            User              User            User         |
-| -------- | ------------------------------------------------------------------ |
-| **Bash** | `/etc/profile` – `.bash_profile` – `.bashrc` – `.bash_logout`   
+  | -------- | ------------------------------------------------------------------ |
+ | **Bash** | `/etc/profile` – `.bash_profile` – `.bashrc` – `.bash_logout`   
 
-| **Zsh**  | `/etc/zprofile` – `.zprofile` – `.zshrc` – `.zlogout` 
+ | **Zsh**  | `/etc/zprofile` – `.zprofile` – `.zshrc` – `.zlogout` 
 
-| **Tcsh** | `/etc/csh.login` – `.login` – `.cshrc` – `.logout`     
+ | **Tcsh** | `/etc/csh.login` – `.login` – `.cshrc` – `.logout`     
 
-| **Ksh**  | `/etc/profile` – `.profile` – `.kshrc` – (no logout) 
+ | **Ksh**  | `/etc/profile` – `.profile` – `.kshrc` – (no logout) 
 
-| **Dash** | `/etc/profile` – `.profile` – (no rc) – (no logout)  
+ | **Dash** | `/etc/profile` – `.profile` – (no rc) – (no logout)  
 
-| **Fish** | `/etc/fish/config.fish` – (no login) – `config.fish` – (no logout)
+ | **Fish** | `/etc/fish/config.fish` – (no login) – `config.fish` – (no logout)
  
 
-| -------- | ------------------------------------------------------------------ |
+ | -------- | ------------------------------------------------------------------ |
 
 # let's talk about some user related commands/ user monitoring commands
 
