@@ -183,7 +183,7 @@ Related file commands:-
                                                 2. GID
                                                 3. Home Directory
                                                 4. Default shell
-                                                5. Default password/permissions
+                                                5. Default password/permissions /Umask
 
 # User management Imp Files:-
                           1. /etc/login.defs ==Uid Range,Home Permissions, password expiry
@@ -201,7 +201,7 @@ Related file commands:-
                   1 => Useradd will check for /etc/login.defs -> Uid Range,Home Permissions, password expiry
                   2 => /etc/default/useradd -> Having the info about default shell , Home location, Where the skeleton directory location
                   3 => Then it will look into /etc/passwd file and looks for last UID and assign next one
-                  4 => it will create a group and userinto the group those config also    from /etc/login.defs if
+                  4 => it will create a group and add the userinto the group those config also    from /etc/login.defs if
                                        USEEGROUPS_ENAB yes put the group in /etc/group
                   5 => create home directory as per the /etc/default/useradd
                   6 => copy the files from /etc/skel/ to user home, dir cp -r  /etc/skel/. /home/username/
@@ -298,47 +298,9 @@ Related file commands:-
     we can also edit /etc/group and user, afer if we use below
 
     grpck -- to find the error if any it will show
-    
+
     gpasswd - to set the password and by using this we can add / remove users from the group
 
-
-# Inodes & Soft and Hard links
-
-       Inode:- when we do ls -li it will show inode numbers...
-
-       Indoe:- An inode is a data structure; it stores metadata about a file.
-
-         It won't store the file name but below..
-           => File Size
-           => Ownership (User& Group)
-           => Permissions (r-w-x)
-           => Timestamps (Created, modified, when accessed)
-           => Pointer/links to the actual data blocks on disk
-   Layman terms:- 
-     if a file is a book, Indoe is an index of that book.
-       index doesn't have the book name but where is the book who owns it and when it published , the chapter but not actual content.
-
-    If Inodes are full , you can't create new file even disk space is full.
-    Millions of logfile or temp files , caches files, to many softlinks will cause for inodes full.
-
- Softlinks ==>
-               A softlink (Symbolic link) is a shortcut that points to the filename, not the inode
-            1. softlink can links across the file system directories
-            2. softlinks will use different inode numbers bcz it is pointing to the file
-            3. softlink cannot use external space in the disk
-            4. In softlinks if main file is deleted all the links are collapsed or not useful
-
- Hardlinks ==>
-                 A Hard link is basically another name for the same inode
-
-             1. Hardlinks can link with in the file system
-             2. Hard links can use same inode number
-             3. hard links can use eternal space in the disk
-             4. In hardlink main file deleted also we can have the data from until last link
-
-
- Commands: ln -s destination source => softlink
-          ln destination source => hardlink
 
 # User Profiles :-
 
@@ -397,8 +359,45 @@ Related file commands:-
 
               su - root :- here complete environment change to swithed user.
 
-                        
-                 
+
+# Inodes & Soft and Hard links
+
+       Inode:- when we do ls -li it will show inode numbers...
+
+       Indoe:- An inode is a data structure; it stores metadata about a file.
+
+         It won't store the file name but below..
+           => File Size
+           => Ownership (User& Group)
+           => Permissions (r-w-x)
+           => Timestamps (Created, modified, when accessed)
+           => Pointer/links to the actual data blocks on disk
+   Layman terms:- 
+     if a file is a book, Indoe is an index of that book.
+       index doesn't have the book name but where is the book who owns it and when it published , the chapter but not actual content.
+
+    If Inodes are full , you can't create new file even disk space is full.
+    Millions of logfile or temp files , caches files, to many softlinks will cause for inodes full.
+
+ Softlinks ==>
+               A softlink (Symbolic link) is a shortcut that points to the filename, not the inode
+            1. softlink can links across the file system directories
+            2. softlinks will use different inode numbers bcz it is pointing to the file
+            3. softlink cannot use external space in the disk
+            4. In softlinks if main file is deleted all the links are collapsed or not useful
+
+ Hardlinks ==>
+                 A Hard link is basically another name for the same inode
+
+             1. Hardlinks can link with in the file system
+             2. Hard links can use same inode number
+             3. hard links can use eternal space in the disk
+             4. In hardlink main file deleted also we can have the data from until last link
+
+
+ Commands: ln -s destination source => softlink
+          ln destination source => hardlink
+
 
 
 
