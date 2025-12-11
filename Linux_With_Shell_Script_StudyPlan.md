@@ -379,14 +379,14 @@ Related file commands:-
     If Inodes are full , you can't create new file even disk space is full.
     Millions of logfile or temp files , caches files, to many softlinks will cause for inodes full.
 
- Softlinks ==>
+  Softlinks ==>
                A softlink (Symbolic link) is a shortcut that points to the filename, not the inode
             1. softlink can links across the file system directories
             2. softlinks will use different inode numbers bcz it is pointing to the file
             3. softlink cannot use external space in the disk
             4. In softlinks if main file is deleted all the links are collapsed or not useful
 
- Hardlinks ==>
+  Hardlinks ==>
                  A Hard link is basically another name for the same inode
 
              1. Hardlinks can link with in the file system
@@ -395,15 +395,40 @@ Related file commands:-
              4. In hardlink main file deleted also we can have the data from until last link
 
 
- Commands: ln -s destination source => softlink
-          ln destination source => hardlink
+           Commands: ln -s destination source => softlink ; link -s file1 file2
+
+                     ln destination source => hardlink ; ln file1 file2
 
 
 # Bouns Tip:- apropos keyword, If Stuck at anywhere and you are not able remember related command so that time you can use it
 >> Example you stuck at while doing lvm => so use apropos lvm it will give related command by checking the man pages similar like man -k
 
+#Sudo User
+       
+       A sudo user is nothing but a non-root user only, But he as the previlages to run as root, By using the sudo infornt of command so that it will execute a command
+       as root user.
 
+           How to give sudo access to a normal user ?
 
+           There is a sudo access control file => /etc/sudoers
+
+           Here you can add Under Root , IF you want add the user
+           
+>> root  ALL=(ALL:ALL) ALL  
+       
+           user: root
+
+          from any host: ALL
+
+          can run as any user: (ALL:ALL)
+
+           can run any command: ALL
+
+        but must authenticate normally if needed
+
+>> root  ALL=(ALL:ALL) NOPASSWD: ALL
+
+       NO password required.
                
        
                     
