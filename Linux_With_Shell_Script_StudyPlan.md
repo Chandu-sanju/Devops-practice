@@ -434,7 +434,26 @@ Related file commands:-
 >> /etc/sudoers.d/ Directory ?
                It contains additional sudo rules seperate from the main. Files inside this directory define who can run which commands as root.
       
-              
+
+#                    Process Management 
+>>
+    Process:- A process is compiled source code that is currently running on the system.
+
+    PID: All the process have a process id or PID 
+
+    PPID :- Every process has a parent process. The child process is often started by the parent    process      
+
+    Init/systemd : The first process which will started by the kernal itself, So techincally init/systemd has no PPID because this is the only Parent for all the process id's.
+
+    The first process id in linux 1 that is nothing but init/systemd .. upto RHEL6 init is the first process id and from RHEL7 systemd.
+
+    Kill:- When a process stops running, the process dies, When you want a process to die, You can kill it.
+
+    Daemon:- A background service process which start at system startup and keep running forever are called daemon process or daemons, These proces never die. sshd, httpd, crond ---
+
+    Zombie:- When a process is killed but still shows up on system and some utilize memory spaces those process are zombie and we can't kill it becuase they already process, So we have to kill the parent process of the zombie
+    
+     
        
                     
  
