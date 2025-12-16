@@ -304,7 +304,7 @@ Related file commands:-
 
 # User Profiles :-
 
- When we create a user account the user environment files or profile files will be copied from /etc/skel directory to every user home fdirectory
+ When we create a user account the user environment files or profile files will be copied from /etc/skel directory to every user home directory
   
   The user Environment files :- 
 
@@ -430,6 +430,11 @@ Related file commands:-
 
        NO password required.
                
+               There is a time limit once you enter password then it will store 5 min/15 min based on linux type. till the time it won't ask password after it will ask to enter.
+>> /etc/sudoers.d/ Directory ?
+               It contains additional sudo rules seperate from the main. Files inside this directory define who can run which commands as root.
+      
+              
        
                     
  
