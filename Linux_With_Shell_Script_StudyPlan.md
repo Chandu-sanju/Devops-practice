@@ -452,7 +452,7 @@ Related file commands:-
     Daemon:- A background service process which start at system startup and keep running forever are called daemon process or daemons, These proces never die. sshd, httpd, crond ---
 
     Zombie:- When a process is killed but still shows up on system and some utilize memory spaces those process are zombie and we can't kill it becuase they already process, So we have to kill the parent process of the zombie
-    
+    ==========================
      
        
                     
