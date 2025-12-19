@@ -454,16 +454,16 @@ Related file commands:-
     Zombie:- When a process is killed but still shows up on system and some utilize memory spaces those process are zombie and we can't kill it becuase they already process, So we have to kill the parent process of the zombie
    
    ===========
->>> Some Important Process Management commands:-
+>> Some Important Process Management commands:-
 
     ps :- It displays current console process
          
       └─>>> ps                                                                                                                                       
       PID TTY          TIME CMD
-  3909505 pts/4    00:00:00 zsh
-  4002326 pts/4    00:00:00 ps
+     3909505 pts/4    00:00:00 zsh
+     4002326 pts/4    00:00:00 ps
 
-  pgrep :- It will give procces id of a process
+    pgrep :- It will give procces id of a process
 
      pgrep pcoip-server
      pgrep chrome
@@ -471,7 +471,7 @@ Related file commands:-
     
 >>  kill :- To kill the process with process PID
      
-     kill -l (To show the list of kill signals)
+      kill -l (To show the list of kill signals)
 
       Actually kill command will send a signal to process, We have total 64 Killsignels are there, By default when you run "kill PID" -15 signal will run that is
       nothing but it send the SIGTERM signal to the process, It is very safe to use and recommended , Why ?
@@ -516,9 +516,9 @@ Related file commands:-
 
                                                             That’s why it’s called the “nuclear option”
 
-  pkill - To Kill the process with process name instead of using PID
+    pkill - To Kill the process with process name instead of using PID
 
-  killall : It will send the kill signals to all the process based on their state. we can use killall top, killall chrome  like..
+    killall : It will send the kill signals to all the process based on their state. we can use killall top, killall chrome  like..
 
       generally mostly I am using for terminate a specifc users all process - by using -u
                                                                 killall -u $USERNAME
@@ -534,30 +534,30 @@ Related file commands:-
    
    Example output:-
   
-   USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
- root         1  0.0  0.1 170892  12456 ?        Ss   Jan18   0:03 /usr/lib/systemd/systemd
- root       412  0.0  0.0      0      0 ?        S    Jan18   0:00 [kthreadd]
- root       815  0.1  0.5 512348  43872 ?        Sl   Jan18   1:25 /usr/bin/dockerd
- mysql     1245  1.8  6.2 2487352 512384 ?       Sl   Jan18  45:12 /usr/sbin/mysqld
- nginx     1532  0.0  0.2 126540  18240 ?        S    Jan18   0:12 nginx: worker process
- sav      1764804 26.5  0.0      0      0 ?      Z    17:15  82:30 [xstudio.bin] <defunct>
- premm    2216681  0.0  0.0      0      0 ?      Zs   20:55   0:00 [chrome] <defunct>
- user1    2281103  0.3  1.2 945612 102340 pts/2  Sl+  22:10   0:15 /usr/bin/python3 app.py
- user1    2281720  0.0  0.0 222036   1112 pts/2  S+   22:25   0:00 ps aux
+     USER       PID %CPU %MEM    VSZ   RSS TTY      STAT START   TIME COMMAND
+   root         1  0.0  0.1 170892  12456 ?        Ss   Jan18   0:03 /usr/lib/systemd/systemd
+   root       412  0.0  0.0      0      0 ?        S    Jan18   0:00 [kthreadd]
+   root       815  0.1  0.5 512348  43872 ?        Sl   Jan18   1:25 /usr/bin/dockerd
+   mysql     1245  1.8  6.2 2487352 512384 ?       Sl   Jan18  45:12 /usr/sbin/mysqld
+   nginx     1532  0.0  0.2 126540  18240 ?        S    Jan18   0:12 nginx: worker process
+   sav      1764804 26.5  0.0      0      0 ?      Z    17:15  82:30 [xstudio.bin] <defunct>
+   premm    2216681  0.0  0.0      0      0 ?      Zs   20:55   0:00 [chrome] <defunct>
+   user1    2281103  0.3  1.2 945612 102340 pts/2  Sl+  22:10   0:15 /usr/bin/python3 app.py
+   user1    2281720  0.0  0.0 222036   1112 pts/2  S+   22:25   0:00 ps aux
 
- User:- Process OWner
- PID: process id
- %CPU : cpu usage
- % MEM: memory usage
- VSZ :- Virtual Memory SIZE
- RSS:- Resident Set Size (Actual RAM / Physical Mem)
- TTY : Temrinal
- STAT:- Status of the process
- START: when it is started
- TIME : cpu consumption time
- COMMAND: What is the command
+    User:- Process OWner
+    PID: process id
+    %CPU : cpu usage
+    % MEM: memory usage
+    VSZ :- Virtual Memory SIZE
+    RSS:- Resident Set Size (Actual RAM / Physical Mem)
+    TTY : Temrinal
+    STAT:- Status of the process
+    START: when it is started
+    TIME : cpu consumption time
+   COMMAND: What is the command
 
- =================
+     =================
 
    
   
