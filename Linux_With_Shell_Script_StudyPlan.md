@@ -555,9 +555,8 @@ Related file commands:-
     STAT:- Status of the process
     START: when it is started
     TIME : cpu consumption time
-   COMMAND: What is the command
+    COMMAND: What is the command
 
-     =================
 
    
   
