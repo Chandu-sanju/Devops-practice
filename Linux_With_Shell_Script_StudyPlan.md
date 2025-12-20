@@ -623,6 +623,36 @@ Related file commands:-
 
 #################################################################################################################################################################
 
+| Symbol     | Effect                                            |
+| ---------- | ------------------------------------------------- |
+| `#`        | H1 header (`# Title`)                             |
+| `##`       | H2 header                                         |
+| `###`      | H3 header                                         |
+| `>`        | Blockquote (`> This is a quote`)                  |
+| `` ` ``    | Inline code (` `code` `)                          |
+| ` `        | Code block (triple backticks for multi-line code) |
+| `-` or `*` | Bullets (`- Item` or `* Item`)                    |
+| `1.`       | Numbered list                                     |
+
+# chandu
+
+## Sekhar
+
+### chandra sekhar
+
+> ram
+
+`` chandusanju ``
+
+` My phone `
+
+- ramgogaya
+
+* my notes
+
+1. check this
+
+
 
 
 
