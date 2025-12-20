@@ -523,14 +523,19 @@ Related file commands:-
       generally mostly I am using for terminate a specifc users all process - by using -u
                                                                 killall -u $USERNAME
 
+      Interview question;- What happens when you press Ctrl+C or Ctrl+Z ?
+          Ctrl+C call the Interput (SIGINT) which is kill signal 2 and  kill the process. ==> Kill signal 2 ,SIGINT
+          Ctrl+Z call the SIGSTP kill signal 20 which will suspended the job in this case it stop the process
+
+
 >> Most Commonly Used ps command options to troubleshoot:-   
 
    ps aux | less / ps -aux | less
 
    here :- 
     -a = all proccess of all users
-    u  = show the list of usernames
-    x = no terminal process nothing but daemons
+    -u  = show the list of usernames
+    -x = no terminal process nothing but daemons
    
    Example output:-
   
@@ -557,8 +562,71 @@ Related file commands:-
     TIME : cpu consumption time
     COMMAND: What is the command
 
+## Ps Command Options:-
+>>
+    PS -A => List information of all process.
+       -e  => Lists every process on th system
+       -f => generates full listing
+       -l => generates long list
+       -u => List particular user process
+       -g => to list group using proces
+       -o - to get the specfic options.
+  
+  Interview How to Indentify Zombie process and how to kill ?
 
-   
+  => You can find by simple running Top Command
+  => You can find ps -aux | grep defunct
+  => The most useful command to find zombie process along with PPID
+      ps -A -o ppid,pid,stat | grep Z
+      By above command you can find and kill the parent process then it will kill zombie also
+
+
+>> 
+   ## How to increase prority value of a process
+
+   First We need to understand - If prority value is high then process has low priorty to cpu time allocation
+                                if prority value is low then the process has high prority to use cpu time allocation
+    Nice value :- it starts from negative -20 to postive 19
+                 When nice value increased prority value will low
+                 When Nice value decreases prority will increase
+      
+      When you ran Top
+                    
+                    prority value - 20 in this case nice value 0 that means normal
+                    prority value - 0 in this case nice is is 19
+
+  When You are starting a process so you can use - nice -n 4 $Command 
+                  for giving negative nice value needs sudo => sudo nice -n -4 $Command
+    If You want to change the prority of already running process then use - renice
+
+        => renice -n 8 Processname/ProcessID
+        ==> sudo renice -n -8 Processname/ProcessID
+        
+>>        TOP  CoMMand
+
+      Top command real-time monitorng command and widely used :-
+
+      By default Top command will give the details of USER PID cpu utlization , mem  prority and nice values , Load average system uptime so on
+
+       It refresh the data every 3 sec by reading the files from /proc and we can change the intervel time by pressing d and give what intervell we need
+
+       Every Usefull options :- h for help, P for CPU USAGE, M = MEM usage, k for kill , r for renice
+
+>> 
+    How to Make a process a background process ?
+    By simply using end of the command & Ampersend simple it will make as backgroup job/process
+    to see background jobs/process => Command is jobs
+    if you want make it forground - fg %1 ==> here one is the job id
+    if you want you can kill CTRL+C
+
+>>>>>> Tip:- If you want see detail process structure use pstree | more >>>
+
+#################################################################################################################################################################
+
+
+
+
+
   
 
                     
