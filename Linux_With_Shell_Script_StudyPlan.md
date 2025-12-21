@@ -634,23 +634,102 @@ Related file commands:-
 | `-` or `*` | Bullets (`- Item` or `* Item`)                    |
 | `1.`       | Numbered list                                     |
 
-# chandu
+==========================================
 
-## Sekhar
+# Disk Management
 
-### chandra sekhar
+ ` To see the detials of the disk drives with internal partition details/existing partitions => fdisk -l `
 
-> ram
+ ` lsblk will show detail partitions along with mounted points `
 
-`` chandusanju ``
+ - add the disk to the system
+    * then check with lsblk 
+    * create the partition with => fdisk $diskname ( fdisk /dev/sdb)
+    * If you want to see existing partion => then press p => print
+    * want to create new - n
+    * if we are using old MBR partition table it designed to create 4 Primary partitions only and then we can only created extended nothning but logical
+    * New partiton GPT there is no need to create only 4 primary partitions,so go with default - press p or enter it will select primary
+    * Here You need to select partition size => +100M (MB), +2G (2gb)
+    * press the w to write the changes
+    * if you press h it will give help options
+    * run the command:- partprobe to update the partition with out reboot
+    ### Now partition has been created successfully
 
-` My phone `
+  `` To Write the data in the partitions you should format it, Means you need to give the filesystem.  
 
-- ramgogaya
+>        Disk → Partition → Filesystem → Directory > Files
 
-* my notes
 
-1. check this
+        Till the partition you have raw storage , OS doesn't know where to write the date and how to keep it.
+
+        Actually what filesystem formating does :- Writing filesystem metadata:
+
+                                                                              superblock
+
+                                                                              inode tables
+
+                                                                              allocation maps
+
+                                                                              journals (if supported)
+
+                                                            Defining rules for:
+
+                                                                                how files are stored
+
+                                                                                how free space is tracked
+
+                                                                                how directories work
+
+                                                                                crash recovery
+
+      After formatting, the partition becomes usable storage. ``
+
+      To make the filesystem to the partion command is  => mkfs.ext4 /dev/sdb1(partitionname) - genereal purpose usually giving for /root, /home good performance)
+                                                           mkfs.xfs /dev/sdb2  - High performance , used to storage large and media file high I/O operations
+                                                          
+                                                
+       
+      to writed the date we need directory and mount it with our partition
+
+      * create a directory - mkdir chandu
+      * Mount => mount /dev/sdb1 chandu (temp)
+      * To make it permanent - edit fstab
+
+       <device>    <mountpoint> <fs>  <options>  <dump> <fsck>
+
+      /dev/sdb1      /user_data  xfs   defaults    0       0            => DeviceName - Not recommended
+
+      UUID=2f9c1f32-1a3b-4c91-a5d1-1e7a8e3f6a12  /user_data  xfs  defaults 0 0  => With UUID 
+
+      LABEL=USER_DATA  /user_data  xfs  defaults 0 0 ==> LABEL
+
+      How to set a label ?
+      ext4/ext3/ext2 => sudo e2label /dev/sdb1 USER_DATA
+            to check => e2label /dev/sdb1
+
+             xfs => sudo xfs_admin -L USER_DATA /dev/sdb1
+       to check => sudo xfs_admin -l /dev/sdb1
+
+ ` Label name should be unique and  there is no space and don't _  and for ext* 16 characers & for xfs you can use 12 chars. `
+
+  #
+   if you want unmount = use umount /dev/sdb1 mountpoint
+        to umount all -> umount -a
+    forcefully umount => umount -fl path
+    to check which user is accessing - fuser -cu Mountpoint
+    to kill user forcfully => fuser -ck Mountpoint
+
+    
+
+
+
+      
+
+
+
+
+
+ 
 
 
 
