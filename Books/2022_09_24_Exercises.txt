@@ -1,0 +1,104 @@
+1) Please see the demo_final.jpg file & add the contents as you see in the screen using vim to a file.
+   The name of the file should be demo_file  Create in ~
+A.
+[root@yumserver ~]# vim demo_file
+[root@yumserver ~]# cat demo_file
+THIS LINE IS THE 1ST UPPER CASE LINE IN THIS FILE.
+this line is the 1st lower case in this file.
+This Line Has All First Character Of The Word With Upper Case.
+
+
+Two lines above this line is empty.
+And this is the last line.
+----------------------------------------------------------------------------------------------------------
+2) Execute the grep command to search for "this" in demo_file
+A.
+[root@yumserver ~]# grep -i  this demo_file
+THIS LINE IS THE 1ST UPPER CASE LINE IN THIS FILE.
+this line is the 1st lower case in this file.
+This Line Has All First Character Of The Word With Upper Case.
+Two lines above this line is empty.
+And this is the last line.
+
+
+--------------------------------------------------------------------------------
+3) Create another file called demo_file1 by copying the contents from demo_file.  Create in ~
+A.
+[root@yumserver ~]# cp demo_file demo_file1
+[root@yumserver ~]# cat demo_file1
+THIS LINE IS THE 1ST UPPER CASE LINE IN THIS FILE.
+this line is the 1st lower case in this file.
+This Line Has All First Character Of The Word With Upper Case.
+
+
+Two lines above this line is empty.
+And this is the last line.
+----------------------------------------------------------------------------------
+4) Remove the last two lines from the demo_file1
+A. BY using vim demo_file1 opened this file and went insert mode => escp+shif+g (fo go lastline)=> by using escp dd i deleted last two lines.
+
+[root@yumserver ~]# cat demo_file1
+THIS LINE IS THE 1ST UPPER CASE LINE IN THIS FILE.
+this line is the 1st lower case in this file.
+This Line Has All First Character Of The Word With Upper Case.
+
+
+[root@yumserver ~]#
+------------------------------------------------------------------------------
+5) Execute the grep command to search for "this" in all files in that begin with demo
+A.
+[root@yumserver ~]# grep this demo*
+demo_file:this line is the 1st lower case in this file.
+demo_file:Two lines above this line is empty.
+demo_file:And this is the last line.
+demo_file1:this line is the 1st lower case in this file.
+
+
+-------------------------------------------------------------------------------
+6) Print all the lines in demo_file which contains "the". Remember to use case-insensitive search.
+A.
+
+[root@yumserver ~]# grep the demo_file
+this line is the 1st lower case in this file.
+And this is the last line.
+-------------------------
+7) Execute 
+	grep  "lines.*empty" demo_file
+A.
+
+
+
+8) Append the keyword/strings "lines.*empty" to the file demo_file
+9) how can we search literally for only those lines that contains "lines.*empty"
+10) Find all words "is" and not just occurences of string "is" in demo_file
+11) Search for "this" string [case sensitive] and print the output so that the keywords are highlighted.
+--------------------------------------------------------------------------------
+12) Check the man pages of grep and find out what the option "-r" & "-v" means
+ -r means=recursively   grep -r  the demo_file => it shows exact word, it doesn't show remaining
+
+-v means= invert matching it ignore which line contain exact word , it shows remaining lines in that file. 
+              
+ ------------------------------------------------------------------------------
+13) Demonstrate how to use the -r option with an example.
+a.
+[root@yumserver ~]# grep -r The demo_file
+This Line Has All First Character Of The Word With Upper Case.
+(it displays which line contain exact word)
+-------------------------------------------------------------------------------
+14) Demonstrate how to use the -v option with an example.
+A.'
+
+[root@yumserver ~]# grep -v this demo_file
+THIS LINE IS THE 1ST UPPER CASE LINE IN THIS FILE.
+This Line Has All First Character Of The Word With Upper Case.
+( it displays which lines not contain given word )
+--------------------------------------------------------------------------
+15) Count the number of occurences of "the" string in demo_file in 2 ways
+A.
+[root@yumserver ~]# grep -c the demo_file
+2
+-------------------------------------------------------------------
+16) What does -l option in grep mean?
+ grep -1(one) the demo_file => it stops after first 
+ grep -l(small l ) the demo_file => it prints the filename in difereb=nt colour
+

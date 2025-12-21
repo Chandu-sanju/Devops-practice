@@ -1,0 +1,1724 @@
+vgdata
+add another 4GB disk to the server
+add the disk to the VG ( vgextend vgdata /dev/sdd)
+
+create another LV
+lvcreate -l 100 /dev/vgdata
+
+Extend that LV
+lvextend -L +1G /dev/vgdata/lovl1
+
+Check the mapping
+lvdisplay /dev/vgdata/lvol1 -m
+
+
+Create filesystem and moun it
+mkfs.ext4 /dev/vgdata/lvol1
+mkdir /data2
+mount /dev/vgdata/lvol1 /data2
+df -h /data2
+
+Extend using +
+lvextend -L +1G /dev/vgdata/lvol1
+resize2fs /dev/vgdata/lvol1
+
+lvcreate -l 20 /dev/vgdata
+mkfs.xfs /dev/vgdata/lvol2
+
+and mount it
+mkdir /data3
+mount /dev/vgdata/lvol2 /data3
+df -h /data3
+
+extend using -l without +
+lvextend -l 40 /dev/vgdata/lvol2
+df -h /data3
+
+Extend & check size
+xfs_grwofs
+df -h /data3
+
+Destroy the filesystem /data3
+
+[root@server03 ~]# df -Th
+Filesystem               Type      Size  Used Avail Use% Mounted on
+devtmpfs                 devtmpfs  233M     0  233M   0% /dev
+tmpfs                    tmpfs     244M     0  244M   0% /dev/shm
+tmpfs                    tmpfs     244M  4.7M  239M   2% /run
+tmpfs                    tmpfs     244M     0  244M   0% /sys/fs/cgroup
+/dev/sda5                xfs       997M   65M  932M   7% /
+/dev/sda2                xfs       2.0G  1.2G  827M  59% /usr
+/dev/sda10               xfs       197M   11M  187M   6% /oracle/db1
+/dev/sda9                xfs      1014M   33M  982M   4% /newmount
+/dev/sda8                xfs       509M   26M  483M   6% /temp
+/dev/sda6                xfs       997M   33M  965M   4% /home
+/dev/sda7                xfs       997M  113M  884M  12% /var
+/dev/sda1                xfs       197M  110M   88M  56% /boot
+tmpfs                    tmpfs      49M     0   49M   0% /run/user/0
+/dev/sr0                 iso9660   4.4G  4.4G     0 100% /cdrom
+/dev/mapper/vgdata-lvol0 ext4      5.8G   16M  5.5G   1% /yum
+/dev/mapper/vgdata-lvol1 ext4      2.4G  4.2M  2.2G   1% /data2
+/dev/mapper/vgdata-lvol2 xfs       157M  8.3M  149M   6% /data3
+u
+unmount
+remove the lv (lvremove)
+create a new LV of 2G and mount it on /data3 with ext3 filesystems
+---------------------------------------------------------------------df
+
+
+ 
+
+  Use --longhelp to show all options and advanced commands.
+[root@server01 ~]# vgcreate vgdata /dev/sdc
+  Volume group "vgdata" successfully created
+[root@server01 ~]# vgs
+  VG              #PV #LV #SN Attr   VSize  VFree
+  centos_server01   1   2   0 wz--n- <7.00g     0
+  vgdata            1   0   0 wz--n- <8.00g <8.00g
+[root@server01 ~]# vgdisplay /dev/vgdata
+  --- Volume group ---
+  VG Name               vgdata
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <8.00 GiB
+  PE Size               4.00 MiB
+  Total PE              2047
+  Alloc PE / Size       0 / 0
+  Free  PE / Size       2047 / <8.00 GiB
+  VG UUID               gb5tWJ-0BuS-pZ0b-ESEJ-vMRZ-8Emw-M32I6t
+
+[root@server01 ~]# vgremove vgdata
+  Volume group "vgdata" successfully removed
+[root@server01 ~]# vgcreate vgdata /dev/sdc -s 8
+  Volume group "vgdata" successfully created
+[root@server01 ~]# vgdisplay /dev/vgdata
+  --- Volume group ---
+  VG Name               vgdata
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               7.99 GiB
+  PE Size               8.00 MiB
+  Total PE              1023
+  Alloc PE / Size       0 / 0
+  Free  PE / Size       1023 / 7.99 GiB
+  VG UUID               eoHkqM-n2bE-YisK-VSJC-f3ke-cP3a-qHtCZs
+
+[root@server01 ~]# vgremove vgdata
+  Volume group "vgdata" successfully removed
+[root@server01 ~]# vgcreate vgdata /dev/sdc -s 32
+  Volume group "vgdata" successfully created
+[root@server01 ~]# vgdisplay /dev/vgdata
+  --- Volume group ---
+  VG Name               vgdata
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <7.97 GiB
+  PE Size               32.00 MiB
+  Total PE              255
+  Alloc PE / Size       0 / 0
+  Free  PE / Size       255 / <7.97 GiB
+  VG UUID               6ykxcs-SM83-8aj7-SMmx-5rXM-QCap-cFHgoX
+
+[root@server01 ~]# lvcreate -L 8G vgdata
+  Volume group "vgdata" has insufficient free space (255 extents): 256 required.
+[root@server01 ~]# lvcreate -l 255 vgdata
+WARNING: ext4 signature detected on /dev/vgdata/lvol0 at offset 1080. Wipe it? [y/n]: y
+  Wiping ext4 signature on /dev/vgdata/lvol0.
+  Logical volume "lvol0" created.
+[root@server01 ~]# lvs
+  LV    VG              Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root  centos_server01 -wi-ao----  <6.20g
+  swap  centos_server01 -wi-ao---- 820.00m
+  lvol0 vgdata          -wi-a-----  <7.97g
+[root@server01 ~]# lvdisplay /dev/vgdata/lvol0
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KuLJWO-ejxI-0b9n-QFBg-YbH1-B2KV-b6rcHM
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:03:24 +0530
+  LV Status              available
+  # open                 0
+  LV Size                <7.97 GiB
+  Current LE             255
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+[root@server01 ~]# lvdisplay /dev/vgdata/lvol0 -v ^C
+[root@server01 ~]# vgremove vgdata
+Do you really want to remove volume group "vgdata" containing 1 logical volumes? [y/n]: y
+Do you really want to remove active logical volume vgdata/lvol0? [y/n]: y
+  Logical volume "lvol0" successfully removed
+  Volume group "vgdata" successfully removed
+[root@server01 ~]# vgcreate vgdata /dev/sdc -s 128
+  Volume group "vgdata" successfully created
+[root@server01 ~]# vgs
+  VG              #PV #LV #SN Attr   VSize  VFree
+  centos_server01   1   2   0 wz--n- <7.00g     0
+  vgdata            1   0   0 wz--n- <7.88g <7.88g
+[root@server01 ~]# vgdisplay /dev/vgdata
+  --- Volume group ---
+  VG Name               vgdata
+  System ID
+  Format                lvm2
+  Metadata Areas        1
+  Metadata Sequence No  1
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                0
+  Open LV               0
+  Max PV                0
+  Cur PV                1
+  Act PV                1
+  VG Size               <7.88 GiB
+  PE Size               128.00 MiB
+  Total PE              63
+  Alloc PE / Size       0 / 0
+  Free  PE / Size       63 / <7.88 GiB
+  VG UUID               psmPYI-7aXn-tUF5-8PD0-hmDJ-RFtv-J6dSaq
+
+[root@server01 ~]# lvcreate -L 100M vgdata
+  Rounding up size to full physical extent 128.00 MiB
+  Logical volume "lvol0" created.
+(reverse-i-search)`v': lvcreate -L 100M ^Cdata
+[root@server01 ~]# lvdisplay /dev/vgdata/lvol0 -v
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                128.00 MiB
+  Current LE             1
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+[root@server01 ~]# lvdisplay /dev/vgdata/lvol0 -v
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                128.00 MiB
+  Current LE             1
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+[root@server01 ~]# pvdisplay -v /dev/sdc
+  --- Physical volume ---
+  PV Name               /dev/sdc
+  VG Name               vgdata
+  PV Size               8.00 GiB / not usable 128.00 MiB
+  Allocatable           yes
+  PE Size               128.00 MiB
+  Total PE              63
+  Free PE               62
+  Allocated PE          1
+  PV UUID               Za8DBN-rhac-5nBN-mYdp-snom-4qID-SkmhNd
+
+[root@server01 ~]# lvdisplay -v /dev/vgdata/lvol0
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                128.00 MiB
+  Current LE             1
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+[root@server01 ~]# man lvdisplay
+[root@server01 ~]# lvdisplay -vv /dev/vgdata/lvol0
+      devices/global_filter not found in config: defaulting to global_filter = [ "a|.*/|" ]
+      global/lvmetad_update_wait_time not found in config: defaulting to 10
+      devices/filter not found in config: defaulting to filter = [ "a|.*/|" ]
+      devices/cache not found in config: defaulting to /etc/lvm/cache/.cache
+      metadata/record_lvs_history not found in config: defaulting to 0
+      File-based locking selected.
+      report/output_format not found in config: defaulting to basic
+      log/report_command_log not found in config: defaulting to 0
+      Obtaining the complete list of VGs before processing their LVs
+      Processing VG vgdata psmPYI-7aXn-tUF5-8PD0-hmDJ-RFtv-J6dSaq
+      Locking /run/lock/lvm/V_vgdata RB
+      Reading VG vgdata psmPYI-7aXn-tUF5-8PD0-hmDJ-RFtv-J6dSaq
+      /dev/sdc: size is 16777216 sectors
+      Adding vgdata/lvol0 to the list of LVs to be processed.
+      Processing LV lvol0 in VG vgdata.
+  --- Logical volume ---
+      global/lvdisplay_shows_full_device_path not found in config: defaulting to 0
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                128.00 MiB
+  Current LE             1
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+      Unlocking /run/lock/lvm/V_vgdata
+[root@server01 ~]# man lvdisplay
+[root@server01 ~]# lvdisplay -a /dev/vgdata/lvol0
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                128.00 MiB
+  Current LE             1
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+[root@server01 ~]# man lvdisplay
+[root@server01 ~]# lvdisplay -m /dev/vgdata/lvol0
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                128.00 MiB
+  Current LE             1
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+  --- Segments ---
+  Logical extents 0 to 0:
+    Type                linear
+    Physical volume     /dev/sdc
+    Physical extents    0 to 0
+
+
+[root@server01 ~]# lvextend -l 3 /dev/vgdata/lvol0
+  Size of logical volume vgdata/lvol0 changed from 128.00 MiB (1 extents) to 384.00 MiB (3 extents).
+  Logical volume vgdata/lvol0 successfully resized.
+[root@server01 ~]# lvs
+  LV    VG              Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root  centos_server01 -wi-ao----  <6.20g
+  swap  centos_server01 -wi-ao---- 820.00m
+  lvol0 vgdata          -wi-a----- 384.00m
+[root@server01 ~]# lvdisplay -m /dev/vgdata/lvol0
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                384.00 MiB
+  Current LE             3
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+  --- Segments ---
+  Logical extents 0 to 2:
+    Type                linear
+    Physical volume     /dev/sdc
+    Physical extents    0 to 2
+
+
+[root@server01 ~]# pvdisplay -m /dev/sdc
+  --- Physical volume ---
+  PV Name               /dev/sdc
+  VG Name               vgdata
+  PV Size               8.00 GiB / not usable 128.00 MiB
+  Allocatable           yes
+  PE Size               128.00 MiB
+  Total PE              63
+  Free PE               60
+  Allocated PE          3
+  PV UUID               Za8DBN-rhac-5nBN-mYdp-snom-4qID-SkmhNd
+
+  --- Physical Segments ---
+  Physical extent 0 to 2:
+    Logical volume      /dev/vgdata/lvol0
+    Logical extents     0 to 2
+  Physical extent 3 to 62:
+    FREE
+
+[root@server01 ~]# lvcreate -L 1000M vgdata
+  Rounding up size to full physical extent 1.00 GiB
+  Logical volume "lvol1" created.
+[root@server01 ~]#  pvdisplay -m /dev/sdc
+  --- Physical volume ---
+  PV Name               /dev/sdc
+  VG Name               vgdata
+  PV Size               8.00 GiB / not usable 128.00 MiB
+  Allocatable           yes
+  PE Size               128.00 MiB
+  Total PE              63
+  Free PE               52
+  Allocated PE          11
+  PV UUID               Za8DBN-rhac-5nBN-mYdp-snom-4qID-SkmhNd
+
+  --- Physical Segments ---
+  Physical extent 0 to 2:
+    Logical volume      /dev/vgdata/lvol0
+    Logical extents     0 to 2
+  Physical extent 3 to 10:
+    Logical volume      /dev/vgdata/lvol1
+    Logical extents     0 to 7
+  Physical extent 11 to 62:
+    FREE
+
+[root@server01 ~]# shutdown -h now
+login as: root
+root@192.168.178.29's password:
+Last login: Sun Oct  9 05:37:08 2022 from lak3922t.fritz.box
+[root@server01 ~]# fdisk -l
+
+Disk /dev/sda: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0x000d2f6c
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048     1050623      524288   83  Linux
+/dev/sda2         1050624    15728639     7339008   8e  Linux LVM
+
+Disk /dev/sdb: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+Disk label type: dos
+Disk identifier: 0xc38873f8
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sdb1            2048     8390655     4194304   83  Linux
+
+Disk /dev/sdc: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/sdd: 8589 MB, 8589934592 bytes, 16777216 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/centos_server01-root: 6652 MB, 6652166144 bytes, 12992512 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/centos_server01-swap: 859 MB, 859832320 bytes, 1679360 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/vgdata-lvol0: 402 MB, 402653184 bytes, 786432 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+
+Disk /dev/mapper/vgdata-lvol1: 1073 MB, 1073741824 bytes, 2097152 sectors
+Units = sectors of 1 * 512 = 512 bytes
+Sector size (logical/physical): 512 bytes / 512 bytes
+I/O size (minimum/optimal): 512 bytes / 512 bytes
+
+[root@server01 ~]# pvcreate /dev/sdd^C
+[root@server01 ~]# vgextend vgdata /dev/sdd
+  Physical volume "/dev/sdd" successfully created.
+  Volume group "vgdata" successfully extended
+[root@server01 ~]# vgs
+  VG              #PV #LV #SN Attr   VSize  VFree
+  centos_server01   1   2   0 wz--n- <7.00g      0
+  vgdata            2   2   0 wz--n- 15.75g <14.38g
+[root@server01 ~]# lvs
+  LV    VG              Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root  centos_server01 -wi-ao----  <6.20g
+  swap  centos_server01 -wi-ao---- 820.00m
+  lvol0 vgdata          -wi-a----- 384.00m
+  lvol1 vgdata          -wi-a-----   1.00g
+[root@server01 ~]# vgs
+  VG              #PV #LV #SN Attr   VSize  VFree
+  centos_server01   1   2   0 wz--n- <7.00g      0
+  vgdata            2   2   0 wz--n- 15.75g <14.38g
+[root@server01 ~]# vgdisplay vgdata
+  --- Volume group ---
+  VG Name               vgdata
+  System ID
+  Format                lvm2
+  Metadata Areas        2
+  Metadata Sequence No  5
+  VG Access             read/write
+  VG Status             resizable
+  MAX LV                0
+  Cur LV                2
+  Open LV               0
+  Max PV                0
+  Cur PV                2
+  Act PV                2
+  VG Size               15.75 GiB
+  PE Size               128.00 MiB
+  Total PE              126
+  Alloc PE / Size       11 / <1.38 GiB
+  Free  PE / Size       115 / <14.38 GiB
+  VG UUID               psmPYI-7aXn-tUF5-8PD0-hmDJ-RFtv-J6dSaq
+
+[root@server01 ~]# lvs
+  LV    VG              Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root  centos_server01 -wi-ao----  <6.20g
+  swap  centos_server01 -wi-ao---- 820.00m
+  lvol0 vgdata          -wi-a----- 384.00m
+  lvol1 vgdata          -wi-a-----   1.00g
+[root@server01 ~]# lvextend -l ^C
+[root@server01 ~]# lvdisplay lovl1
+  Volume group "lovl1" not found
+  Cannot process volume group lovl1
+[root@server01 ~]# lvdisplay /dev/vgdata/lovl1
+  Failed to find logical volume "vgdata/lovl1"
+[root@server01 ~]# lvdisplay /dev/vgdata/lvol1
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol1
+  LV Name                lvol1
+  VG Name                vgdata
+  LV UUID                KQwyhR-b1hY-mtA5-C5l4-Iyt2-TkEm-RukZlj
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:10:28 +0530
+  LV Status              available
+  # open                 0
+  LV Size                1.00 GiB
+  Current LE             8
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:3
+
+[root@server01 ~]# lvextend -L +1G /dev/vgdata/lvol1
+  Size of logical volume vgdata/lvol1 changed from 1.00 GiB (8 extents) to 2.00 GiB (16 extents).
+  Logical volume vgdata/lvol1 successfully resized.
+[root@server01 ~]# lvextend -l +8 /dev/vgdata/lvol1
+  Size of logical volume vgdata/lvol1 changed from 2.00 GiB (16 extents) to 3.00 GiB (24 extents).
+  Logical volume vgdata/lvol1 successfully resized.
+[root@server01 ~]# lvextend -l +8 /dev/vgdata/lvol1 /dev/sdd
+  Size of logical volume vgdata/lvol1 changed from 3.00 GiB (24 extents) to 4.00 GiB (32 extents).
+  Logical volume vgdata/lvol1 successfully resized.
+[root@server01 ~]# lvdisplay /dev/vgdata/lvol1 -m
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol1
+  LV Name                lvol1
+  VG Name                vgdata
+  LV UUID                KQwyhR-b1hY-mtA5-C5l4-Iyt2-TkEm-RukZlj
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:10:28 +0530
+  LV Status              available
+  # open                 0
+  LV Size                4.00 GiB
+  Current LE             32
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:3
+
+  --- Segments ---
+  Logical extents 0 to 23:
+    Type                linear
+    Physical volume     /dev/sdc
+    Physical extents    3 to 26
+
+  Logical extents 24 to 31:
+    Type                linear
+    Physical volume     /dev/sdd
+    Physical extents    0 to 7
+
+
+[root@server01 ~]# lvs
+  LV    VG              Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root  centos_server01 -wi-ao----  <6.20g
+  swap  centos_server01 -wi-ao---- 820.00m
+  lvol0 vgdata          -wi-a----- 384.00m
+  lvol1 vgdata          -wi-a-----   4.00g
+[root@server01 ~]# lvdisplay /dev/vgdata/lvol0 -m
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                384.00 MiB
+  Current LE             3
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+  --- Segments ---
+  Logical extents 0 to 2:
+    Type                linear
+    Physical volume     /dev/sdc
+    Physical extents    0 to 2
+
+
+[root@server01 ~]# lvextend -l +3 /dev/vgdata/lvol0 /dev/sdd
+  Size of logical volume vgdata/lvol0 changed from 384.00 MiB (3 extents) to 768.00 MiB (6 extents).
+  Logical volume vgdata/lvol0 successfully resized.
+[root@server01 ~]# lvdisplay /dev/vgdata/lvol0 -m
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                768.00 MiB
+  Current LE             6
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+  --- Segments ---
+  Logical extents 0 to 2:
+    Type                linear
+    Physical volume     /dev/sdc
+    Physical extents    0 to 2
+
+  Logical extents 3 to 5:
+    Type                linear
+    Physical volume     /dev/sdd
+    Physical extents    8 to 10
+
+
+[root@server01 ~]# lvextend -l +3 /dev/vgdata/lvol0
+  Size of logical volume vgdata/lvol0 changed from 768.00 MiB (6 extents) to 1.12 GiB (9 extents).
+  Logical volume vgdata/lvol0 successfully resized.
+[root@server01 ~]# lvdisplay /dev/vgdata/lvol0 -m
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol0
+  LV Name                lvol0
+  VG Name                vgdata
+  LV UUID                KB8LFe-cIjr-ncZV-ZU13-N50I-ucoN-luJ9Jp
+  LV Write Access        read/write
+  LV Creation host, time server01, 2022-10-09 06:05:04 +0530
+  LV Status              available
+  # open                 0
+  LV Size                1.12 GiB
+  Current LE             9
+  Segments               2
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:2
+
+  --- Segments ---
+  Logical extents 0 to 2:
+    Type                linear
+    Physical volume     /dev/sdc
+    Physical extents    0 to 2
+
+  Logical extents 3 to 8:
+    Type                linear
+    Physical volume     /dev/sdd
+    Physical extents    8 to 13
+
+
+[root@server01 ~]# mkfs.ext4 /dev/vgdata/lvol0
+mke2fs 1.42.9 (28-Dec-2013)
+Filesystem label=
+OS type: Linux
+Block size=4096 (log=2)
+Fragment size=4096 (log=2)
+Stride=0 blocks, Stripe width=0 blocks
+73728 inodes, 294912 blocks
+14745 blocks (5.00%) reserved for the super user
+First data block=0
+Maximum filesystem blocks=301989888
+9 block groups
+32768 blocks per group, 32768 fragments per group
+8192 inodes per group
+Superblock backups stored on blocks:
+        32768, 98304, 163840, 229376
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (8192 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+[root@server01 ~]# mount /data
+mount: /dev/sdb1 is already mounted or /data busy
+       /dev/sdb1 is already mounted on /data
+[root@server01 ~]# df -h
+Filesystem                        Size  Used Avail Use% Mounted on
+devtmpfs                          227M     0  227M   0% /dev
+tmpfs                             244M     0  244M   0% /dev/shm
+tmpfs                             244M  5.3M  239M   3% /run
+tmpfs                             244M     0  244M   0% /sys/fs/cgroup
+/dev/mapper/centos_server01-root  6.2G  4.7G  1.6G  76% /
+/dev/sdb1                         3.9G  3.8G     0 100% /data
+/dev/sda1                         509M  165M  344M  33% /boot
+tmpfs                              49M   12K   49M   1% /run/user/42
+tmpfs                              49M     0   49M   0% /run/user/0
+[root@server01 ~]# grep lvol0 /etc/fstab
+#/dev/vgdata/lvol0 /yum ext4    defaults 0 0
+[root@server01 ~]# mount /dev/vgdata/lvol0 /yum
+[root@server01 ~]# df -h
+Filesystem                        Size  Used Avail Use% Mounted on
+devtmpfs                          227M     0  227M   0% /dev
+tmpfs                             244M     0  244M   0% /dev/shm
+tmpfs                             244M  5.3M  239M   3% /run
+tmpfs                             244M     0  244M   0% /sys/fs/cgroup
+/dev/mapper/centos_server01-root  6.2G  4.7G  1.6G  76% /
+/dev/sdb1                         3.9G  3.8G     0 100% /data
+/dev/sda1                         509M  165M  344M  33% /boot
+tmpfs                              49M   12K   49M   1% /run/user/42
+tmpfs                              49M     0   49M   0% /run/user/0
+/dev/mapper/vgdata-lvol0          1.1G  2.9M  1.1G   1% /yum
+[root@server01 ~]# lvs
+  LV    VG              Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  root  centos_server01 -wi-ao----  <6.20g
+  swap  centos_server01 -wi-ao---- 820.00m
+  lvol0 vgdata          -wi-ao----   1.12g
+  lvol1 vgdata          -wi-a-----   4.00g
+[root@server01 ~]# lvextend -L 2G /dev/vgdata/lvol0
+  Size of logical volume vgdata/lvol0 changed from 1.12 GiB (9 extents) to 2.00 GiB (16 extents).
+  Logical volume vgdata/lvol0 successfully resized.
+[root@server01 ~]# df -h /yum
+Filesystem                Size  Used Avail Use% Mounted on
+/dev/mapper/vgdata-lvol0  1.1G  2.9M  1.1G   1% /yum
+[root@server01 ~]# fsadm
+fsadm: Utility to resize or check the filesystem on a device
+
+  fsadm [options] check <device>
+    - Check the filesystem on device using fsck
+
+  fsadm [options] resize <device> [<new_size>[BKMGTPE]]
+    - Change the size of the filesystem on device to new_size
+
+  Options:
+    -h | --help         Show this help message
+    -v | --verbose      Be verbose
+    -e | --ext-offline  unmount filesystem before ext2/ext3/ext4 resize
+    -f | --force        Bypass sanity checks
+    -n | --dry-run      Print commands without running them
+    -l | --lvresize     Resize given device (if it is LVM device)
+    -c | --cryptresize  Resize given crypt device
+    -y | --yes          Answer "yes" at any prompts
+
+  new_size - Absolute number of filesystem blocks to be in the filesystem,
+             or an absolute size using a suffix (in powers of 1024).
+             If new_size is not supplied, the whole device is used.
+[root@server01 ~]# resize2fs
+resize2fs 1.42.9 (28-Dec-2013)
+Usage: resize2fs [-d debug_flags] [-f] [-F] [-M] [-P] [-p] device [new_size]
+
+[root@server01 ~]# resize2fs /dev/vgdata/lvol0
+resize2fs 1.42.9 (28-Dec-2013)
+Filesystem at /dev/vgdata/lvol0 is mounted on /yum; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 1
+The filesystem on /dev/vgdata/lvol0 is now 524288 blocks long.
+
+[root@server01 ~]#  df -h /yum
+Filesystem                Size  Used Avail Use% Mounted on
+/dev/mapper/vgdata-lvol0  2.0G  3.4M  1.9G   1% /yum
+[root@server01 ~]# lvextend -L 3G /dev/vgdata/lvol0 -r
+  Size of logical volume vgdata/lvol0 changed from 2.00 GiB (16 extents) to 3.00 GiB (24 extents).
+  Logical volume vgdata/lvol0 successfully resized.
+resize2fs 1.42.9 (28-Dec-2013)
+Filesystem at /dev/mapper/vgdata-lvol0 is mounted on /yum; on-line resizing required
+old_desc_blocks = 1, new_desc_blocks = 1
+The filesystem on /dev/mapper/vgdata-lvol0 is now 786432 blocks long.
+
+[root@server01 ~]# mkfs.xfs /dev/vgdata/lvol1
+meta-data=/dev/vgdata/lvol1      isize=512    agcount=4, agsize=262144 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0, sparse=0
+data     =                       bsize=4096   blocks=1048576, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal log           bsize=4096   blocks=2560, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+[root@server01 ~]# mkdir /yum2
+[root@server01 ~]# mount /dev/vgdata/lvol1 /yum2
+[root@server01 ~]# df -h /yum2
+Filesystem                Size  Used Avail Use% Mounted on
+/dev/mapper/vgdata-lvol1  4.0G   33M  4.0G   1% /yum2
+[root@server01 ~]# lvextend -L +1G /dev/vgdata/lvol1
+  Size of logical volume vgdata/lvol1 changed from 4.00 GiB (32 extents) to 5.00 GiB (40 extents).
+  Logical volume vgdata/lvol1 successfully resized.
+[root@server01 ~]# resize2fs /dev/vgdata/lvol1
+resize2fs 1.42.9 (28-Dec-2013)
+resize2fs: Bad magic number in super-block while trying to open /dev/vgdata/lvol1
+Couldn't find valid filesystem superblock.
+[root@server01 ~]# man mkfs.xfs
+[root@server01 ~]# man xfs_admin
+[root@server01 ~]# xfs_growfs /dev/vgdata/lvol1
+meta-data=/dev/mapper/vgdata-lvol1 isize=512    agcount=4, agsize=262144 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0 spinodes=0
+data     =                       bsize=4096   blocks=1048576, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal               bsize=4096   blocks=2560, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 1048576 to 1310720
+[root@server01 ~]# df -h /yum2
+Filesystem                Size  Used Avail Use% Mounted on
+/dev/mapper/vgdata-lvol1  5.0G   33M  5.0G   1% /yum2
+[root@server01 ~]# lvextend -L +2M /dev/vgdata/lvol1 -r
+  Rounding size to boundary between physical extents: 128.00 MiB.
+  Size of logical volume vgdata/lvol1 changed from 5.00 GiB (40 extents) to 5.12 GiB (41 extents).
+  Logical volume vgdata/lvol1 successfully resized.
+meta-data=/dev/mapper/vgdata-lvol1 isize=512    agcount=5, agsize=262144 blks
+         =                       sectsz=512   attr=2, projid32bit=1
+         =                       crc=1        finobt=0 spinodes=0
+data     =                       bsize=4096   blocks=1310720, imaxpct=25
+         =                       sunit=0      swidth=0 blks
+naming   =version 2              bsize=4096   ascii-ci=0 ftype=1
+log      =internal               bsize=4096   blocks=2560, version=2
+         =                       sectsz=512   sunit=0 blks, lazy-count=1
+realtime =none                   extsz=4096   blocks=0, rtextents=0
+data blocks changed from 1310720 to 1343488
+(reverse-i-search)`vgext': ^Cextend vgdata /dev/sdd
+[root@server01 ~]# history
+    1  hostname
+    2  ls -la
+    3  ls -la tree-1.6.0-10.el7.x86_64.rpm
+    4  tail /etc/passwd
+    5  groupadd users
+    6  grep users /etc/group
+    7  useradd -g users user01
+    8  useradd -g users user02
+    9  passwd user01
+   10  passwd user02
+   11  groupadd admins
+   12  usermod -g admins user01
+   13  id user01
+   14  usermod -g admins -G users user01
+   15  id user01
+   16  sudo chmod o-r /tmp/newfile
+   17  sudo chmod o-r /tmp/newfile_again
+   18  useradd user03
+   19  passwd user03
+   20  usermod -G users user03
+   21  id user03
+   22  vi /etc/group
+   23  is user03
+   24  id user03
+   25  id user02
+   26  groupadd -G admins user02
+   27  usermod -G admins user02
+   28  id user02
+   29  chmod 111 /tmp/newfile
+   30  ls -lrt /tmp/file
+   31  ls -lrt /tmp/newfile
+   32  chmod 664 /tmp/newfile
+   33  ls -lrt /tmp/newfile
+   34  chgrp admins /tmp/newfile
+   35  ls -lrt /tmp/newfile
+   36  chmod 654 /tmp/newfile
+   37  ls -lrt /tmp/newfile
+   38  stat /tmp/newfile
+   39  clear
+   40  id 999
+   41  useradd -u 1999 jim
+   42  userdel -r jim
+   43  useradd jim && usermod -u 1999 jim
+   44  shutdown -h now
+   45  who am i
+   46  whoami
+   47  who
+   48  wget https://mama.indstate.edu/users/ice/tree/src/tree-2.0.4.tgz
+   49  file tree-2.0.4.tgz
+   50  ls -lrt tree-2.0.4.tgz
+   51  gunzip tree-2.0.4.tgz
+   52  ls -lrt
+   53  file tree-2.0.4.tar
+   54  mkdir a b c d
+   55  cp tr*rpm a b c d
+   56  cp tr*rpm a
+   57  cp tr*rpm b
+   58  cp tr*rpm c
+   59  cp tr*rpm d
+   60  ls -lrt
+   61  tar cvf arhive.tar a b c d
+   62  ls -lrt
+   63  file arhive.tar
+   64  file tree-2.0.4.tar
+   65  tar tvf tree-2.0.4.tar
+   66  tar xvf tree-2.0.4.tar
+   67  ls -lrt
+   68  rm -rf archive.tar a b c d
+   69  ls -lrt
+   70  cd tree-2.0.4/
+   71  ls -lrt
+   72  yum remove tree
+   73  rpm -e tree
+   74  rpm -q tree
+   75  ls -lrt
+   76  make
+   77  vi /etc/yum.repos.d/cdrom.repo
+   78  cd /etc/yum.repos.d/
+   79  ls -lrt
+   80  rm -rf CentOS-*
+   81  mount /dev/sr0 /cdrom
+   82  mkdir /cdrom
+   83  mount /dev/sr0 /cdrom
+   84  yum repolist all
+   85  cd -
+   86  ls -lrt
+   87  make
+   88  yum search gcc
+   89  yum install gcc.x86_64
+   90  make
+   91  yum install gcc-c++.x86_64
+   92  make
+   93  which gcc
+   94  ls -lrt /usr/bin/gcc
+   95  which gcc-c++
+   96  rpm -ql gcc-c++
+   97  ls -lirt /usr/bin/c++
+   98  ls -lrt
+   99  vi INSTALL
+  100  vi README
+  101  vi Makefile
+  102  make
+  103  vi Makefile
+  104  make
+  105  clear
+  106  make
+  107  gcc --version
+  108  uname -a
+  109  cd ..
+  110  ls -lrt
+  111  wget https://mama.indstate.edu/users/ice/tree/src/tree-1.6.0.tgz
+  112  tar xzvf tree-1.6.0.tgz
+  113  cd tree-1.6.0
+  114  ls -lrt
+  115  make
+  116  vi INSTALL
+  117  make install
+  118  which tree
+  119  rpm -q tree
+  120  file /usr/bin/tree
+  121  file /usr/man/man1/tree.1
+  122  rm -rf /usr/man/man1/tree.1
+  123  rm -rf /usr/bin/tree
+  124  ls -lrt
+  125  vi Makefile
+  126  mkdir /apps
+  127  make -o prefix=/apps
+  128  vi Makefile
+  129  make
+  130  make clean
+  131  make -o prefix=/apps
+  132  make install
+  133  ls -lrt /apps/bin/tree
+  134  ls -lrt
+  135  cd ..
+  136  ls -lrt
+  137  rm -rf tree-2.0.4*
+  138  ls -lrt
+  139  mkdir extract
+  140  mv tree-1.6.0-10.el7.x86_64.rpm extract/
+  141  ls -lrt
+  142  cd extract/
+  143  ls -lrt
+  144  rpm2cpio tree-1.6.0-10.el7.x86_64.rpm |cpio -idmv
+  145  ls -lrt
+  146  cd usr
+  147  cd bin
+  148  ls -lrt tree
+  149  ls -lrt /apps/bin/tree
+  150  cd
+  151  ls -lrt
+  152  cd tree-1.6.0/
+  153  ls -lrt
+  154  vi tree.c
+  155  vi ../extract/./usr/bin/tree
+  156  find
+  157  ls -R
+  158  pwd
+  159  find /root/tree-1.6.0 -name "tree*"
+  160  find /root/tree-1.6.0 -type f -name "tree*"
+  161  find /root/tree-1.6.0 -type  -name "tree*"
+  162  find /root/tree-1.6.0 -type d -name "tree*"
+  163  find / -type d -name "tree*"
+  164  find / -type l -name "tree*"
+  165  find --help
+  166  man find
+  167  find /usr/bin -type l
+  168  find /usr/bin -type l -print
+  169  find /usr/bin -type l -ls
+  170  find /usr/bin -type l -name a* -ls
+  171  find /usr/bin -type l ! -name a* -ls
+  172  find /usr/bin -type l ! -name [a-d,h-z]* -ls
+  173  find /usr/bin -type l ! -name [a-d]* -ls
+  174  find /var/log -mtime +5 -ls
+  175  date
+  176  find /var/log -type f -mtime +5 -ls
+  177  find /var/log -type f -mtime +100 -ls
+  178  find /var/log -type f -mtime +5 -size +1M -ls
+  179  history
+  180  history |awk '{print $2}'
+  181  history |awk '{print $#}'
+  182  wget https://mama.indstate.edu/users/ice/tree/src/tree-2.0.4.tgz
+  183  file tree-2.0.4.tgz
+  184  ls -lrt tree-2.0.4.tgz
+  185  gunzip tree-2.0.4.tgz
+  186  ls -lrt
+  187  file tree-2.0.4.tar
+  188  mkdir a b c d
+  189  cp tr*rpm a b c d
+  190  cp tr*rpm a
+  191  cp tr*rpm b
+  192  cp tr*rpm c
+  193  cp tr*rpm d
+  194  ls -lrt
+  195  tar cvf arhive.tar a b c d
+  196  ls -lrt
+  197  file arhive.tar
+  198  file tree-2.0.4.tar
+  199  tar tvf tree-2.0.4.tar
+  200  tar xvf tree-2.0.4.tar
+  201  ls -lrt
+  202  rm -rf archive.tar a b c d
+  203  ls -lrt
+  204  cd tree-2.0.4/
+  205  ls -lrt
+  206  yum remove tree
+  207  rpm -e tree
+  208  rpm -q tree
+  209  ls -lrt
+  210  make
+  211  vi /etc/yum.repos.d/cdrom.repo
+  212  cd /etc/yum.repos.d/
+  213  ls -lrt
+  214  rm -rf CentOS-*
+  215  mount /dev/sr0 /cdrom
+  216  mkdir /cdrom
+  217  mount /dev/sr0 /cdrom
+  218  yum repolist all
+  219  cd -
+  220  ls -lrt
+  221  make
+  222  yum search gcc
+  223  yum install gcc.x86_64
+  224  make
+  225  yum install gcc-c++.x86_64
+  226  make
+  227  which gcc
+  228  ls -lrt /usr/bin/gcc
+  229  which gcc-c++
+  230  rpm -ql gcc-c++
+  231  ls -lirt /usr/bin/c++
+  232  ls -lrt
+  233  vi INSTALL
+  234  vi README
+  235  vi Makefile
+  236  make
+  237  vi Makefile
+  238  make
+  239  clear
+  240  make
+  241  gcc --version
+  242  uname -a
+  243  cd ..
+  244  ls -lrt
+  245  wget https://mama.indstate.edu/users/ice/tree/src/tree-1.6.0.tgz
+  246  tar xzvf tree-1.6.0.tgz
+  247  cd tree-1.6.0
+  248  ls -lrt
+  249  make
+  250  vi INSTALL
+  251  make install
+  252  which tree
+  253  rpm -q tree
+  254  file /usr/bin/tree
+  255  file /usr/man/man1/tree.1
+  256  rm -rf /usr/man/man1/tree.1
+  257  rm -rf /usr/bin/tree
+  258  ls -lrt
+  259  vi Makefile
+  260  mkdir /apps
+  261  make -o prefix=/apps
+  262  vi Makefile
+  263  make
+  264  make clean
+  265  make -o prefix=/apps
+  266  make install
+  267  ls -lrt /apps/bin/tree
+  268  ls -lrt
+  269  cd ..
+  270  ls -lrt
+  271  rm -rf tree-2.0.4*
+  272  ls -lrt
+  273  mkdir extract
+  274  mv tree-1.6.0-10.el7.x86_64.rpm extract/
+  275  ls -lrt
+  276  cd extract/
+  277  ls -lrt
+  278  rpm2cpio tree-1.6.0-10.el7.x86_64.rpm |cpio -idmv
+  279  ls -lrt
+  280  cd usr
+  281  cd bin
+  282  ls -lrt tree
+  283  ls -lrt /apps/bin/tree
+  284  cd
+  285  ls -lrt
+  286  cd tree-1.6.0/
+  287  ls -lrt
+  288  vi tree.c
+  289  vi ../extract/./usr/bin/tree
+  290  find
+  291  ls -R
+  292  pwd
+  293  find /root/tree-1.6.0 -name "tree*"
+  294  find /root/tree-1.6.0 -type f -name "tree*"
+  295  find /root/tree-1.6.0 -type  -name "tree*"
+  296  find /root/tree-1.6.0 -type d -name "tree*"
+  297  find / -type d -name "tree*"
+  298  find / -type l -name "tree*"
+  299  find --help
+  300  man find
+  301  find /usr/bin -type l
+  302  find /usr/bin -type l -print
+  303  find /usr/bin -type l -ls
+  304  find /usr/bin -type l -name a* -ls
+  305  find /usr/bin -type l ! -name a* -ls
+  306  find /usr/bin -type l ! -name [a-d,h-z]* -ls
+  307  find /usr/bin -type l ! -name [a-d]* -ls
+  308  find /var/log -mtime +5 -ls
+  309  date
+  310  find /var/log -type f -mtime +5 -ls
+  311  find /var/log -type f -mtime +100 -ls
+  312  find /var/log -type f -mtime +5 -size +1M -ls
+  313  history
+  314  history |awk '{print $2}'
+  315  history |awk '{print $#}'
+  316  history
+  317  find /var/log -type f -mtime +5 -size +1M
+  318  find /var/log -type f -mtime +5 -size +1M -ls
+  319  find /var/log -type f -mtime +5 -size +1M -rm
+  320  find /var/log -type f -mtime +5 -size +1M -xargs |rm
+  321  find /var/log -type f -mtime +5 -size +1M -xargs rm
+  322  find /var/log -type f -mtime +5 -size +1M -rm
+  323  man find
+  324  find /var/log -type f -mtime +5 -size +1M -exec head {} \;
+  325  find /var/log -type f -mtime +5 -size +1M -exec chown user01 {} \;
+  326  find /var/log -type f -mtime +5 -size +1M -ls
+  327  find / -type f -perm o=w
+  328  ls -lrt
+  329  chmod o+w tree.o
+  330  ls -lrt
+  331  find . -type f -perm o=w
+  332  man find
+  333  find . -type f -perm -o=w
+  334  find / -type f -perm -o=w
+  335  man find
+  336  find / ! -path /proc -type f -perm -o=w
+  337  find / -name /proc -prune -o -name * -type f -perm -o=w
+  338  find . -type d -name node_modules -prune -o -name '*.json' -print
+  339  find / -type d -name node_modules -prune -o -name '*.json' -print
+  340  find / -type f -name proc -prune -o -name * -print
+  341  find / -type f -name proc -prune -o -name "*" -print
+  342  find / -type f -name proc -prune -o -perm -o=w -print
+  343  find / -type f -name proc -prune -o -perm -o=w -print |grep -v ^/proc
+  344  whereis ls
+  345  whereis yum
+  346  locate tree
+  347  ls -lrt /var/lib/slocate/slocate.db
+  348  cd /var/lib
+  349  ls -la |grep locate
+  350  cd mlocate/
+  351  ls -lrt
+  352  file mlocate.db
+  353  rm mlocate.db
+  354  locate tree
+  355  updatedb
+  356  ls -lrt /var/lib/mlocate/mlocate.db
+  357  locate tree
+  358  locate TREE
+  359  locate Tree
+  360  rm mlocate.db
+  361  time updatedb
+  362  time find /
+  363  cd /var/log
+  364  ls -lrt
+  365  cp messages ~
+  366  cd
+  367  ls -lrt
+  368  gzip messages
+  369  ls -lrt
+  370  cat messages.gz
+  371  zmore messages.gz
+  372  ls -lrt
+  373  gunzip messages.gz
+  374  ls -lrt
+  375  bzip messages
+  376  bzip2 messages
+  377  ls -lrt
+  378  zcat messages.bz2
+  379  bzcat messages.bz2
+  380  systemctl restart network
+  381  ip
+  382  ip a
+  383  cat /etc/yum.repos.d/cdrom.repo
+  384  df /cdrom
+  385  df -h /cdrom
+  386  df -h /cdrom
+  387  shutdown -h now
+  388  ls -al /opt
+  389  id user1
+  390  id user2
+  391  id user01
+  392  id user02
+  393  cd /opt/rh
+  394  ls -lrt
+  395  cd ..
+  396  chown user01:admins /opt/rh
+  397  ls -l
+  398  chmod g+w rh
+  399  ls -l
+  400  ls -l rh
+  401  ls -la rh
+  402  ls -la
+  403  ls -la rh
+  404  ls -la
+  405  chmod -x rh
+  406  ls -la
+  407  ls -la rh
+  408  whereis ping
+  409  ls -ld /usr/bin/ping
+  410  chmod -x /usr/bin/ping
+  411  chmod +x /usr/bin/ping
+  412  unask
+  413  umask
+  414  cd /etc
+  415  ls -la
+  416  ls -la |grep profile
+  417  ls -la |grep bashrc
+  418  vi /etc/profile
+  419  chmod +x /opt/rh
+  420  chmod o+t /opt/rh
+  421  ls -lrt /opt/rh
+  422  ls -ld /opt/rh
+  423  stat /opt/rh
+  424  mkdir /opt/new
+  425  chmod 1777 /opt/new
+  426  chmod +s /opt/new
+  427  ls -ld /opt/new
+  428  rm -rf /opt/new
+  429  chmod 1777 /opt/new
+  430  mkdir /opt/new
+  431  chmod 1777 /opt/new
+  432  ls -ld /opt/new
+  433  chmod 0777 /opt/new
+  434  ls -ld /opt/new
+  435  chmod o+t /opt/new
+  436  ls -ld /opt/new
+  437  stat /usr/bin/passwd
+  438  ls -la /usr/bin/passwd
+  439  w
+  440  top
+  441  clear
+  442  ps -ef |grep ping
+  443  stat /usr/bin/passwd
+  444  cat /etc/shadow
+  445  clear
+  446  grep user01 /etc/shadow
+  447  passwd user01
+  448  ls -la /usr/bin/passwd
+  449  chmod o-x /usr/bin/passwd
+  450  ls -la /usr/bin/passwd
+  451  chmod o+x /usr/bin/passwd
+  452  chmod u-s /usr/bin/passwd
+  453  ls -la /usr/bin/passwd
+  454  top
+  455  clear
+  456  which fdisk
+  457  ls -ld /usr/sbin/fdisk
+  458  ls -ld /usr/bin/passwd
+  459  chmod u+s /usr/bin/passwd
+  460  ls -ld /usr/bin/passwd
+  461   chmod g+s /usr/bin/passwd
+  462  ls -ld /usr/bin/passwd
+  463  ip addr
+  464  shutdown -h now
+  465  w
+  466  top
+  467  whoami
+  468  touch a file
+  469  ls -lrt
+  470  id root
+  471  vi /etc/group
+  472  id animal
+  473  id animals
+  474  id root
+  475  touch new_file
+  476  ls -lrt
+  477  vi /etc/passwd
+  478  usermod -g animal root
+  479  id root
+  480  touch filexx
+  481  ls -lrt
+  482  id root
+  483  touch file_xxxxx
+  484  ls -la
+  485  ls
+  486  ls -l
+  487  usermod -g root root
+  488  id root
+  489  id lion
+  490  groupadd new
+  491  usermod -G animal,new lion
+  492  id lion
+  493  usermod -G new lion
+  494  id lion
+  495  groupadd mails
+  496  id lion
+  497  usermod -G mails lion
+  498  id lion
+  499  usermod -G animals,new.mails lion
+  500  usermod -G animals,new,mails lion
+  501  id lion
+  502  usermod -G animal,new,mails lion
+  503  id lion
+  504  ls -ld /opt/rh
+  505  ln /opt/rh /opt/rh_hard_link
+  506  ln -s /opt/rh /opt/rh_soft_link
+  507  ls -ld /opt/rh_soft_link
+  508  netstat
+  509  tail /etc/passwd
+  510  ls -l /etc/passwd
+  511  cat /etc/shadow
+  512  ls -la /etc/shadow
+  513  mkdir --help
+  514  mkdir /work
+  515  chmod 777 /work
+  516  rm -rf /work
+  517  chmod -m 777 /work
+  518  mkdir -m 777 /work
+  519  rm -rf /work
+  520  mkdir --mode=777 /owrk
+  521  mkdir --mode=777 /work
+  522  ls -ld /work
+  523  grep animals /etc/group
+  524  getent group animals
+  525  getent group root
+  526  grep root /etc/group
+  527  grep -w ^root /etc/group
+  528  getent passwd user01
+  529  groupadd -g 1111 animals
+  530  groupadd animals2
+  531  groupdel animals2
+  532  grep fox /etc/passwd
+  533  id fox
+  534  id goat
+  535  getent passwd wolf
+  536  finger wolf
+  537  yum install finger
+  538  mount /dev/sr0 /cdrom
+  539  yum install finger
+  540  finger lion
+  541  #check passwd file, getent, id, finger
+  542  useradd -g 1111 fox
+  543  useradd -g 1111 goat
+  544  useradd -g 1111 wolf
+  545  useradd -g 1111 lion
+  546  finger lion
+  547  id goat
+  548  groupadd -g 2222 animals
+  549  groupadd -g 2222 animal
+  550  getent group animal
+  551  grep animal /etc/passwd
+  552  grep animal /etc/group
+  553  grep -w animal /etc/group
+  554  usermod -G animal fox
+  555  id fox
+  556  vi /etc/passwd
+  557  vi /etc/group
+  558  id goat
+  559  vi /etc/group
+  560  id goat
+  561  usermod -G animal goat
+  562  id goat
+  563  grep goat /etc/group
+  564  echo goat:password123 |chpasswd
+  565  echo lion:password123 |chpasswd
+  566  echo fox:password123 |chpasswd
+  567  echo wolf:password123 |chpasswd
+  568  userdel -r fox
+  569  useradd -g 1111 fox
+  570  vi /etc/group
+  571  echo fox:password123 |chpasswd
+  572  cd /var/tmp
+  573  tar cf data.tar /home
+  574  tar tvf data.tar |head
+  575  pwd
+  576  tar czf /tmp/data.tar.gz /home
+  577  tar cf /tmp/home.tar /home/lion
+  578  gzip /tmp/home.tar
+  579  ls -la /tmp/home.tar
+  580  ls -la /tmp/home.tar.gz
+  581  tar tzvf /tmp/home.tar.gz |more
+  582  cd /home/wolf
+  583  tar xzf /tmp/home.tar.gz .
+  584  tar xzf /tmp/home.tar.gz home/lion/
+  585  ls -lrt
+  586  cd home
+  587  ls -la
+  588  cd lion
+  589  ls -la
+  590  pwd
+  591  cd ..
+  592  ls -lrt
+  593  rm -rf home
+  594  tar tvf data.tar |head
+  595  tar tzvf /tmp/home.tar.gz |more
+  596  ls -lrt
+  597  tar xzf /tmp/home.tar.gz home/lion/*
+  598  ls -lrt
+  599  cd home
+  600  ls -la
+  601  cd /home/lion
+  602  ls -la
+  603  tar cf /tmp/home.tar .
+  604  tar tvf /tmp/home.tar |more
+  605  cd /home/wolf
+  606  ls -la
+  607  rm -rf home
+  608  tar xf /tmp/home.tar .
+  609  ls -la
+  610  init 6
+  611  #httpd
+  612  #vsftpd
+  613  #crond
+  614  #ntpd
+  615  systemctl status crond
+  616  systemctl status sshd
+  617  systemctl status syslogd
+  618  systemctl status syslog
+  619  systemctl status rsyslog
+  620  systemctl
+  621  systemctl status httpd
+  622  systemctl disable httpd
+  623  systemctl status httpd
+  624  reboot
+  625  systemctl status httpd
+  626  systemctl enable httpd
+  627  systemctl status httpd
+  628  systemctl disable httpd
+  629  clear
+  630  systemctl status httpd
+  631  systemctl enable --now httpd
+  632  systemctl status httpd
+  633  df -h
+  634  netstat -an |grep -w 80
+  635  vi /etc/yum.repos.d/cdrom.repo
+  636  cd /var/www/html
+  637  ls -lrt
+  638  mount /dev/sr0 /cdrom
+  639  ls -lrt
+  640  ln -s /cdrom cdrom
+  641  ls -lrt
+  642  yum install vsftpd
+  643  ip addr
+  644  vi /etc/yum.repos.d/cdrom.repo
+  645  yum install vsftpd
+  646  ip addr
+  647  ping 192.168.178.30
+  648  cat /etc/yum.repos.d/cdrom.repo
+  649  rpm -q ssh
+  650  rpm -q openssh-server
+  651  rpm -qc openssh-server
+  652  man sshd
+  653  man man
+  654  man sshd
+  655  rpm -ql openssh-server
+  656  rpm -ql openssh-server |grep bin
+  657  systemctl status sshd
+  658  man sshd_config
+  659  cd /var/log
+  660  ls -lrt
+  661  systemctl status sshd
+  662  systemctl stop sshd
+  663  /usr/sbin/sshd -D
+  664  systemctl status sshd
+  665  ps -ef |grep sshd
+  666  kill -9 2021
+  667  /usr/sbin/sshd
+  668  ps -ef |grep sshd
+  669  systemctl status sshd
+  670  #cron-d
+  671  #ssh-d
+  672  #ntp-d
+  673  #http-d
+  674  systemctl status sshd
+  675  pkill sshd
+  676  systemctl status sshd
+  677  ls -la /usr/sbin/sshd
+  678  clear
+  679  ls -lrt
+  680  ls /bin/ls
+  681  ls -lrt /bin/ls
+  682  ls -lrt /bin/echo
+  683  watch ls -lrt
+  684  whereis watch
+  685  ls -lrt /usr/bin/watch
+  686  rpm -q /usr/bin/watch
+  687  rpm -q procps-ng-3.3.10-28.el7.x86_64 --last
+  688  ps -ef |grep watch
+  689  ps -ef |grep httpd
+  690  whereis systemctl
+  691  cat /etc/passwd
+  692  ps -ef |grep cat
+  693  ps
+  694  whereis ps
+  695  ps -ef |grep init
+  696  ps -ef |grep systemd
+  697  ps -ef |grep -w 0
+  698  ps
+  699  vi script.sh
+  700  sh script.sh
+  701  cat script.sh
+  702  chmod +x script.sh
+  703  ./script.sh
+  704  $?
+  705  $$
+  706  echo $?
+  707  echo $$
+  708  pidof systemd
+  709  pidof crond
+  710  pidof sshd
+  711  systemctl status sshd
+  712  ps -ef |grep sshd
+  713  which grep
+  714  ps -ef |grep sshd
+  715  kill -9 3638
+  716  ps -ef |grep sshd
+  717  ps -efx
+  718  ps -efx |grep sshd
+  719  ps -efx sshd
+  720  pgrep sshd
+  721  pidof sshd
+  722  ps -ef |grep sshd |grep -v grep
+  723  ps -ef |grep sshd
+  724  ps -ef |grep sshd |grep -v grep
+  725  ps -ef |grep sshd |grep -v grep |awk '{print $2}'
+  726  pgrep sshd
+  727  pgrep httpd
+  728   ps -ef |grep httpd |grep -v grep |awk '{print $2}'
+  729  top
+  730  clear
+  731  systemctl status sshd
+  732  systemctl reload sshd
+  733  systemctl status sshd
+  734  systemctl restart sshd
+  735  systemctl status sshd
+  736  vi /etc/ssh/sshd_config
+  737  systemctl reload sshd
+  738  systemctl status sshd
+  739  vi /etc/ssh/sshd_config
+  740  systemctl reload sshd
+  741  systemctl status sshd
+  742  fdisk -l |grep ^Disk
+  743  vgcreate vgnew /dev/sdc
+  744  vgcreate vgnew /dev/sdb
+  745  pvs
+  746  vgs
+  747  lvs
+  748  pvs
+  749  vgs
+  750  lvs
+  751  lvdisplay /dev/vgdata/lvol0
+  752  pvdisplay
+  753  pvdisplay /dev/sdc
+  754  pvdisplay sdc
+  755  vgdisplay
+  756  df
+  757  umount /yum
+  758  cd
+  759  umount /yum
+  760  lsof /yum
+  761  kill -9 1605
+  762  umount /yum
+  763  df -h
+  764  vi /etc/fstab
+  765  lvs
+  766  lvdisplay
+  767  lvremove /dev/vgdata/lvol0
+  768  vgremove vgdata
+  769  vgs
+  770  pvs
+  771  pvcreate --help
+  772  vgcreate --help
+  773  vgcreate vgdata /dev/sdc
+  774  vgs
+  775  vgdisplay /dev/vgdata
+  776  vgremove vgdata
+  777  vgcreate vgdata /dev/sdc -s 8
+  778  vgdisplay /dev/vgdata
+  779  vgremove vgdata
+  780  vgcreate vgdata /dev/sdc -s 32
+  781  vgdisplay /dev/vgdata
+  782  lvcreate -L 8G vgdata
+  783  lvcreate -l 255 vgdata
+  784  lvs
+  785  lvdisplay /dev/vgdata/lvol0
+  786  vgremove vgdata
+  787  vgcreate vgdata /dev/sdc -s 128
+  788  vgs
+  789  vgdisplay /dev/vgdata
+  790  lvcreate -L 100M vgdata
+  791  lvdisplay /dev/vgdata/lvol0 -v
+  792  pvdisplay -v /dev/sdc
+  793  lvdisplay -v /dev/vgdata/lvol0
+  794  man lvdisplay
+  795  lvdisplay -vv /dev/vgdata/lvol0
+  796  man lvdisplay
+  797  lvdisplay -a /dev/vgdata/lvol0
+  798  man lvdisplay
+  799  lvdisplay -m /dev/vgdata/lvol0
+  800  lvextend -l 3 /dev/vgdata/lvol0
+  801  lvs
+  802  lvdisplay -m /dev/vgdata/lvol0
+  803  pvdisplay -m /dev/sdc
+  804  lvcreate -L 1000M vgdata
+  805   pvdisplay -m /dev/sdc
+  806  shutdown -h now
+  807  fdisk -l
+  808  vgextend vgdata /dev/sdd
+  809  vgs
+  810  lvs
+  811  vgs
+  812  vgdisplay vgdata
+  813  lvs
+  814  lvdisplay lovl1
+  815  lvdisplay /dev/vgdata/lovl1
+  816  lvdisplay /dev/vgdata/lvol1
+  817  lvextend -L +1G /dev/vgdata/lvol1
+  818  lvextend -l +8 /dev/vgdata/lvol1
+  819  lvextend -l +8 /dev/vgdata/lvol1 /dev/sdd
+  820  lvdisplay /dev/vgdata/lvol1 -m
+  821  lvs
+  822  lvdisplay /dev/vgdata/lvol0 -m
+  823  lvextend -l +3 /dev/vgdata/lvol0 /dev/sdd
+  824  lvdisplay /dev/vgdata/lvol0 -m
+  825  lvextend -l +3 /dev/vgdata/lvol0
+  826  lvdisplay /dev/vgdata/lvol0 -m
+  827  mkfs.ext4 /dev/vgdata/lvol0
+  828  mount /data
+  829  df -h
+  830  grep lvol0 /etc/fstab
+  831  mount /dev/vgdata/lvol0 /yum
+  832  df -h
+  833  lvs
+  834  lvextend -L 2G /dev/vgdata/lvol0
+  835  df -h /yum
+  836  fsadm
+  837  resize2fs
+  838  resize2fs /dev/vgdata/lvol0
+  839   df -h /yum
+  840  lvextend -L 3G /dev/vgdata/lvol0 -r
+  841  mkfs.xfs /dev/vgdata/lvol1
+  842  mkdir /yum2
+  843  mount /dev/vgdata/lvol1 /yum2
+  844  df -h /yum2
+  845  lvextend -L +1G /dev/vgdata/lvol1
+  846  resize2fs /dev/vgdata/lvol1
+  847  man mkfs.xfs
+  848  man xfs_admin
+  849  xfs_growfs /dev/vgdata/lvol1
+  850  df -h /yum2
+  851  lvextend -L +2M /dev/vgdata/lvol1 -r
+  852  history
+[root@server01 ~]#
+

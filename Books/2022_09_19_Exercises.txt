@@ -1,0 +1,37 @@
+rpm -e tree
+use wget to Download https://mama.indstate.edu/users/ice/tree/src/tree-1.6.0.tgz (Bridged adapter)
+extract tar xzf
+tree-1.6.0
+make 
+make install
+
+rm /usr/bin/tree /usr/man/man1/tree.1
+
+mkdir /somewhere
+make clean
+make -o prefix=/somewhere
+make install
+
+
+  159  find /root/tree-1.6.0 -name "tree*"
+  160  find /root/tree-1.6.0 -type f -name "tree*"
+  161  find /root/tree-1.6.0 -type  -name "tree*"
+  162  find /root/tree-1.6.0 -type d -name "tree*"
+  163  find / -type d -name "tree*"
+  164  find / -type l -name "tree*"
+  165  find --help
+  166  man find
+  167  find /usr/bin -type l
+  168  find /usr/bin -type l -print
+  169  find /usr/bin -type l -ls
+  170  find /usr/bin -type l -name a* -ls
+  171  find /usr/bin -type l ! -name a* -ls
+  174  find /var/log -mtime +5 -ls
+  175  date
+  176  find /var/log -type f -mtime +5 -ls
+  177  find /var/log -type f -mtime +100 -ls
+  178  find /var/log -type f -mtime +5 -size +1M -ls
+
+copy /var/log/messages to home directory & practice, gzip,gunzip,zcat,zmore,bzip2,bunzip2,bzcat,bzmore
+
+20.11. practice: basic Unix tools

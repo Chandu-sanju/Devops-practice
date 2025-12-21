@@ -1,0 +1,120 @@
+1) Create a directory called /work with a permission of 777 in one command
+   NB: See the man pages for mkdir for help
+
+
+-------------------------------------------------------------
+2) Check if the group animals exist in two ways
+
+-------------------------------------------------------------------------------
+3) if the group doesn't exist, create animals group with a gid of 1111
+
+---------------------------------------------------------------------------
+4) Check if the users fox, goat, wolf & lion in four different ways 
+
+-------------------------------------------------------------------------
+5) if any of these users doesn't exist, create the user 
+	in such a way that these users are primary member of animals group
+
+ 
+----------------------------------------------------------------------
+6) Create a group called animal with a gid of 2222 
+
+----------------------------------------------------------
+7) Add users fox, goat, wolf & lion to the animal group.  
+   At the end of this command, these users should only be member of animals (primary)
+   and animal (secondary) group
+
+----------------------------------------------------------
+8) set the password for all the users to password123
+
+-------------------------------------------------- 
+9) Login as fox user from the same terminal and copy the entire /usr/bin directory to fox's home
+A.
+-------
+10) logoff
+
+
+--------------------------------
+11) Login as lion user from the same terminal and copy the entire /usr/bin/
+	Make sure that you copy the contents inside the /usr/bin and not the /usr/bin directory itself
+	Copy them to the home directory of lion  
+	Logoff 
+
+
+---------------------------------------------------------------------
+12) Create a tar archive called data.tar of the /home directory.
+   The archive should be created in /var/tmp directory
+   The files in the archive when listed (tar tvf) should start with "." and not "/"
+
+-----------------------------------------------------------------------------------
+13) Create a compressed tar archive called data.tar.gz of the /home directory.
+   The compressed archive should be created in /tmp directory
+   The files in the archive when listed (tar tvf) should start with "/" and not "."
+
+------------------------------------------------------------------------------------	
+14) Create a compressed tar archive without using the z option
+	archive name - /tmp/home.tar.gz
+	archive contents of /home/lion
+	in such a way that the contents of the archive starts with "."
+
+--------------------------------------------------------------------------------
+
+15) As root user, restore the /tmp/home.tar.gz
+	restore the contents in /home/wolf
+A.
+[root@yumserver wolf]# tar xzf /tmp/home.tar.gz .
+[root@yumserver wolf]# ls | head
+[
+a2p
+ab
+abs2rel
+addr2line
+alias
+alt-java
+apropos
+ar
+arch
+---------------------------------------------------------------------------
+16) From the archive created in question 12, restore ONLY the home directory of fox & all the contents inside the home directory.  Donot restore any other directories like /home/lion or /home/wolf, etc.
+A.
+
+--------------------------------------------------------------------------------------
+17) Now, try to restore the home directory of lion from the archive created in question 13.  This time, try to restore to /home/goat
+--------------------------------------------------------------------------------
+18) configure to mount cdrom permanently (cdrom should come from /etc/fstab & mounted on /repo)
+
+------------------------------------------------------------------
+19) Configure yum client to pick packages from /repo
+A.[root@yumserver yum.repos.d]# vi /etc/yum.repos.d/cdrom.repo
+[cdrom]
+Name=local_cdrom
+baseurl=file:///repo
+gpgcheck=0
+enabled=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-7
+------------------------------------------------------------
+20) Install abrtd
+
+----------------------------------------
+21) Install ruby
+A.
+
+---------------------------------------------------------------
+22) Check the installed history using "yum history"
+
+
+-------------------------------------------------------------
+23) Undo the installation done in step 20
+ Command : yum history undo 10 
+24)
+25) run yum search ruby
+
+26) run yum list ruby
+[
+
+27) What are your observations from questions 25 & 26.  
+A.
+----------------------------------------------------------------
+
+	
+

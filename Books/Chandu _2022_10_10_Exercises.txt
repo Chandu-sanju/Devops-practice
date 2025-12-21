@@ -1,0 +1,74 @@
+
+1) Perform a minimal installation of CentOS with the following filesytems created at the time of installation.  This uses LVM.  Assign one 16 GB disk. While partitioning, create sda1 as 250MB and allocate the remaining space to sda2.  Add sda2 as the pv to "root" volume group.  
+
+/boot - 250MB
+/ - 512MB
+/usr - 5GB
+/var - 2GB
+/tmp - 1GB
+/var/log - 2GB
+/home - 1 GB
+/opt - 1GB
+/var/tmp - 500MB
+
+
+[root@linuxclient2 ~]# df -h
+Filesystem                   Size  Used Avail Use% Mounted on
+devtmpfs                     484M     0  484M   0% /dev
+tmpfs                        496M     0  496M   0% /dev/shm
+tmpfs                        496M  6.8M  489M   2% /run
+tmpfs                        496M     0  496M   0% /sys/fs/cgroup
+/dev/mapper/vgroot1-root     488M   35M  418M   8% /
+/dev/mapper/vgroot1-usr      4.8G  1.2G  3.5G  25% /usr
+/dev/mapper/vgroot1-opt      976M  2.6M  907M   1% /opt
+/dev/mapper/vgroot1-var      2.0G   63M  1.8G   4% /var
+/dev/mapper/vgroot1-home     976M  2.6M  907M   1% /home
+/dev/mapper/vgroot1-tmp      976M  2.6M  907M   1% /tmp
+/dev/mapper/vgroot1-var_log  2.0G  9.8M  1.8G   1% /var/log
+/dev/mapper/vgroot1-var_tmp  477M  2.3M  445M   1% /var/tmp
+/dev/sda1                    247M  119M  129M  49% /boot
+tmpfs                        100M     0  100M   0% /run/user/0
+--------------------------------------------------------------------------
+After you complete the exercise, do the following:-
+
+1) Extend the "/" partition by another 512MB
+Ans) First and formost I checked the '/' lvname&size by using lvdisplay command I got lvname and size . Then after I tried to extend the size but its was showing "given size is not larger than existing size" that means I can't extend the lv size .  so I have to increase logical volume  size if we need to increase lv size before we must increase vg size. I attached a new disk by using vgextend command. After I increased '/' size by using lvextend command along with (-r) filesystem resize command
+----------------------------------------------------------
+2) Extend the "/var/log" by another 1GB
+Ans) The requirment is to extend the /var/log lv size to another 1GB , if we want to extend the lv size no need to dismount it we can do online resizing so now need to 
+     dismount /var/log/ lv . I did above requirment by using lvextend command 
+-------------------------------------------------------------------------------------------   
+3) Reduce /opt to 500MB
+Ans) When we reduce the LV before we must dismount that ( whenever u going to dismount first we shoutdown the application by using filesystem) then defragment the file system ( defragment is the process of repairing the filesystem ) by using e2fsck -d -D >Lvname< -f. In the next we first reduce the filesystem then after we can able to reduce the lv . by using resize2fs command u able to reduce the file system . Before going to execute resize2fs command we have to check properly otherwise we must lost the data .  I did lvreduce  by using lv reduce command. then I mounted it.
+------------------------------------------------------------
+4) Extend /var/tmp to 1GB
+A. I increased the size of /var/tmp logical volume to 1G by using extend command ( lvextend -L 1G /dev/vgroot1/var_tmp -r ) along with file system resize command.
+--------------------------------------------------------------------------------------
+5) Reduce /var to 1GB
+A. To perform the above task I ned to unmount /var  so Im trying to dismount it but it wasn't dismounted . I search in google then i got a solution ( umount -l /var) it dismounted i confirmed by using df -h . then i did filesystem difragment afteer I tried to reduce the filesystem size it can't reduce the file system . the error is /var busy .
+-----------------------------------------------------------------------------------------
+[root@linuxclient2 ~]# df -h
+Filesystem                   Size  Used Avail Use% Mounted on
+devtmpfs                     484M     0  484M   0% /dev
+tmpfs                        496M  6.8M  489M   2% /run
+tmpfs                        496M     0  496M   0% /sys/fs/cgroup
+/dev/mapper/vgroot1-root     992M   36M  901M   4% /
+/dev/mapper/vgroot1-usr      4.8G  1.2G  3.5G  25% /usr
+/dev/mapper/vgroot1-tmp      976M  2.6M  907M   1% /tmp
+/dev/sda1                    247M  119M  129M  49% /boot
+/dev/mapper/vgroot1-home     976M  2.6M  907M   1% /home
+/dev/mapper/vgroot1-opt      460M  1.6M  424M   1% /opt
+/dev/mapper/vgroot1-var      2.0G   64M  1.8G   4% /var
+/dev/mapper/vgroot1-var_log  2.9G   11M  2.8G   1% /var/log
+/dev/mapper/vgroot1-var_tmp  984M  2.8M  932M   1% /var/tmp
+-----------------------------------------------------------------------------------------------------
+For all the five questions above, please provide a step by step procedure of how you did it (commands are not needed) and send back to me via E-mail.  Please focus on grammar, spelling, vocabulary & structure of the sentence in your answers.  
+
+
+http://www.thegeekstuff.com/2008/08/15-examples-to-master-linux-command-line-history/
+
+http://www.thegeekstuff.com/2010/09/linux-file-system-structure/
+
+http://www.thegeekstuff.com/2009/07/linux-ls-command-examples/
+
+http://www.thegeekstuff.com/2009/03/15-practical-unix-grep-command-examples/

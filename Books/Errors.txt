@@ -1,0 +1,35 @@
+[root@lv ~]# pvs
+  PV         VG        Fmt  Attr PSize  PFree
+  /dev/sda2  centos_lv lvm2 a--   1.00g 4.00m
+  /dev/sda3  vgroot    lvm2 a--  12.99g 4.00m
+[root@lv ~]# vgs
+  VG        #PV #LV #SN Attr   VSize  VFree
+  centos_lv   1   1   0 wz--n-  1.00g 4.00m
+  vgroot      1   8   0 wz--n- 12.99g 4.00m
+[root@lv ~]# vgs
+  VG        #PV #LV #SN Attr   VSize  VFree
+  centos_lv   1   1   0 wz--n-  1.00g 4.00m
+  vgroot      1   8   0 wz--n- 12.99g 4.00m
+
+
+[root@lv ~]# lvs
+  LV      VG        Attr       LSize   Pool Origin Data%  Meta%  Move Log Cpy%Sync Convert
+  swap    centos_lv -wi-ao----   1.00g                                       
+  home    vgroot    -wi-ao----   1.00g                                       
+  opt     vgroot    -wi-ao----   1.00g                                       
+  root    vgroot    -wi-ao---- 512.00m                                       
+  tmp     vgroot    -wi-ao----   1.00g                                       
+  usr     vgroot    -wi-ao----   5.00g                                       
+  var     vgroot    -wi-ao----   2.00g                                       
+  var_log vgroot    -wi-ao----   2.00g                                       
+  var_tmp vgroot    -wi-ao---- 500.00m 
+
+
+[root@lv ~]# lvextend -L +512M /dev/vgroot/root -r
+  Insufficient free space: 128 extents needed, but only 1 available
+
+
+   Device Boot      Start         End      Blocks   Id  System
+/dev/sda1   *        2048      514047      256000   83  Linux
+/dev/sda2          514048     2625535     1055744   8e  Linux LVM
+/dev/sda3         2625536    29880319    13627392   8e  Linux LVM

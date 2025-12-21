@@ -1,0 +1,163 @@
+This exercise should be run without configuring NTP...
+
+1) Create a directory /var/fpwork & go to that directory
+2) Create the following files in the current directory with the following modification time stamps (2014)
+-rw-r--r--. 1 root root 0 Aug  4 09:01 tiger
+-rw-r--r--. 1 root root 0 Aug  5 08:59 sheep
+-rw-r--r--. 1 root root 0 Aug  6 04:00 goat
+-rw-r--r--. 1 root root 0 Aug  7 00:00 lion
+-rw-r--r--. 1 root root 0 Aug  8 06:00 fox
+-rw-r--r--. 1 root root 0 Aug  9 07:00 file7
+-rw-r--r--. 1 root root 0 Aug  9 09:02 file6
+-rw-r--r--. 1 root root 0 Aug 10 08:00 file5
+-rw-r--r--. 1 root root 0 Aug 11 04:00 file4
+-rw-r--r--. 1 root root 0 Aug 12 05:00 file3
+-rw-r--r--. 1 root root 0 Aug 13 00:59 file1
+-rw-r--r--. 1 root root 0 Aug 13 09:59 file2
+-rw-r--r--. 1 root root 0 Aug 14 00:59 four
+-rw-r--r--. 1 root root 0 Aug 14 07:59 three
+-rw-r--r--. 1 root root 0 Aug 15 01:00 two
+-rw-r--r--. 1 root root 0 Aug 15 08:00 one
+
+eg:- [root@server01 ~]# touch sheep
+[root@server01 ~]# touch -t 201408050859 sheep
+[root@server01 ~]#
+Answer :
+
+[root@yumserver fpwork]# find . -type f -ls
+34290403    0 -rw-r--r--   1 root     root            0 Aug  4 09:01 ./tiger
+34290404    0 -rw-r--r--   1 root     root            0 Aug  5 08:59 ./sheep
+34290461    0 -rw-r--r--   1 root     root            0 Aug  6 04:00 ./goat
+34290463    0 -rw-r--r--   1 root     root            0 Aug  7 00:00 ./lion
+34288370    0 -rw-r--r--   1 root     root            0 Aug  8 06:00 ./fox
+34288373    0 -rw-r--r--   1 root     root            0 Aug  9 07:00 ./file7
+34288374    0 -rw-r--r--   1 root     root            0 Aug  9 09:02 ./file6
+34288375    0 -rw-r--r--   1 root     root            0 Aug 10 08:00 ./file5
+34288376    0 -rw-r--r--   1 root     root            0 Aug 11 04:00 ./file4
+34288378    0 -rw-r--r--   1 root     root            0 Aug 12 05:00 ./file3
+34288380    0 -rw-r--r--   1 root     root            0 Aug 13 00:59 ./file1
+34288382    0 -rw-r--r--   1 root     root            0 Aug 13 09:59 ./file2
+34288383    0 -rw-r--r--   1 root     root            0 Aug 14 00:59 ./four
+33577169    0 -rw-r--r--   1 root     root            0 Aug 14 07:59 ./three
+34243148    0 -rw-r--r--   1 root     root            0 Aug 15 01:00 ./two
+34243149    0 -rw-r--r--   1 root     root            0 Aug 15 08:00 ./one
+one
+--------------------------------------------------------------------
+
+3) Set the date to 15th August 2014 09:00
+
+Ans:-[root@yumserver fpwork]# date -s "2014-08-15 09:00"
+Fri Aug 15 09:00:00 IST 2014
+[root@yumserver fpwork]# date
+Fri Aug 15 09:00:04 IST 2014
+-------------------------------------------------------------------------------
+4) use the find command to only print those files modified in the last 24 hours 
+	Answer is one & two
+Ans :-
+[root@yumserver fpwork]# find . -type f -mtime -1 -ls
+34243148    0 -rw-r--r--   1 root     root            0 Aug 15 01:00 ./two
+34243149    0 -rw-r--r--   1 root     root            0 Aug 15 08:00 ./one
+------------------------------------------------------------------------------------
+5) Set the date to 15th August 2014 09:00
+   use the find command to print all files modified before 12 Aug 2014 09:00
+   Answer: file[3-7],fox,lion,goat,sheep,tiger
+Ans :-
+[root@yumserver fpwork]# find . -type f -mtime +3 -ls
+34290403    0 -rw-r--r--   1 root     root            0 Aug  4 09:01 ./tiger
+34290404    0 -rw-r--r--   1 root     root            0 Aug  5 08:59 ./sheep
+34290461    0 -rw-r--r--   1 root     root            0 Aug  6 04:00 ./goat
+34290463    0 -rw-r--r--   1 root     root            0 Aug  7 00:00 ./lion
+34288370    0 -rw-r--r--   1 root     root            0 Aug  8 06:00 ./fox
+34288373    0 -rw-r--r--   1 root     root            0 Aug  9 07:00 ./file7
+34288374    0 -rw-r--r--   1 root     root            0 Aug  9 09:02 ./file6
+34288375    0 -rw-r--r--   1 root     root            0 Aug 10 08:00 ./file5
+34288376    0 -rw-r--r--   1 root     root            0 Aug 11 04:00 ./file4
+--------------------------------------------------------------------------------
+6) Set the date to 15th August 2014 08:00
+   Use the find command to print all files created between 13th August 08:01 & 14th August 08:00
+   Answer: file2, four, three
+Ans:-
+[root@yumserver fpwork]# find -newermt "2014-08-13 08:01:00" ! -newermt "2014                                                                                 -08-14 08:00:00" -ls
+34288382    0 -rw-r--r--   1 root     root            0 Aug 13 09:59 ./file2
+34288383    0 -rw-r--r--   1 root     root            0 Aug 14 00:59 ./four
+33577169    0 -rw-r--r--   1 root     root            0 Aug 14 07:59 ./three
+[root@yumserver fpwork]#
+----------------------------------------------------------------------------
+7) Set the date to 15th August 2014 08:00
+   Use the find command to print all files created after August 13 08:00
+   Answer: one,two,three,four,file2
+Ans:
+[root@yumserver fpwork]# find /var/fpwork -type f -newermt "2014-08-13 08:00"                                                                                 -ls
+34288382    0 -rw-r--r--   1 root     root            0 Aug 13 09:59 /var/fpwo                                                                                rk/file2
+34288383    0 -rw-r--r--   1 root     root            0 Aug 14 00:59 /var/fpwo                                                                                rk/four
+33577169    0 -rw-r--r--   1 root     root            0 Aug 14 07:59 /var/fpwo                                                                                rk/three
+34243148    0 -rw-r--r--   1 root     root            0 Aug 15 01:00 /var/fpwo                                                                                rk/two
+34243149    0 -rw-r--r--   1 root     root            0 Aug 15 08:00 /var/fpwo                                                                                rk/one
+---------------------------------------------------------------------------
+8) Explain this command in english language:
+   find /var/fpwork -mtime -4 -ls
+Ans:
+The above command will show the output => which files  in /var/fpwo are modified from last 4 days from the current day here..
+find => to find files and directories in linux
+/var/fpwork => location
+-mtime = modified time
+-4=> last fourdays modified files and directoies
+-ls = list  
+------------------------------------------------------------------------------
+9) Explain this command in English language:
+   cd /var/fpwork
+   find . -mtime 3 -ls
+Ans: this command will display the output of which are excatly modifiedfiles in 3rd day
+----------------------------------------------------------------------------------
+10) What is the difference between
+	a) find . -mtime 0 -ls, and
+	b) find . -mtime +0 -ls
+	Explain in English language
+Ans :
+ a) find . -mtime 0 -ls, and => it shows excatly 0 days ago means  yesterday itself which files are modified shows that files
+
+ b) find . -mtime +0 -ls => it shows day before yesterday ago modified files ( from starting modified file to untill day before yesterday )
+  
+[root@yumserver fpwork]# find /var/fpwork -mtime +0 -ls
+34290403    0 -rw-r--r--   1 root     root            0 Aug  4 09:01 /var/fpwork/tiger
+34290404    0 -rw-r--r--   1 root     root            0 Aug  5 08:59 /var/fpwork/sheep
+34290461    0 -rw-r--r--   1 root     root            0 Aug  6 04:00 /var/fpwork/goat
+34290463    0 -rw-r--r--   1 root     root            0 Aug  7 00:00 /var/fpwork/lion
+34288370    0 -rw-r--r--   1 root     root            0 Aug  8 06:00 /var/fpwork/fox
+34288373    0 -rw-r--r--   1 root     root            0 Aug  9 07:00 /var/fpwork/file7
+34288374    0 -rw-r--r--   1 root     root            0 Aug  9 09:02 /var/fpwork/file6
+34288375    0 -rw-r--r--   1 root     root            0 Aug 10 08:00 /var/fpwork/file5
+34288376    0 -rw-r--r--   1 root     root            0 Aug 11 04:00 /var/fpwork/file4
+34288378    0 -rw-r--r--   1 root     root            0 Aug 12 05:00 /var/fpwork/file3
+34288380    0 -rw-r--r--   1 root     root            0 Aug 13 00:59 /var/fpwork/file1
+34288382    0 -rw-r--r--   1 root     root            0 Aug 13 09:59 /var/fpwork/file2
+34288383    0 -rw-r--r--   1 root     root            0 Aug 14 00:59 /var/fpwork/four
+33577169    0 -rw-r--r--   1 root     root            0 Aug 14 07:59 /var/fpwork/three
+[root@yumserver fpwork]# find /var/fpwork -mtime 0 -ls
+34243148    0 -rw-r--r--   1 root     root            0 Aug 15 01:00 /var/fpwork/two
+34243149    0 -rw-r--r--   1 root     root            0 Aug 15 08:00 /var/fpwork/one
+[root@yumserver fpwork]# find /var/fpwork -mtime -0 -ls
+34290401    0 drwxr-xr-x   2 root     root          205 Oct  4  2022 /var/fpwork
+[root@yumserver fpwork]# date
+Fri Aug 15 08:24:42 IST 2014
+---------------------------------------------------------------------------------
+ 
+11) What is the difference between
+	a) find . -mtime -0 -ls, and
+	b) find . -mtime +0 -ls
+	Explain in English language
+Answer :
+ a) find . -mtime -0 -ls => it shows from yesterday (before day from current day) to still which are modified files
+ 
+ b) find . -mtime +0 -ls => it shows day before yesterday ago modified files ( from starting modified file to untill day before yesterday )
+
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+12) Explain in English language what this command will do when you are in /var/fpwork
+	find . -mtime +4 -ls
+
+Ans :
+The above command will find & display the current directory's (/var/fpwork) modified files before 4 days ago modified files with respect of current day.
+-------------------------------------------------------------------------------------------------------------------  

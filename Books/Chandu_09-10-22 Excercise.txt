@@ -1,0 +1,217 @@
+vgdata
+add another 4GB disk to the server => Another disk Added
+
+add the disk to the VG ( vgextend vgdata /dev/sdd)
+[root@server03 ~]# vgextend vgdata /dev/sdc
+  Physical volume "/dev/sdc" successfully created.
+  Volume group "vgdata" successfully extended
+-----------------------------------------------------------
+
+create another LV
+lvcreate -l 100 /dev/vgdata
+
+[root@server03 ~]# lvcreate -l 100 /dev/vgdata
+  Logical volume "lvol1" created.
+------------------------------------------------------------
+
+Extend that LV
+lvextend -L +1G /dev/vgdata/lovl1
+
+Check the mapping
+lvdisplay /dev/vgdata/lvol1 -m
+
+[root@server03 ~]# lvextend -L +1G /dev/vgdata/lvol1
+  Size of logical volume vgdata/lvol1 changed from 400.00 MiB (100 extents) to 1.39 GiB (356 extents).
+  Logical volume vgdata/lvol1 successfully resized.
+[root@server03 ~]# lvdisplay -m /dev/vgdata/lovl1
+  Failed to find logical volume "vgdata/lovl1"
+[root@server03 ~]# lvdisplay -m /dev/vgdata/lvol1
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol1
+  LV Name                lvol1
+  VG Name                vgdata
+  LV UUID                Kr0pCf-O8D2-xSMm-ktVn-kAFW-YLfs-d5HSlq
+  LV Write Access        read/write
+  LV Creation host, time server03, 2022-10-09 13:14:38 -0400
+  LV Status              available
+  # open                 0
+  LV Size                1.39 GiB
+  Current LE             356
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:1
+
+  --- Segments ---
+  Logical extents 0 to 355:
+    Type                linear
+    Physical volume     /dev/sdb
+    Physical extents    1536 to 1891
+
+
+
+--------------------------------------------------------
+
+
+Create filesystem and moun it
+mkfs.ext4 /dev/vgdata/lvol1
+mkdir /data2
+mount /dev/vgdata/lvol1 /data2
+df -h /data2
+
+[root@server03 ~]# mkdir /data2
+[root@server03 ~]# vi /etcfstab
+[root@server03 ~]# vi /etc/fstab
+[root@server03 ~]# vi /etc/fstab
+[root@server03 ~]# mount /data2
+[root@server03 ~]# df -h
+Filesystem                Size  Used Avail Use% Mounted on
+devtmpfs                  233M     0  233M   0% /dev
+tmpfs                     244M     0  244M   0% /dev/shm
+tmpfs                     244M  4.7M  239M   2% /run
+tmpfs                     244M     0  244M   0% /sys/fs/cgroup
+/dev/sda5                 997M   65M  932M   7% /
+/dev/sda2                 2.0G  1.2G  827M  59% /usr
+/dev/sda10                197M   11M  187M   6% /oracle/db1
+/dev/sda9                1014M   33M  982M   4% /newmount
+/dev/sda8                 509M   26M  483M   6% /temp
+/dev/sda6                 997M   33M  965M   4% /home
+/dev/sda7                 997M  113M  884M  12% /var
+/dev/sda1                 197M  110M   88M  56% /boot
+tmpfs                      49M     0   49M   0% /run/user/0
+/dev/sr0                  4.4G  4.4G     0 100% /cdrom
+/dev/mapper/vgdata-lvol0  5.8G   16M  5.5G   1% /yum
+/dev/mapper/vgdata-lvol1  1.4G  4.2M  1.3G   1% /data2
+----------------------------------------------------------------------
+
+Extend using +
+lvextend -L +1G /dev/vgdata/lvol1
+resize2fs /dev/vgdata/lvol1
+[root@server03 ~]# lvextend -L +1G /dev/vgdata/lvol1
+  Size of logical volume vgdata/lvol1 changed from 400.00 MiB (100 extents) to 1.39 GiB (356 extents).
+  Logical volume vgdata/lvol1 successfully resized.
+[root@server03 ~]# lvdisplay -m /dev/vgdata/lovl1
+  Failed to find logical volume "vgdata/lovl1"
+[root@server03 ~]# lvdisplay -m /dev/vgdata/lvol1
+  --- Logical volume ---
+  LV Path                /dev/vgdata/lvol1
+  LV Name                lvol1
+  VG Name                vgdata
+  LV UUID                Kr0pCf-O8D2-xSMm-ktVn-kAFW-YLfs-d5HSlq
+  LV Write Access        read/write
+  LV Creation host, time server03, 2022-10-09 13:14:38 -0400
+  LV Status              available
+  # open                 0
+  LV Size                1.39 GiB
+  Current LE             356
+  Segments               1
+  Allocation             inherit
+  Read ahead sectors     auto
+  - currently set to     8192
+  Block device           253:1
+
+  --- Segments ---
+  Logical extents 0 to 355:
+    Type                linear
+    Physical volume     /dev/sdb
+    Physical extents    1536 to 1891
+
+
+lvcreate -l 20 /dev/vgdata
+mkfs.xfs /dev/vgdata/lvol2
+-------------------------------------------------------------------------
+
+[root@server03 ~]# lvcreate -l 20 /dev/vgdata
+  Logical volume "lvol2" created.
+[root@server03 ~]# mkfs.ext4 /dev/vgdata/lovl2
+mke2fs 1.42.9 (28-Dec-2013)
+Could not stat /dev/vgdata/lovl2 --- No such file or directory
+
+The device apparently does not exist; did you specify it correctly?
+[root@server03 ~]# mkfs.ext4 /dev/vgdata/lvol2
+mke2fs 1.42.9 (28-Dec-2013)
+Filesystem label=
+OS type: Linux
+Block size=1024 (log=0)
+Fragment size=1024 (log=0)
+Stride=0 blocks, Stripe width=0 blocks
+20480 inodes, 81920 blocks
+4096 blocks (5.00%) reserved for the super user
+First data block=1
+Maximum filesystem blocks=33685504
+10 block groups
+8192 blocks per group, 8192 fragments per group
+2048 inodes per group
+Superblock backups stored on blocks:
+        8193, 24577, 40961, 57345, 73729
+
+Allocating group tables: done
+Writing inode tables: done
+Creating journal (4096 blocks): done
+Writing superblocks and filesystem accounting information: done
+
+
+
+and mount it
+mkdir /data3
+mount /dev/vgdata/lvol2 /data3
+df -h /data3
+
+Ans : All Done
+---------------------------------------------------------------
+
+extend using -l without +
+lvextend -l 40 /dev/vgdata/lvol2
+df -h /data3
+
+Extend & check size
+xfs_grwofs
+df -h /data3
+
+Destroy the filesystem /data3
+
+[root@server03 ~]# df -Th
+Filesystem               Type      Size  Used Avail Use% Mounted on
+devtmpfs                 devtmpfs  233M     0  233M   0% /dev
+tmpfs                    tmpfs     244M     0  244M   0% /dev/shm
+tmpfs                    tmpfs     244M  4.7M  239M   2% /run
+tmpfs                    tmpfs     244M     0  244M   0% /sys/fs/cgroup
+/dev/sda5                xfs       997M   65M  932M   7% /
+/dev/sda2                xfs       2.0G  1.2G  827M  59% /usr
+/dev/sda10               xfs       197M   11M  187M   6% /oracle/db1
+/dev/sda9                xfs      1014M   33M  982M   4% /newmount
+/dev/sda8                xfs       509M   26M  483M   6% /temp
+/dev/sda6                xfs       997M   33M  965M   4% /home
+/dev/sda7                xfs       997M  113M  884M  12% /var
+/dev/sda1                xfs       197M  110M   88M  56% /boot
+tmpfs                    tmpfs      49M     0   49M   0% /run/user/0
+/dev/sr0                 iso9660   4.4G  4.4G     0 100% /cdrom
+/dev/mapper/vgdata-lvol0 ext4      5.8G   16M  5.5G   1% /yum
+/dev/mapper/vgdata-lvol1 ext4      2.4G  4.2M  2.2G   1% /data2
+/dev/mapper/vgdata-lvol2 xfs       157M  8.3M  149M   6% /data3
+---------------------------------
+unmount => umount /data3
+remove the lv (lvremove)=> lvremove /dev/vgdata/lvol2
+------------------------------------------------------------
+create a new LV of 2G and mount it on /data3 with ext3 filesystems
+[root@server03 ~]# df -Th
+Filesystem               Type      Size  Used Avail Use% Mounted on
+devtmpfs                 devtmpfs  233M     0  233M   0% /dev
+tmpfs                    tmpfs     244M     0  244M   0% /dev/shm
+tmpfs                    tmpfs     244M  4.7M  239M   2% /run
+tmpfs                    tmpfs     244M     0  244M   0% /sys/fs/cgroup
+/dev/sda5                xfs       997M   65M  932M   7% /
+/dev/sda2                xfs       2.0G  1.2G  827M  59% /usr
+/dev/sda10               xfs       197M   11M  187M   6% /oracle/db1
+/dev/sda9                xfs      1014M   33M  982M   4% /newmount
+/dev/sda8                xfs       509M   26M  483M   6% /temp
+/dev/sda6                xfs       997M   33M  965M   4% /home
+/dev/sda7                xfs       997M  113M  884M  12% /var
+/dev/sda1                xfs       197M  110M   88M  56% /boot
+tmpfs                    tmpfs      49M     0   49M   0% /run/user/0
+/dev/sr0                 iso9660   4.4G  4.4G     0 100% /cdrom
+/dev/mapper/vgdata-lvol0 ext4      5.8G   16M  5.5G   1% /yum
+/dev/mapper/vgdata-lvol1 ext4      2.4G  4.2M  2.2G   1% /data2
+/dev/mapper/vgdata-lvol2 ext3      2.0G  3.1M  1.9G   1% /data3
+

@@ -1,0 +1,104 @@
+1. Install zip-3.0-11.el7.x86_64
+
+A: yum install zip  
+Also seen out put by using--- yum info zip
+---------------------------
+2. I install net-tools Package , seen out pout from using yum history
+A. yum install net- tools 
+   seen out confirmation by using --- yum history
+----------------
+3. Change hostname to frog.animal.com (reboot)
+command: hostname frog.animal.com
+for permanent: echo frog.animal.com > /etc/hostname 
+for reboot:  reboot
+--------------------------------------------------
+
+4. Change hostname to delhi.india.com (reboot using a different method)
+ command : hostnamectl set-hostname delhi.india.com
+ reboot : reboot -p
+
+-------------------------------------------------------------
+5. Install perl 5.16.3
+A. command :yum install perl 
+  seen output : rpm -qa | grep perl
+---------------------------------------------------------------------------
+1) Create a user - joe
+A. cmd : useradd joe
+------------------------
+2) find the UID for joe
+A.cmd : id joe
+  joe uid : 1112
+--------------------------------------
+3) check /etc/passwd.  use tail command
+A.command : (tail -1 /etc/passwd)
+ joe:x:1112:1251::/home/joe:/bin/bash 
+-----------------------------------------------------------
+4) what is tail command for?  Check the man pages.
+A.command : man tail
+ Print the last 10 lines of each file to standard ouput
+--------------------------------------------------------
+5) Now, use the head command to check /etc/passwd.  Check the man pages for head command.
+ A.command: head /etc/passwd
+head command prints the first 10 lines of the file
+------------------------------------------
+6) What is the primary group for joe? 
+ command: id joe
+A. joe primary group is :joe
+------------------------------------------
+7) set the password and confirm you are able to login.
+A.command: passwd joe 
+ yes Im able to login without asking passwd from root account ,  with passwd from another user
+--------------------------------------------------------------------------------------
+8) try to create a user joe again.  What is the error?
+command : useradd joe 
+error :user 'joe'already exists
+------------------------------------------------------------
+9) try to create a user Joe.  What is the error?
+command : useradd Joe
+A. No error user Joe successfully created
+-----------------------------------------------------------------
+10) Create a new user - jim, this time create this user with a UID of 999.  But before creating, ensure that 999 is not used by another user.  How did you verify this?
+Command:grep 999 /etc/passwd
+
+Error :I couldn't create user jim with 999 userid , it already assinged to polkitd ,I confirmed by using (cat /etc/passwd |grep 999)
+--------------------------------------------------------------------------------------------------------------------------------
+11) Check the properties of the user.
+command: id Joe
+
+-----------------------------------------------------
+12) Now, create a group "users" with a GID of 1001
+Command: groupadd -g 1001 users
+
+group "users" already exist with 100 GID by using  (cat /etc/group |grep users)
+
+-------------------------------------------------------------------------------
+13) Change the GID to 1000, check the /etc/group & confirm it has changed.  use head/tail/cat/more commands to check.
+ A. I cant change GID beacuse this gid already exist and used by user chandu I tried to delete chandu it showing user current using process 2033
+------------------------------------------------------------------------------------------------------------------------------------------------
+14) change the GID back to 1001 & observe the difference.
+command; groupmod -g 1000 users
+-----------------------------------------------------------------------------
+15 create a new user - "new" with a UID of 7555 and it should be member of users group.
+Command: useradd -u 7555 -g 100 new
+ 
+------------------------------------------------------------------------------------------------
+16) set the password, login as "new" and create a file called f1.  Observe where it has got created.
+command: passwd new 
+command: su - new
+command touch f1
+command : pwd 
+it is created in /home/new
+-------------------------------------------------------------------------------
+17) check the permissions/ownership of the file.  Who has what permissions?
+command : ls -l f1
+ owner=new has rw permissions
+ group owner= users has read permission
+ others = has read permission
+--------------------------------------------------------------------------------------------------
+18) Try to delete the file f1 as root user.  Why is root able to delete even without others having write permission?
+Command: rm -rf f1
+A.root able to delete other owner files , beacuse root is super user.
+----------------------------------------------------------------
+19) Check the man pages for useradd, groupadd
+Command : man useradd
+command: man groupadd

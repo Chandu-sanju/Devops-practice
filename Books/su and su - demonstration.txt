@@ -1,0 +1,24 @@
+Demonstrate the difference between su and su - with examples
+
+Ans: if we use su user01 command we log in as a user01 and still we are in root homedirectory (/root dir) only 
+     if we use su - user01 we completely logged as a user01 
+---------------------------
+[user01@yumserver root]$ ls
+ls: cannot open directory .: Permission denied
+[user01@yumserver root]$ pwd
+/root
+[user01@yumserver root]$ su - user01
+Password:
+Last login: Mon Sep 19 09:42:36 EDT 2022 on pts/3
+[user01@yumserver ~]$ user01
+-bash: user01: command not found
+[user01@yumserver ~]$ su - user01
+Password:
+Last login: Mon Sep 19 09:44:09 EDT 2022 on pts/3
+[user01@yumserver ~]$ ls
+f1  f6         file_test1  link1  link3  sdir1
+f4  file_test  india       link2  sanju  test
+[user01@yumserver ~]$ pwd
+/home/user01
+[user01@yumserver ~]$
+---------------------------------------------
