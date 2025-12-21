@@ -1,0 +1,72 @@
+                                      Patching procedure===== Manual procedure=================================
+
+	step 1 :	we will join in the schedule meeting  and collect prechecks and
+			 also create snapshot for scheduled servers.
+			uname -r;df -h;cat /etc/os-release;pvs;vgs;lvs;uptime;date;cat /etc/fstab commands output
+			we will create snapshot for scheduled servers.
+
+	step 2 :  	we will ask monitoring team to disable the alerts for scheduled servers.
+
+	step 3 : 	we will request db and app team to stop the application and db.
+
+	step 4 : 	we will do sanitory reboot of server once after db/app teams 
+			confirm application and db is down. 
+			rebooting the server before patching. 
+			 server is up = server is in good condition before patching
+			server is not coming up = some issue in server before patching it self.
+	Step 5 : 	will make sure server is registered with satellite if it's redhat system or
+			 suma manager if server is suse.
+		if server is registered then we will proced and perform patching
+
+	step 6 : using yum update command for redhat machines
+		zypper update for suse machines.
+	
+		it's takes min 15 to 30 min to complete the patching.
+	step 7 : we will reboot the server once after patching 
+
+	step 8 : we will do post validation like verifying kernel version, 
+		file systems and all then hand over server to app/db teams to start application.
+
+	step 9 : application and db team start the application and confirm us the status
+	
+	if application is working as expected then we will logoff from meeting and close CR.
+
+ roll back incase app/db team saying something is not working as expected 
+
+			1. merge the snapshot which we created before patching
+			2. boot with old kernel
+			3. roll back the full patch using yum history undo
+			
+===========================================================================
+patching
+every one will join in call
+make sure server backup is done
+create snapshot for full machine
+collect the prechecks
+disable or supress the alerts
+request db/app team to stop the things whaterver is running
+perform sanity reboot
+once server is up
+check is the server is integrated with satelite 
+subscription-manager --status
+if server is integrated with satellite then perform patching
+	if it is rhel yum update quaterly we will do full patch (3 months once)
+	if it is suse zypper update
+reboot the server
+do post checks
+looks fine then hand over to team for application start and validation
+
+============================Naveej Sir====================================
+testing on production server
+get apporoval
+notification/communication
+need access to rhel 7.9 rpm files 
+configure the repositories (/etc/yum.repos.d) to get packages from rhel 7.9 repository
+yum update
+reboot
+validate
+start the application
+
+
+
+			

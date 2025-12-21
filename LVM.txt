@@ -1,0 +1,107 @@
+########################lvm and lvm feature:#######################################
+lvm is nothing but logical volume management..lvm is used to create ,delete and resize the file systems dynimacally .
+lvm implementation supports physical storage grouping, logical volume resizing and data migration..
+one of the nice feature in lvm is logical volume resizing ,we can increase the logical volume ,sometime without any downtime and 
+we can migrate data from failing hard disk creating mirrors and snapshot.
+ ------------------------------------------LVM-------------------------
+componenets of lvm in linux:----------
+1) Physical volunme(PV):- it is the standard partitions that you add to the lvm.normally, a physical volume
+is a standard primary or logical partition with the hex code 8e.
+2) physical extend(PE):- it is a chunk of disk space. every PV is called into a number of equal sized pes.
+3) volume group(VG):- it is composed as a group of pv's & lv's it is the organizational group for LVM
+4) logical volume(LV):- is composed f a group of le's.you can format & mount any file system on an lv.
+the size of these lv's can easily be increased or decreased as per the reuirements
+5) logical extent(LE):- it is also a chunk of disk space. every LE is maped to a specific PE
+ 
+####################STEPS TO CREATE LVM #################################
+Add a hard disck and scan it using command as #echo "---" /sys/class/scsi_host/host0/scan
+(echo invited commas --- invited comma close  slash sis slash class slash skasi underscroll slash host slash host0 slash scan)
+                                                                                            
+1) we need to see the disk proporties using fdisk -l
+2) then we need to creat physical volume group using pv create /dev/sda
+3) then we need to creat volum group using vg create vgo1 /dev/sda
+4) then we need to creat logical volume group using Lv create -L size -n Lva vgo1 
+5) Then we need to make a file system using mkfs.ext4 /dev/vgo1/Lvo1
+6) we need to creat a directory using  mkdir /LVM
+7) then we need to mount the file system using mount /dev/vgo1/Lvo1/Lvm
+8) then we need to check file system using  df -hT
+9) then we need to turn on mount using mount -a 
+10) to mount the file system permentally using vi /etc/fstad
+###################### LVM REDUCE ##########################				
+Ans) When we reduce the LV before we must unmount that  (If filesystem is not mounted we can't see filesin the mounted dir)
+( whenever we are   going to dismount first we shoutdown the application by using filesystem) then defragment the file system 
+( defragment is the process of repairing the filesystem ) by using e2fsck -d -D >Lvname< -f. 
+In the next we first reduce the filesystem then after we can able to reduce the lv . 
+by using resize2fs command u able to reduce the file system . Before going to execute resize2fs command 
+we have to check properly otherwise we must lost the data . 
+ then we can reduce  by using lv reduce command. then  we have to mount .
+ 
+ 
+ Five Steps : need a downtime to reduce the filesystem ( We can reduce the ext234 file but we cant reduce xfs)
+ 
+   1.shoutdown the application using the file system
+   2.dismount # the filesystem
+   3. defragement the file system # e2fsck -d -D >Lvname< -f
+   4.reduce the file system # resize2fs /dev/vgdata/oravol0 12 G
+   5.reduce the logical volume # lv reduce -L 12G lvname
+   6. mount back the file system
+   
+   
+   => without e2fsck and resixe we can use -r flag 
+   
+   
+  
+######################STEPS TO CREAT LVM #################################
+step1=> first bring disk or partition to lvm control
+ pvcreate diskname
+step2=> then we need to convert to vggroup or volume group 
+      vgcreate vgname disk or partition( vgcreate vgdata /dev/sdd)
+	  
+step3 => then we convert the vgroup to logical volume
+  based on size---->
+                    lvcreate -L 4G vgdata(vgname) => default name it takes
+	                lvcreate -L 4G vgdate(vgname) -n lv1 => for specific name
+					lvcreate -L +1G vgdata(vgname) 
+					
+  based on extends-->vgcreate vgchandu -s 8M /dev/sdd
+                    lvcreate -l 3 /dev/vgchnadu/lv1clear
+
+
+#########################How to extend LVM#####################################
+1) we need to check volume group details using comand VGS
+2) Lvextend -L +10GB /dev/vgo1/Lvo1
+4) resize 2fs /dev/vgo1/Lvo1
+5) df -hT
+
+---------------------rename lv----
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/logical_volume_manager_administration/partial_output
+https://bugzilla.redhat.com/show_bug.cgi?id=860338
+
+######################HOW TO RECOVER ACCIDENTAL DELETION LVM ##########################################
+################# how to recover lv from accedental deletion ##############################
+umount and remove lv for testing purpose on test server..
+step1: run vgcfgrestore --list vgname    ( we get data from /etc/lvm/archive)
+step 2: select the specific which has description has before executing the lvremove command file
+step 3: vgcfgrestore -f filename vgname
+step 4: check lvs showing deleted lv but it is in non -active state to confirm run lvscan
+step 5: active the lv by using lvchange -ay lvname...
+completed the process u have recoverd deletd lvm .
+#########################HOW TO MIGRATE DATA FROM ONE DISK TO ANOTHER DISK ######################
+STEP 1:  We need another disk with respecitive size 
+step 2: extend the volume group => vgextend vgname newdisk
+step3 : check the dependencis using dmsetup dep lvname
+step 4: pvmove -n lvname olddisk to newdisk 
+step 5: data migration completd but in pvs it still showing old disk 
+step 6 :vgreduce vgname old diskname then pv remove...
+note : we cant do this process on /boot or /root filesystems
+
+###############split###################
+The following example splits off the new volume group smallvg from the original volume group bigvg.
+# vgsplit bigvg smallvg /dev/ram15
+  Volume group "smallvg" successfully split from "bigvg"
+  https://access.redhat.com/documentation/en-us/red_hat_entcleerprise_linux/4/html/cluster_logical_volume_manager/vg_move
+################Linux troubleshooting############3
+lvm dumpconfig => to check config information
+lvs -v,pvs -a, dmsetup info -p, lvdump
+
+

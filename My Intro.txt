@@ -1,0 +1,161 @@
+My self chandra sekhar,
+==> Currently working in wipro as linux administrator.
+==> I have experience in Installing, upgrading and configuring Red Hat Linux 5.x, 6.x & 7.X. 
+==> I have experience in Handling Hardware Break fix for physical ILO and Dell iDRAC servers.
+==> My team consists of 14 members half of the team located into onshore rest in offshore 
+==> My team manages 1800+ servers which are SUSE/RHEL/Cent-os and HPUX into vmware/azure cloud.
+==> I use jira tool for ticket tracking system 
+==> I Worked on Installation in package administration using RPM & YUM in Red hat Linux. 
+==> Good hands on experience in managing the Kernel parameters
+==> Experience in Performance tuning of Linux servers using ps, free, df, iostat, top, vmstat, Netstat, sar etc
+==> I have been working on azure for 1 year Deploying servers, Disks management, Backup management, Load balancer
+     Vnet configuration, Vnet peering, managing NSG rules at subnet net level and NIC card level, DNS zone configuration, Maintaining records in zones,
+	 configuring Point to site VPN.
+
+Coming to day to day activities
+
+I majorly Involving in loging related issues
+==> Creating User, Group home directories and password administering.
+==> Prepare CEP (change execution plan) for upcoming changes
+==> Adding Memory, CPU's on Virtual Machines. Installing of software packages and patches.
+==> Providing SUDO access to the users and groups. Configuring and administering NFS and AUTOF 
+==> Managed Users and Groups, File/Directory Permissions under Linux.
+==> Configuring File sharing services like, SAMBA and FTP. 
+==> Remote System Administration using tools like SSH and Telnet.. 
+==> Managing Users and Groups, File/Directory Permissions under Linux.
+==> Creating User, Group home directories and password administering.
+==> Taking the snap shot output of all the servers during any critical issues and analyzing the problems.	
+==> Importing and exporting Virtual Machines. Monitoring & regularly taking backup of the server data.
+==>	Raise ticket with Red hat team for Linux operating system problems and Coordinate with Red hat team for update.
+==>	Managing the application server, monitoring day-to-day server performance and managing active library for servers through monitoring tool.
+==> Adding and Scheduling backups. Maintaining daily, weekly and monthly backup
+==> Taking the file system, Offline, Online and OS backups in production servers.
+==> Attend CAB meetings 
+==> Attend Daily operations call 
+==> Providing 24/7 on call support.
+
+
+User getting trying to login remote macchine and he his getting permission denied error through ssh How can we trouble shoot
+
+1. Check SSH Key Configuration:
+Ensure SSH Key Exists: Verify that the SSH key pair (private and public keys) is correctly set up on the local machine.
+On the local machine, check if the private key exists: ls ~/.ssh/id_rsa (or the name of your key).
+If the key doesn't exist, generate one using: ssh-keygen -t rsa -b 4096 -C "your_email@example.com".
+Correct Permissions: The permissions on the SSH key files must be correct:
+Private key: chmod 600 ~/.ssh/id_rsa
+SSH directory: chmod 700 ~/.ssh
+Add SSH Key to the SSH Agent: Ensure that the SSH key is added to the SSH agent.
+bash
+Copy code
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/id_rsa
+2. Verify the SSH Key on the Remote Machine:
+Check Authorized Keys: Ensure that the public key is correctly added to the ~/.ssh/authorized_keys file on the remote machine.
+You can manually add it using: cat ~/.ssh/id_rsa.pub | ssh user@remote_host "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"
+Correct Permissions: The permissions on the authorized_keys file and the .ssh directory on the remote machine should be:
+.ssh directory: chmod 700 ~/.ssh
+authorized_keys file: chmod 600 ~/.ssh/authorized_keys
+3. Check SSH Configuration:
+SSH Config on Local Machine: Review the SSH config file (~/.ssh/config) for any misconfiguration.
+SSH Config on Remote Machine: Verify the SSH server configuration file (/etc/ssh/sshd_config) on the remote machine.
+Ensure PasswordAuthentication is set to no if you're using key-based authentication.
+Ensure PubkeyAuthentication is set to yes.
+4. Check User Permissions:
+Correct Username: Ensure you're using the correct username when trying to SSH into the remote machine.
+User Permissions: Verify that the user has the necessary permissions to access the remote machine.
+5. Firewall and Network Configuration:
+Port Blocking: Ensure that port 22 (default SSH port) is open and not blocked by a firewall.
+IP Restrictions: Check if there are any IP restrictions on the remote machine that might block access.
+6. Verbose Output for More Information:
+Run the SSH command with the -v flag to get detailed output that can help diagnose the issue:
+bash
+Copy code
+ssh -v user@remote_host
+7. Server Logs:
+Check SSH Logs: On the remote machine, check the SSH logs for any errors.
+For most Linux systems, this is in /var/log/auth.log or /var/log/secure.
+If these steps don't resolve the issue, the verbose output or SSH logs might provide more insight into the specific cause of the "permission denied" error.
+
+
+
+
+
+
+
+
+While using yum you are getting repository error how can you trouble shoot.
+
+
+1. Check Internet Connectivity:
+Ensure that the system has a stable internet connection. You can test this by pinging a reliable server, e.g., ping google.com.
+If you're using a proxy, make sure the proxy settings are correctly configured.
+2. Verify Repository Configuration:
+Check the repository configuration files located in /etc/yum.repos.d/. Each repository has its own .repo file.
+Open the .repo file using a text editor (e.g., vi /etc/yum.repos.d/your-repo.repo) and verify:
+Base URL: Ensure that the baseurl is correct and accessible.
+GPG Key: Ensure that the gpgkey URL is correct.
+3. Clear and Rebuild YUM Cache:
+Clear the YUM cache to eliminate any corrupted or outdated metadata:
+bash
+Copy code
+sudo yum clean all
+Rebuild the cache by running:
+bash
+Copy code
+sudo yum makecache
+4. Disable Problematic Repositories:
+If a specific repository is causing the issue, you can temporarily disable it:
+bash
+Copy code
+sudo yum --disablerepo=repo-name update
+Alternatively, disable the repository by editing the .repo file and setting enabled=0.
+5. Check for Repository URL Accessibility:
+Use curl or wget to test if the baseurl from the .repo file is accessible:
+bash
+Copy code
+curl -I http://baseurl.example.com/repo/path
+If the URL is not accessible, there might be an issue with the server or network blocking access.
+6. Verify GPG Key:
+If the repository uses a GPG key for package signing, ensure that the key is correctly installed and accessible:
+bash
+Copy code
+sudo rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-your-repo
+You can also disable GPG key checking temporarily to see if that resolves the issue:
+bash
+Copy code
+sudo yum --nogpgcheck update
+7. Check for Proxy Issues:
+If you're behind a proxy, make sure that yum is configured to use it. You can set the proxy in /etc/yum.conf:
+bash
+Copy code
+proxy=http://your.proxy.server:port/
+proxy_username=your_username
+proxy_password=your_password
+Ensure that the proxy allows access to the repository URLs.
+8. Check SELinux and Firewall Settings:
+If SELinux is enabled, it might be blocking yum from accessing the repositories. You can temporarily disable SELinux to test:
+bash
+Copy code
+sudo setenforce 0
+Check firewall settings to ensure that they are not blocking access to the repository URLs.
+9. Update YUM:
+Ensure that yum itself is up to date by running:
+bash
+Copy code
+sudo yum update yum
+This might resolve any issues related to bugs or incompatibilities in the yum tool.
+10. Review Logs for Detailed Errors:
+Check the logs in /var/log/yum.log for more detailed error messages that can help identify the issue.
+11. Try a Different Mirror:
+Some repositories have mirror lists (mirrorlist), and one mirror might be down. Try changing the mirror in the .repo file.
+12. Contact Repository Maintainers:
+If the repository is third-party, check the provider's website or contact them for any issues with the repository server.
+By following these steps, you should be able to identify and resolve most repository errors encountered while using yum.
+
+
+
+
+
+
+
+

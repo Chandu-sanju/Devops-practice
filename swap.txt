@@ -1,0 +1,16 @@
+=>what is swapmemory?
+   whenever the physical memory not enough to handle current processes the system will use space from disk 
+   as a temporary memory is called "swap memory"
+ GENERAL GUIDLINES FOR CREATING SWAP MEMORY
+   4gb less=2gb
+   4 to 16 = 4gb
+   16 to 64 = 8gb
+   64to 256 =16 gb
+we can increase swap memory by two ways 
+=> using file
+=>using partition
+to seeswap memory and ram = free -m, free 
+to see swap partition => swapon -s , cat /etc/proc/swaps
+
+   
+ 

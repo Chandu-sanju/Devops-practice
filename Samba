@@ -1,0 +1,84 @@
+samba ==> 
+  centralized network file system. file system will be in network. we can share across unix to windows and windows to unix.
+	sharing can possible cross platforms
+		unix to windows
+		windows to Unix
+	The samba s/w suite is a collection of programms that implements on server message block (smb) protocol in unix system. 
+      this protocol also reffered as CIFS(commomn internet file system )...
+	  ---
+   	    pkg		:  samba,samba-common,samba-client,cifs-utils,key-utils
+		port numbers	: 137,138,139 (Linux side) windows (445)
+		service		:smb
+		daemon		: smbd  nmbd
+		config file	: /etc/samba/smb.conf
+ ports :
+   137/tcp => nbname => netbios name service
+   138/udp => nbdatagram => netbios datagram service
+   139/tcp => nbsession => netbios session service
+ daemon :
+  smbd  => this daemon provides the filesharing and printing services to smb clients
+  nmbd => this daemon provides netbios name service and browsing support.
+  =========================================================
+  Important commands :
+  to set samba paswd: smbpasswd -a username
+  to see samb passwds  => pdbedit -wL   (stores in /var/lib/samba/private/passdb.tdb)
+  to see samba shares : smbclient -L //ipddr/ -NAME
+  to access samba share like ftp => smbclient //ip/ -U username
+  to access samba share like nfs =>  mount -t cifs //ip/ localmountpoint -o username=username    (cifs = common internet file system)
+  we cant shrae directory in samba only files we can share......
+  ================================================================================================================
+  linux machine want to access windows file system here 445 should allow linux machine. that means 445 should listen at windows.
+
+
+    
+scenario 1 : export file system in windows and access it from Linux box.
+	how to know the already exported file systems in windows machine.
+	windows key  + r   ==> to open run prompt in winodw
+			\\localhost
+
+		right click on directory ==> share with ==> particular people ==> add ==> everyone ==> permissions ==> share
+	create 1 user in windows machine and set password for him. 
+		why this user required?
+			using this user only we are going access windows file system from linux box.
+	how to create user in windows?
+		right click on my pc(my computer) ==> manage ==> local users and groups ==> double click on users ==> right click ==>new user	
+ipconfig ==> vmnet8 
+how to disable firewall in windows
+windows key +r  type control     ==> control pannel ==> system and security ==> windows firewall ==> turn windows firewall on/off ==> 
+
+	Linux side
+		accessing windows file system from linux machine
+		step 1 : do the connectivity test
+			ping <windows ip>
+		step 2 : create local directory and mount windows share
+			mkdir /b23share
+		mount -t cifs //192.168.145.1/b23-sharedrive  /b23share -o username=babu,password=test123
+	perm :  add file system details in /etc/fstab file
+		//192.168.145.1/b23-sharedrive   /b23share    cifs   defaults,username=babu,password=test123  0  0
+
+	in above entry there is security voilation that is username and password. any body can see these entries. so we have hide credetnails.
+
+	how to hide the credentials
+		as a root create file inside secure place (/root). it's a root user home directory only root will have permissions to enter here.
+			vi /root/.cre
+				username=babu
+				password=test123
+		chmod 700 /root/.cre
+    note: make sure cifs-utils pkg is installed
+	add the entry in fstab file
+		//192.168.145.1/b23-sharedrive   /b23share    cifs   defaults,credentials=/root/.cre  0  0
+
+cifs = common internet file system
+=======================================================================================================================================================
+         **************** DOMAIN NAME SERVICE ************
+		 PACKAGE : BIND, AND BIND -UTILS FOR DIG AND NSLOOKUP
+		 CONFIG : /ETC/NAMED.CONF   /ETC/NAMED.RFC1912.zones
+		 zone filles : /var/named
+		 port : 53
+		 protocol : udp
+		 forward lookup zone => reslove name to ip
+		 reverse lookup zone => ip to name
+		 to check if any error utility : named-checkconf /etc/named.*
+		 for zone                      -> named-checkzone domainName zone filesname
+		 
+		 systemctl start named ==>

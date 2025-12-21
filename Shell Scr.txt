@@ -1,0 +1,140 @@
+
+https://www.simplilearn.com/shell-scripting-interview-questions-article
+
+what is shell scrpting?
+ Shell is a command line interpretor and typical operations performed by shell scripts include file manupulation,program
+  execution and printig test.
+  scripts start with she -bang line (#!/bin/bash)
+What is the shebang?
+The shebang is a special character sequence in a script file that specifies which program should be called to run the script.
+ The shebang is always on the first line of the file, and is composed of the characters 
+ #! followed by the path to the interpreter program.
+ *************************************
+         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ECHO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ we have two main important options in echo command -e -n
+  -e ==> enable esc sequence
+  -n ==> disable new line
+  echo -e "HAI\nBye"===> new line
+ echo -e  "HAI\tBye"===> One TAb space
+ echo -e  "\e[1;33;44mHAiandBye" ===> print with colurs
+ echo -e "\e[32;46mHello_world\e[0m"===> once after perform disable color. 
+ man console_codes==> to see color codes and diff options
+ 1--to bold characters
+ 4---undeline
+ 9--- line on charcters
+ 
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Redirectors %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ 
+ 
+ ********************************************quotes*************************************
+ Meta or special characters :
+           special characters are those charcters we use without quotes it enbles its special meaning
+		   
+ Normal Ore regular charcters :
+         from capital a to z and from a to z and numerics and underscore these are regular
+
+disbale the special characters special meaning in three ways
+-------------------------------------------------------------
+1.back slash
+2.single quotes
+3.double quotes
+
+back slash : we just use backslash to disable special meaning
+ ex : echo \*  *
+      echo \* \*
+	  
+single quotes : any special charcters if we put between single quotes they didnt consider as special
+               dont have special meaning inside the single quotes
+			   echo ' ******* '
+			   echo today date is `date` ==> these are command quotes not singe quotes placed in keyboard at ~
+			   
+ double quotes : double quotes give flexibilities.$ and `` command codes are treated in double quotes as special character
+                echo "$Name and `date` are special"
+				if we want disable the special meaning of above two expection we use backslash
+				 echo "\$Name and `\date`" 
+				 
+				 *********************** Data FIltering ******************
+
+filter 3 ways =>
+                line numbers (head)
+				row based filter (grep )
+				column based ( cut )
+line numbers head: it takes by default first 10 numbers opposite is tail it give last 10 num...
+
+grep : w
+				 
+                
+			   
+               	  
+		   
+top directory / (root)
+
+=>Every user as home directory  when ever we are logging into the server we will login to our home dir.
+
+=> if user is root, home dir is => /root
+=> if user is a normal user => /home/$username
+=> cd . means current dir
+=> cd .. means one step back
+=> cd means it will go to home dir
+=> cd - it will take us to previous dire
+--------------------------------------------------
+
+		
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+  

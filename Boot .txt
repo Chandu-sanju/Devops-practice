@@ -1,0 +1,102 @@
+There are 5 stages are involved during server bootup.
+			stage 1 : BIOS
+			stage 2 is MBR
+			stage 3 is GRUB
+			stage 4 is Kernel and 
+			stage 5 is runlevel or targets
+			
+Satge one BIOS full form of BIOS is Basic input output system.
+	this stage purly belongs to Hardware.
+	
+==> post(power on self test) it is a first pogram which we trigger as soon as power on the server.
+	==> post does the helth check up of all the hardware components which are connected to server.
+ it pop up or give error messages incase any hardware
+	component is not functioning or not working properly. 
+    ==> once after post program CMOS pogram will execute and it load critical information 
+back to main memory like date and time, ram information and all.
+
+ ==> then BIOS program will identify the first priority boot device and pass 
+     control to MBR once it find OS. 
+now control at MBR it is stage 2. MBR full form is Master boot recorder. 
+	==> MBR stores in first sector of boot device.
+	==> the sector capacity is 512 bytes.
+	==> MBR maintaince the next stage information 
+that is GRUB informaiton.
+	==> MBR pass control to next stage once it finds the valid GRUB.	
+Now control at GRUB it is stage 3. GRUB full form is Grand unified boot loader
+
+GRUB : GRUb contain kerenel image if we have multiple kernel images installed
+   on our system we can change . the default kernel images using grub it contains information regarding kernel& initrd images
+   
+  Now control at Kernel stage that is stage 4.
+
+	==> Kernel Loads the modules and drivers with help of initramfs and initrd programs.
+		these initrd and initramfs files will be in /boot directory.
+	==> Initramfs is temporary / file system which contains library and configuration files
+ which will help to load drivers and modules.
+	==> then / file system will mount in read only mode once after load driver and modules.
+	==> then executes the systemd program once after mount / file system in read only mode.
+
+now control at target stage. this is last stage here all the start up programs 
+will start parlelly and gives login pages.
+
+======================================================================================================================
+	interview questions in booting procedure:
+	
+	1. what is the first process of Linux machine
+		systemd in rhel 7 & 8
+		initd in rhel 5 & 6
+	2. what is the process id of systemd  or initd
+		1
+		
+	3. what is initramfs?
+		initramfs is a temparary / file system.which contains libraries and configuration files.
+
+*****   4.boot loaders?
+	LILO= Linux loader (rhel 4)
+	grub = grand unified boot loader (rhel 5,6)  (grub-install /dev/sda)
+	grub2 = grand unified boot loader version 2(RHEL 7,8) ( grub2-install /dev/sda)
+
+	how to reinstall mbr in hard disk?
+		grub2-install /dev/sda 
+		
+What is LILO?
+Ans. LILO stands for Linux Loader and is a boot loader to load the operating system in the main memory.
+     LILO has no interactive command interface and it  does not support booting from a network. 
+	 Lilo is the old default bootloader and GRUB is the new default boot loader
+GRUB VS LILO
+
+1) Lilo stands for Linux Loader and GRUB stands for Grand Unified Bootloader.
+
+2) LILO has no interactive command interface, whereas GRUB has a more powerful command interface.
+
+3) LILO does not support booting from a network, whereas GRUB does.
+
+4) GRUB is a boot loader which can be used in Linux, DOS, and other operating systems whereas Lilo is a boot loader for Linux.
+
+5) Lilo has a simpler interface so it is easy to use whereas GRUB is more complicated to use.
+
+6) Lilo is the old default bootloader and GRUB is the new default boot loader.
+
+
+
+
+
+differnce between RHEL6          AND        RHEL7
+
+RELEASE DATE --  10THNOV 2010              10TH JUNE 2014
+
+KERNEL VERSION   2.6.32                    3.0.10
+OS BOOT TIME     40 SEC                     20 SEC
+BOOT LOADER      /etc/grub/grub.conf       /etc/gurb2/grub.cfg
+processesor    supports 32&64              only 64
+network manager   setup                     nmtui
+hostname config  /etc/sysconfig/network     /etc/hostname
+max size of        50Tb(ext4)                500TB(xfs) 
+single partition
+
+
+
+ 		
+ 
+      	

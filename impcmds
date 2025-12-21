@@ -1,0 +1,29 @@
+~~~~~~DnWho==>Command~~~~~~
+
+#dnwho <uname>  //it shows user information only
+#dnwho -u <uname> //it shows user info with seat and room info
+#dnwho -V <uname> // it shows user info based on workday
+#dnwho -m <machinename> // it show this machine belongs to whom and extra info
+eg:- uname = vcse machinename=mumws5397,chnws453 
+===========================================================
+~~~~~~~whichsys~~~~~~~~~~~
+#whichsys <machinename> // to see which machine assign to which user 
+eg : whichsys mumws5397
+     whichsys chnws453 
+=====================================================================
+for git configuration
+what is git :
+git is nothing but we can say it is golbal folder here we can access all global files ..but problem is when access the file we not sure
+ it is orginal file or not so we have to overcome that whenever access the git file we must do first git pull so we can get orginal file
+ process :
+ in command prompt:
+       => go to cd .ssh/ => ls -lrt //cat uname_dneg.pub and copy the ssh key
+ in browser :
+ go to chrome => and enter stash/ for land on bitbucket => log in 
+  then => manage accounts => ssh key=> add key => past the key 
+ then go => projects => select tech => select sites-cfg-systems file => clone it and copy the url
+
+then go command prompt => give cd and mkdir git => then git dir => use git pull (paste url) 
+==> done 
+	   
+

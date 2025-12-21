@@ -1,0 +1,101 @@
+---------------------NFS (Network file system )------------------------------
+
+Network file system protocol allows a user on a client computer to access files
+over a network in the same way they would access a local storage file.
+
+==>https://www.redhat.com/sysadmin/nfs-server-client
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_and_managing_networking/using-and-configuring-firewalld_configuring-and-managing-networking
+
+ NFS allowes remote hosts to access file system which is exported to network. 
+	==> remote machines can mount that exported file system and feel as if it is local file system.
+	==> It's a centralized storage solution
+	==> export and mount same volume across all unix servers.
+	==> not only linux to linux
+	it works like RHEL ==> solaris
+		      Solaris ==> suse
+		     unix    ==> unix
+	==> we can apply acl on nfs file system.
+	
+	
+		Pkg 	: nfs-utils
+		port	: 2049 (tcp)
+		service	: nfs
+		daemon    :  nfsd,mountd,nfslogd,statd & lockd
+		config file	: /etc/nfsmout.conf
+
+server:	export file system
+	make sure nfs-utils pkg is installed in machine where we want to export file system.
+		rpm -qa | grep nfs-utils
+		 if not there install nfs-utils pkg
+	following file will be there in server so just open it and add file system details
+		vi /etc/exports
+		/DBdata	*(rw,sync)
+to share need to give entry on vi/etc/exports	
+to see shared file systems showmount -e ; from another mahine showmount -e ipaddress
+if we given entry in /etc/exports no need to restart nfs we just do exportfs -va 
+how to unshare a shre : exportfs -u *:/mydir 
+how to unshare all shares	: exportfs -ua 
+how to refresh and reshare exportfs -r
+
+=> what are etab and rmtab?
+   etab and rmtab are located in /var/lib/nfs/
+   etab: it shows presently shared nfs shares
+   rmtab: this file displays who are mounting your file system
+   
+=> what is satle nfs : when client accesing the data from nfs server if serveris down or disconnted from network . 
+this postition is called " stale nfs". in this scenario the lockd daemon provides file locking service on both server and client.
+when the server connected in the network we have to restart nfs services and remount the nfs shares on client 
+in this process the statd damenon interacts with lockd daemon and provide crash recover function
+
+=> features
+=>nfs will enable multiple computers to access the same files in the network so everyone can access same data online
+=> it will reduce the storage cost by having file system shares and application shares
+=>nfs provide data consistency and reliability
+=>reduce the system administrator overhead 
+=> disadvantages
+ it increases system boot time 
+ unneceessary mounting file system
+ if nfs server is down clients will not boot properly
+  root_squash => it is the deafult option it wont allow root access ...(nfsnobody)
+ no_root_squash => it is allow root access on the filesystem..(root)
+========================================Trouble shooting NFS============================================================
+1.Error: “Server Not Responding”
+  ping, traceroute or tracepath to verify that the client and server machines can reach each other. If not, examine the network interface card (NIC) set
+  tings using either ifconfig or ethtool to verify the IP settings.
+  
+Sol: Use the “timeo=N” mount option on the client to increase the timeout. 
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2.Error: “No route to host”
+  host firewall, the client firewall, or a network switch. Verify if a firewall is active and if NFS traffic is allowed.
+Solution: # service iptables stop ( dont forget to switch it back on and configure nfs allows correcctly )
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3. Error: “mount clntudp_create: RPC: Port mapper failure – RPC: Unable to receive”
+The Linux NFS implementation requires that both the NFS service and the portmapper (RPC) service be running on both the client and the server. 
+Solution : rpcinfo -p 
+  systemctl status rpcbind and restart it
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4. Error: “NFS Stale File Handle”  
+  if your current working directory is an NFS directory and is deleted, you will see this error 
+Solution : # umount -f /mnt/mount_point
+          # fuser -k [mounted-filesystem]
+		  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+5. Error: “Access Denied” or “Permission Denied”
+  Check the export permissions for the NFS file system
+solution : # showmount -e server_name
+           # exportfs -a
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+6. Error: “rpc mount export: RPC: Timed out”
+Unable to access file system at [NFS SERVER]: rpc mount export: RPC: Timed out
+caused by DNS name resolution issue. NFS(RPC) needs reverse name resolution. If NFS server or client cannot resolve their name, this error occurs.
+ In case gets the error message, check DNS configuration and /etc/hosts configuration.	
+------------------------------------------------------------- 
+ Error :program not registerd
+if put portmap : ALL in /etc/hosts.deny file error shows : in server&client-- side  and also
+ rpcinfo -p info output doesnt show nfsd's
+ 
+															
+
+
+   
+
+  

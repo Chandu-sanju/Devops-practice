@@ -1,0 +1,16 @@
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/networking_guide/sec-dhcp-configuring-server
+DHCP : dynamic host configuration protocol (port client : 67 and server 68 )
+ is a network protocol used for assigning ip addresses to the network clients dynamically from the pre defined ip pool..
+ it is usefull for LAN network but not generally used for production servers.dhcp works on the concept of lease amount of time 
+ WHAT IS IP ASSIGNMENT PROCESS OF DHCP? also we can called it dora process
+ 
+ => when a client system starts, if it is configured get an ip address from dhcp
+ => client computer send a discovery broadcost request on network
+ => dhcp recives the request and send an Offfer packet to client
+ => client recives the offer packet and send another request packet for assign his ip address 
+ => dhcp sends ip address to client and sends ack packet
+ 
+ 
+
+ 
+ 
