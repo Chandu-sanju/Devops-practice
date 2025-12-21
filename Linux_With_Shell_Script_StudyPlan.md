@@ -729,13 +729,12 @@ we can migrate data from failing hard disk creating mirrors and snapshot.
  ------------------------------------------LVM-------------------------
 
 componenets of lvm in linux:----------
-> 1) Physical volunme(PV):- it is the standard partitions that you add to the lvm.normally, a physical volume
-is a standard primary or logical partition with the hex code 8e.
-  2) physical extend(PE):- it is a chunk of disk space. every PV is called into a number of equal sized pes.
-  3) volume group(VG):- it is composed as a group of pv's & lv's it is the organizational group for LVM
-  4) logical volume(LV):- is composed f a group of le's.you can format & mount any file system on an lv.
+> 1) Physical volunme(PV):- it is the standard partitions that you add to the lvm.normally, a physical volume is a standard primary or logical partition with the hex code 8e.
+> 2) physical extend(PE):- it is a chunk of disk space. every PV is called into a number of equal sized pes.
+> 3) volume group(VG):- it is composed as a group of pv's & lv's it is the organizational group for LVM
+>  4) logical volume(LV):- is composed f a group of le's.you can format & mount any file system on an lv.
 the size of these lv's can easily be increased or decreased as per the reuirements
-  5) logical extent(LE):- it is also a chunk of disk space. every LE is maped to a specific PE
+>  5) logical extent(LE):- it is also a chunk of disk space. every LE is maped to a specific PE
  
 ####################STEPS TO CREATE LVM #################################
 Add a hard disck and scan it using command as #echo "---" /sys/class/scsi_host/host0/scan
