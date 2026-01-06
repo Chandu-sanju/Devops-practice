@@ -1,16 +1,24 @@
 Advanced File Permissions :
 
 ACl => Access control list
-By configuring ACl we can assign special permissions on a file for particular user/group
+By configuring ACl we can assign special permissions on a file for particular user/group irreespective of normal file permissions.
+
 
 how to check => getfacl filename 
-how to assign => setfacl -m user:$usrname:permissions filename
+how to assign => setfacl -m user:$usrname:permissions filename  -m -- modify
 How to remove => setfacl -x  user:name filename
 how to remove all => setfacl -b filename
 how to copy from one to another => getfacl filename | setfacl --set-file= filename
 
+If you apply acl permissions on a folder, you need to remember the below concpets
+-R => it will recursively applicable for all the inside files and folders
+-d => it will inherit the permssions to the future files as well.
+
+
+
 ================================================================================
 https://www.linkedin.com/pulse/linux-incident-response-sticky-bits-suid-sgid-taz-wake-o9hee/
+
 Sticky: Mainly used on folders in order to avoid deletion of a folder and it’s content by other users though they having write permissions on the folder contents. If Sticky bit is enabled on a folder (t,1 values)
 Cmd: chmod o+t /mydir
 
@@ -23,7 +31,9 @@ chmod 1755 => sticky
 
 SUID: SUID is defined as giving temporary permissions to a user to run a program/file 
 with the permissions of the file owner rather that the user who runs it.(value 4)
+
 command: chmod u+s /usr/bin/passwd
+
 SGID(2) users will get file Group’s permissions when executing a Folder/file/program/command.
 Value( 2)command: chmod g+s /mydir
 UMASK:022 
