@@ -77,6 +77,33 @@ step3 => then we convert the vgroup to logical volume
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/logical_volume_manager_administration/partial_output
 https://bugzilla.redhat.com/show_bug.cgi?id=860338
 
+How to rename a LV?
+=> lvrename <currentlvname> <newlvname>
+
+How to delete LV?
+first we need to unmount the LV
+=> lvremove lvname
+
+How we can restore the LV?
+
+=> vgcfgrestore --list vgname
+=> Select creating "BEFORE" lvremove command archieve file.
+(we should select before lvremove file name because it has metadata, so if we restore there will be a data but "AFTER" doesn't have any data)
+=> vgcfgrestore -f filename vgname
+=> lvs (To see the restored lv)
+  mylv    myvg -wi-------  600.00m
+(If there is no a in attribute column that means it is not active)
+To confirm we can run below command 
+=> lvscan
+To Active the LV run below commands
+=> lvchange -ay lvname
+//a = active y = yes
+
+Mount the LV and run lvs command now, after that you will see in attribute column (ao) that means active and mount or in use.
+
+=> mount lV dirname
+=>lvs
+
 ######################HOW TO RECOVER ACCIDENTAL DELETION LVM ##########################################
 ################# how to recover lv from accedental deletion ##############################
 umount and remove lv for testing purpose on test server..
@@ -103,5 +130,6 @@ The following example splits off the new volume group smallvg from the original 
 ################Linux troubleshooting############3
 lvm dumpconfig => to check config information
 lvs -v,pvs -a, dmsetup info -p, lvdump
+
 
 
