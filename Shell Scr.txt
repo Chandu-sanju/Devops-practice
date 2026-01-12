@@ -10,7 +10,11 @@ The shebang is a special character sequence in a script file that specifies whic
  The shebang is always on the first line of the file, and is composed of the characters 
  #! followed by the path to the interpreter program.
  *************************************
-         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ECHO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+#!/binbash = shebang and interpretor
+Which is responsible for run the script on respective shell as different command work on diff shell in diff ways.
+ 
+         %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ECHO %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
  we have two main important options in echo command -e -n
   -e ==> enable esc sequence
   -n ==> disable new line
@@ -24,6 +28,10 @@ The shebang is a special character sequence in a script file that specifies whic
  9--- line on charcters
  
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Redirectors %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+We have 2 types in redirecoters => 1. Standrad Input
+                                   2. Standard Output
+
  
  
  ********************************************quotes*************************************
@@ -137,4 +145,5 @@ top directory / (root)
  
  
  
+
   
