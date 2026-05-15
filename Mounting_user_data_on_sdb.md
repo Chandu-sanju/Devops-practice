@@ -1,4 +1,4 @@
-# Here you are learning how to mount user_data on sdb relatime
+# Here you are learning how to mount user_data on sdb realtime
 
     ┌──(vcse@chnws456)-[~] Take ssh to the machine
     └─>>> ssh sydws604  ===                                                                                                                                                                                             
@@ -110,9 +110,10 @@
 
  
 
-``
+```
  vcse@sydws604 /u/vcse ls -ld /user_data/.tmp # check the permissions
 
  drwxrwxrwt 2 root root 6 Mar 24 09:11 /user_data/.tmp
-``
+
+```
 # [root@sydws604 /]# exit 
