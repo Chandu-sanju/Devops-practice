@@ -1,19 +1,20 @@
 # Here you are learning how to mount user_data on sdb relatime
 
-┌──(vcse@chnws456)-[~]
-└─>>> ssh sydws604     # Take the ssh into the machine                                                                                                                                                      
-vcse@sydws604 /u/vcse sudo su      # become root
+    ┌──(vcse@chnws456)-[~] Take ssh to the machine
+    └─>>> ssh sydws604  ===                                                                                                                                                                                             
+    vcse@sydws604 /u/vcse sudo su      # become root
 
-[root@sydws604 vcse]# lsblk            # Check sdb is available or not
+# [root@sydws604 vcse]# lsblk            # Check sdb is available or not
 
 
-NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
-sda      8:0    0  100G  0 disk 
-├─sda1   8:1    0  600M  0 part /boot/efi
-├─sda2   8:2    0    1G  0 part /boot
-├─sda3   8:3    0   16G  0 part [SWAP]
-└─sda4   8:4    0 82.4G  0 part /
-sdb      8:16   0  500G  0 disk ----- Not partitioned so need to create a partition
+```NAME   MAJ:MIN RM  SIZE RO TYPE MOUNTPOINT
+   sda      8:0    0  100G  0 disk 
+  ─sda1   8:1    0  600M  0 part /boot/efi
+  ├─sda2   8:2    0    1G  0 part /boot
+  ├─sda3   8:3    0   16G  0 part [SWAP]
+  └─sda4   8:4    0 82.4G  0 part /
+  sdb      8:16   0  500G  0 disk ----- Not partitioned so need to create a partition
+  ```
 
 [root@sydws604 /]# mkdir -m 777 /user_data  # Create /user_data with 777 permissions
 [root@sydws604 /]# fdisk /dev/sdb # Create the partition
