@@ -1,5 +1,6 @@
 # Linux_With_Shell_Script_Study_Plan
 # https://google.github.io/styleguide/shellguide.html
+# https://www.gnu.org/software/coreutils/manual/coreutils.html#General-options-3  => All th linux commands
 
 # Basics:- 
 
