@@ -1,3 +1,27 @@
+> [!NOTE]
+> This adds a **Blue** bar. Great for general information.
+
+> [!TIP]
+> This adds a **Green** bar. Perfect for advice or shortcuts.
+
+> [!IMPORTANT]
+> This adds a **Purple** bar. Use this for crucial missing pieces.
+
+> [!WARNING]
+> This adds an **Amber/Yellow** bar. Good for things to watch out for.
+
+> [!CAUTION]
+> This adds a **Red** bar. Use this for things that might break your code.
+
+<details>
+<summary>📘 Click here to expand my Bash Test Notes</summary>
+
+Inside here, you can write regular markdown:
+* `[ ]` is the old standard
+* `[[ ]]` is the modern way
+
+</details>
+
 ## The Golden Rule of Bash if Statements: Spaces Matter!
 
 
@@ -39,11 +63,3 @@ else
     echo "You are too young to vote."
 fi
 
-<details>
-<summary>📘 Click here to expand my Bash Test Notes</summary>
-
-Inside here, you can write regular markdown:
-* `[ ]` is the old standard
-* `[[ ]]` is the modern way
-
-</details>
