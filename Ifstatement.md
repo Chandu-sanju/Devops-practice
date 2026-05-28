@@ -26,3 +26,24 @@ Flag,Meaning,Equivalent
 -lt,Less than,<
 -le,Less than or equal to,<=
 ```
+
+Example :- 
+
+#!/bin/bash
+age=18
+
+if [ "$age" -ge 18 ]
+then
+    echo "You are eligible to vote."
+else
+    echo "You are too young to vote."
+fi
+
+<details>
+<summary>📘 Click here to expand my Bash Test Notes</summary>
+
+Inside here, you can write regular markdown:
+* `[ ]` is the old standard
+* `[[ ]]` is the modern way
+
+</details>
