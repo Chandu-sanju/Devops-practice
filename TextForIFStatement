@@ -1,0 +1,148 @@
+# 🐚 The Ultimate Bash `if` Condition Cheat Sheet
+
+Welcome back to Shell Scripting! This guide is structured for quick reference and hands-on practice. Copy this entire file into a `.md` (Markdown) file in your GitHub repository to get started.
+
+---
+
+## ⚠️ The Golden Rules of Bash `if`
+
+> [!CAUTION]
+> ### Rule #1: Spaces are MANDATORY!
+> In Bash, `[` and `[[` are actual **commands**, not just syntax characters. Therefore, you must separate them with spaces.
+> * ❌ **Wrong:** `if ["$var"=="test"]`
+> * **Right:** `if [ "$var" == "test" ]`
+
+> [!IMPORTANT]
+> ### Rule #2: Always Quote Your Variables!
+> Always wrap your variables in double quotes (`"$my_var"`). If the variable is empty or contains spaces, omitting quotes will cause the script to crash with a `syntax error`.
+
+---
+
+## 📋 Comprehensive Syntax Reference
+
+<details>
+<summary>📂 1. Basic <code>if-else</code> Anatomy (Click to expand)</summary>
+
+### The Structure
+Every `if` statement must close with `fi` (`if` spelled backward).
+
+```bash
+#!/bin/bash
+
+if [ condition ]
+then
+    echo "Condition is TRUE"
+elif [ another_condition ]
+then
+    echo "First condition is FALSE, but this one is TRUE"
+else
+    echo "All conditions are FALSE"
+fi
+
+[!NOTE]You can also write if [ condition ]; then on a single line. The semicolon ; acts as a newline indicator.Bash uses letter-based flags for comparing numbers inside single brackets [ ].FlagMeaningMathematical Equivalent-eqEqual to=-neNot equal to!=-gtGreater than>-geGreater than or equal to>=-ltLess than<-leLess than or equal to<=
+
+#!/bin/bash
+
+AGE=18
+
+if [ "$AGE" -ge 18 ]; then
+    echo "✅ Success: You are eligible to vote."
+else
+    echo "❌ Access Denied: You must be 18 or older."
+fi
+
+When working with text, standard operators are used.OperatorMeaning= or ==Strings are identical!=Strings are completely different-zString is Empty (Zero length)-nString is Not Empty
+
+#!/bin/bash
+
+USERNAME="admin"
+
+if [ -z "$USERNAME" ]; then
+    echo "⚠️ Warning: Username cannot be blank."
+elif [ "$USERNAME" == "admin" ]; then
+    echo "🔓 Welcome, Administrator."
+else
+    echo "👤 Welcome, Guest User."
+fi
+
+Essential operations for DevOps and System Administration workflows to verify files or folders before running operations.FlagMeaning-eObject exists (can be a file OR a folder)-fExists and is explicitly a regular file-dExists and is explicitly a directory (folder)-rFile has read permissions granted-wFile has write permissions granted-xFile is executable
+
+#!/bin/bash
+
+LOG_FILE="/var/log/system.log"
+
+if [ -f "$LOG_FILE" ]; then
+    echo "📂 File found. Reading system entries..."
+elif [ -d "$LOG_FILE" ]; then
+    echo "⚠️ Target path is a directory, not a file."
+else
+    echo "🚨 Critical: Log file missing. Initializing new log..."
+    touch "$LOG_FILE"
+fi
+
+To test multiple conditions at once, use advanced double brackets [[ ... ]] (Recommended for modern Bash).
+
+Modern Standard: [[ ... ]]
+&& : AND (Both conditions must pass)
+
+|| : OR (At least one condition must pass)
+
+! : NOT (Inverts the true/false status)
+
+#!/bin/bash
+
+HOUR=14
+DAY="Saturday"
+
+# Using OR (||)
+if [[ "$DAY" == "Saturday" || "$DAY" == "Sunday" ]]; then
+    echo "🏖️ It's the weekend! No automated builds today."
+fi
+
+# Using AND (&&)
+if [[ "$HOUR" -ge 9 && "$HOUR" -le 17 ]]; then
+    echo "💼 System checking is restricted during business hours."
+fi
+
+Legacy Old-School Standard: [ ... ]
+If parsing plain legacy POSIX /bin/sh scripts, use flag parameters:
+
+-a : AND
+
+-o : OR
+
+
+# Old school equivalents:
+if [ "$HOUR" -ge 9 -a "$HOUR" -le 17 ]
+
+[!TIP]
+Recommendation: Stick to [[ ... ]] with && and ||. It prevents syntax bugs with empty strings and handles variables safer.
+
+🚀 Final Sandbox Project Challenge
+Combine all rules into one script. Copy this block into a file named system_check.sh, run chmod +x system_check.sh, and execute it!
+
+#!/bin/bash
+
+# Pre-defined System Metrics
+DISK_USAGE=85
+BACKUP_DIR="/etc/backup"
+USER_ROLE="admin"
+
+echo "🔄 Initiating system health validation checks..."
+
+# Check Authorized Administration Role AND Safe Storage space thresholds
+if [[ "$USER_ROLE" == "admin" && "$DISK_USAGE" -lt 90 ]]; then
+    echo "🏁 Status: Authorization & storage margins verified."
+    
+    # Nested Check: Inspect for storage target infrastructure
+    if [ -d "$BACKUP_DIR" ]; then
+        echo "📂 Target Directory exists. Processing environment backup..."
+    else
+        echo "⚠️ Target Directory missing. Building infrastructure pathway at $BACKUP_DIR..."
+        # mkdir -p "$BACKUP_DIR"
+    fi
+
+else
+    echo "🛑 Execution Halt: Insufficient clearance or disk volume exhausted ($DISK_USAGE%)."
+    exit 1
+fi
