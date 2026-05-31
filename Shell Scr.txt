@@ -86,9 +86,121 @@ top directory / (root)
 => cd means it will go to home dir
 => cd - it will take us to previous dire
 --------------------------------------------------
+=========================================== COMMAND LINE Argumnets ===========================================================
+While executing the script, we can pass the arguments through command line is called "CLA"
 
-		
- 
+How to pass ?
+./script.name arg1 arg2 arg3 arg4
+Below is the script I just written to show the difference
+
+#!/bin/bash
+
+#Checking how command line arguments works
+
+echo "\$0 will print the name of the command itself=" $0
+echo "\$1 will print the first argument =" $1
+echo "\$2 will print the second argument which we passed=" $2
+echo "\$3 will print then third command line argumnet=" $3
+echo "\$4 will print the fourth commandline argument=" $4
+echo "\$# will print the nukber of total argumnets we passed =" $#
+echo "\$@ will print all the arguments as a single string["apple" "banana" "cat" "dog"] =" $@
+echo "\$* will print all the argument s as a string ["apple banana cat dog"] =" $*
+echo "\$$ will print the process id of the script/command =" $$
+echo "\$? will print previous command exitstatus =" $?
+
+echoram
+echo $?
+
+echo "Testing \$?"
+echo $?
+=================when execute the script
+[root@practice script]# ./script.sh apple banana cat dog worldcup
+$0 will print the name of the command itself= ./script.sh
+$1 will print the first argument = apple
+$2 will print the second argument which we passed= banana
+$3 will print then third command line argumnet= cat
+$4 will print the fourth commandline argument= dog
+$# will print the nukber of total argumnets we passed = 5
+$@ will print all the arguments as a single string[apple banana cat dog] = apple banana cat dog worldcup
+$* will print all the argument s as a string [apple banana cat dog] = apple banana cat dog worldcup
+$$ will print the process id of the script/command = 3596
+$? will print previous command exitstatus = 0
+./script.sh: line 16: echoram: command not found
+127
+Testing $?
+0
+=================================================
+Let's explore the diff between $@ and $*
+=====
+[root@practice script]# sh -x test2.sh aasg vcse ssba
++ echo '--> Creating files: aasg, vcse, ssba'
+--> Creating files: aasg, vcse, ssba
++ touch aasg
++ touch vcse
++ touch ssba
++ rm -v aasg vcse ssba
+removed 'aasg'
+removed 'vcse'
+removed 'ssba'
++ ls
+script.sh  test2.sh  testing.sh
++ echo ==========================
+==========================
++ echo '--> Creating files: aasg, vcse, ssba'
+--> Creating files: aasg, vcse, ssba
++ touch aasg
++ touch vcse
++ touch ssba
++ rm -v 'aasg vcse ssba'
+rm: cannot remove 'aasg vcse ssba': No such file or directory
+===========
+The above script I excuted " debug mode" sh -x script name
+so the result will show the difference clearly
+====> So use "" double quotes always "$@" "$*" - why means for suppose yout arg1 is "chandra sekahr" here the argument has space
+so it won't break the script .
+
+===> always use "$@" 99% of the time "$*" depends , if you understand the diff then you will triger at the time of using
+
+Use "$@" to process, loop, or pass arguments individually without breaking spaces.
+
+Use "$*" to combine all arguments into a single sentence for printing or logging.
+=======================================================================================
+ ==> If you have double digit argument then you should specify - ${11}, ${10}
+ ===> if you try as $10 then it will take as $1+0 => $1=apple ; apple0
+========================================================================================
+Shift and set
+
+shift :- in Command line arguments is a conveyer belt - also it is shell bultin command
+when you enter shift, it will change the postional parameters $2 become $1 and $3 become $2, and $1 will gone or tossed out
+
+[root@practice script]# sh -x test3.sh chandu sanju 007
++ echo '$1 ==> chandu'
+$1 ==> chandu
++ echo '$2 ==> sanju'
+$2 ==> sanju
++ echo '$3 ==> 007'
+$3 ==> 007
++ shift
++ echo '$1 ==> sanju'
+$1 ==> sanju
++ echo '$2 ==> 007'
+$2 ==> 007
+[root@practice script]#
+
+# while [ $# ~ 0 ] do
+echo $1
+shift
+done
+
+shift => for $1 
+shift [n]
+like shift 2 => it will tossed out first 2 arguments
+===
+set is opposite to shift - it will save for the terminal process $1 and $2,---- as fixed
+when ever you called from the same terminal it will call same
+# set -- apple chandra banana
+it will be fixed but when test inside a script it won't work, becuse every script will starte a new child process
+=======
  
  
  
