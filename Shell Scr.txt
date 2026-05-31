@@ -201,8 +201,35 @@ when ever you called from the same terminal it will call same
 # set -- apple chandra banana
 it will be fixed but when test inside a script it won't work, becuse every script will starte a new child process
 =======
- 
- 
+ Handling Default Values (If the user forgets an argument)
+Good scripts don't crash when a user forgets to type an argument; they use clever fallback defaults using the ${1:-default} syntax.
+# If $1 is empty, use "Guest" as a fallback default
+NAME=${1:-"Guest"}
+echo "Hello, $NAME!"
+ ===============
+(--) Double dash 
+terminator
+===for example you passed a argument -file ; then you mentioned below in script
+touch $1 ==> then kernel will take as touch -file
+we know after a command we can use flags by using -h or --help
+so in this case touch command looks for flag not taking as argument1
+so to avoid this we can use -- double dash
+then same script
+touch -- $1
+====
+[root@practice script]# sh -x test3.sh -chandu aanchal
++ echo '$1 ==> -chandu'
+$1 ==> -chandu
++ echo '$2 ==> aanchal'
+$2 ==> aanchal
++ touch -chandu
+touch: invalid option -- 'n'
+Try 'touch --help' for more information.
++ touch aanchal
++ ls -l -chandu aanchal
+-rw-r--r--. 1 0 0 0 May 31 16:05 aanchal
+
+=======================================
  
  
  
