@@ -354,10 +354,11 @@ Status Report (OK / Changed / Failed)
 
 ## 📖 Sources
 
-- GeeksforGeeks - Introduction to Ansible and its Architecture Components
 - Official Ansible Documentation
+- GeeksforGeeks - Introduction to Ansible and its Architecture Components
+
 
 ## 🔗 Links
 
+- https://docs.ansible.com/projects/ansible/latest/getting_started/index.html
 - https://www.geeksforgeeks.org/devops/introduction-to-ansible-and-its-architecture-components/
-- https://docs.ansible.com/
