@@ -32,7 +32,43 @@ d) Salt Stack
     You control when the changes are made on the servers.
 
 ## Push vs Pull Architecture
+ PUSH MODEL (Ansible)
+====================
 
-![Push vs Pull Architecture](images/push-vs-pull.png)
+        +------------------+
+        |  Ansible Server  |
+        +------------------+
+           |      |      |
+        SSH|   SSH|   SSH|
+           v      v      v
+      +------+ +------+ +------+
+      |Host1 | |Host2 | |Host3 |
+      +------+ +------+ +------+
 
-![Push vs Pull Architecture](https://example.com/push-vs-pull.png)
+Ansible pushes configurations to hosts when triggered.
+
+
+PULL MODEL (Puppet/Chef)
+========================
+
+      +------------------+
+      |  Master Server   |
+      +------------------+
+            ^      ^
+            |      |
+      Pull  |      | Pull
+            |      |
+      +------+ +------+
+      |Host1 | |Host2 |
+      +------+ +------+
+            ^
+            |
+          Pull
+            |
+      +------+
+      |Host3 |
+      +------+
+
+Agents periodically pull configurations from the Master.
+
+## Ansible Architecture
