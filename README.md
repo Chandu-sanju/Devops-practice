@@ -29,18 +29,12 @@ I enjoy troubleshooting complex infrastructure issues, automating repetitive tas
 * RHCSA (Red Hat Certified System Administrator)
 * Microsoft Azure Fundamentals
 
-## 🎯 Career Goal
-
-To grow into a DevOps Engineer role by combining my strong Linux administration background with cloud, automation, containerization, and CI/CD technologies.
-
 ### "Automate what is repetitive. Optimize what is slow. Learn what is new."
 
 
+# 🚀 This is my DevOps Notes & Making avaible for others..
 
-
-# 🚀 DevOps Practice
-
-A complete hands-on DevOps learning repository covering:
+A complete hands-on DevOps learning repository covering as per my knowledge
 
 ## 🛠️ DevOps Technologies
 
