@@ -238,11 +238,117 @@ Examples:
 
 </details>
 
+<details>
+<summary><b>How Ansible Works</b></summary>
+
+Ansible works by connecting to managed nodes and pushing small programs called **Ansible Modules** to perform tasks.
+
+### Workflow
+
+#### 1. Create Inventory
+Define the hosts (IP addresses or hostnames) that Ansible will manage.
+
+Example:
+
+```ini
+[webservers]
+192.168.1.10
+192.168.1.11
+```
+
+#### 2. Write a Playbook
+Define the desired state of the target hosts in a YAML file.
+
+Example:
+
+```yaml
+---
+- hosts: webservers
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+```
+
+#### 3. Execute the Playbook
+Run the playbook using:
+
+```bash
+ansible-playbook playbook.yml
+```
+
+#### 4. Connect & Push
+Ansible connects to target hosts using:
+
+- SSH (Linux/Unix)
+- WinRM (Windows)
+
+No agent installation is required on the managed nodes.
+
+#### 5. Fact Gathering
+Before executing tasks, Ansible collects system information known as **Facts**.
+
+Examples:
+- Hostname
+- IP Address
+- Operating System
+- CPU Information
+- Memory Information
+
+These facts can be used inside playbooks for decision-making.
+
+#### 6. Execute Modules
+Ansible transfers and executes the required modules on the remote hosts.
+
+Examples:
+- `apt`
+- `yum`
+- `copy`
+- `service`
+- `user`
+
+#### 7. Clean Up & Report
+After execution:
+
+- Temporary modules are removed.
+- Results are reported back to the Control Node.
+
+Possible Status Values:
+
+| Status | Meaning |
+|----------|----------|
+| OK | No changes were required |
+| Changed | Configuration was modified |
+| Failed | Task execution failed |
+| Skipped | Task was intentionally skipped |
+
+### Summary Flow
+
+```text
+Inventory
+    ↓
+Playbook
+    ↓
+ansible-playbook
+    ↓
+SSH / WinRM Connection
+    ↓
+Fact Gathering
+    ↓
+Execute Modules
+    ↓
+Clean Up
+    ↓
+Status Report (OK / Changed / Failed)
+```
+
+</details>
 
 
 
 
-
+================
 
 ## 📖 Sources
 
