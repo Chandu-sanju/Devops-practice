@@ -142,6 +142,8 @@ Automatically retrieves hosts from cloud providers such as:
 - Azure
 - GCP
 
+more info :- https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory.html
+
 Useful when servers are frequently created or destroyed.
 
 </details>
