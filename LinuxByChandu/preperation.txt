@@ -1,0 +1,49 @@
+•	Worked as an administrator with respect to support services.
+•	Monitoring the Service Now ticketing tool and worked on closing tickets as per priority
+•	Prepare CEP (Change Execution on Plan) for upcoming changes.
+•	Configuring VSFTP for Anonymous & Private users.=======================================Not covered
+•	Monitoring system performance issues like Memory, CPU , Disk utilization.================> NOt covered
+•	Implement Sticky bit, SUID , SGID.===============================> need to improve
+•	Providing sudo access to the users and groups.============================> need to learn as p1
+•	FTP server configuration and restricting users.======================================> not covered
+•	Troubleshooting and fixing user unable to login issues in Linux servers.==================> need to learn deeply
+•	Handling Housekeeping alerts and service stop alerts.===============================> dont have idea
+•	Sharing Linux Mount points over the network through NFS/SAMBA services.===========================> need to learn
+•	Handling troubleshoot issues on NFS Server.===========> partially
+•	Managed daily activities to include user support and system administration tasks===> ok
+•	Verify Daily backup status on servers.======>ok
+•	Backup and restore using tar.=====================need to practice
+•	Configured Yum repository with multiple OS packages.=======================> yum rpm ok but
+•	Installing packages in development servers and end-user machines using yum repository.
+•	Creating a new partition using LVM.==================> good idea
+•	Hands-on experience on extending partition space using LVM method.====================> ok
+•	Resolve login related issues.================> more idea need
+•	Resolve file system related issues.=====================> need to learn
+•	Fixing file/directory permission issues.==================> ok
+===> boot issues
+====> kernel parameeters
+====> kernel crash dump
+=====>os patch
+=====> nic
+=====> dhcp
+====> dns
+=======>previous interview questions ......
+****TechMahindra****
+1. Boot process and diff b/w 6 and 7
+2. what is kdump in linux ? how to configure
+3. what sar?
+4. what is crony in linux?
+5. how to set a umask value for a user? 
+A. echo 'echo 022' >> /home/username/.bashrc====> addthe line to the user .bashrc for specific user
+ if all users need to set specifi umask -- echo 'umask 0777' >> /etc/skel/.bashrc
+6.nic bonding?
+7. Samba server config file?
+8. shell scripting?
+9. After patching rpm and yum command is not working in client side wt is the issue how to trobleshoot?
+
+******TcS********
+how to remove secondary group for all users using gpasswd
+lvm resize 
+acl
+chrony in linux must learn it will be in rhel 8
+

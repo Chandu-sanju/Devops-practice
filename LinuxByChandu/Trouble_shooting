@@ -1,0 +1,85 @@
+https://www.linuxtechi.com/command-line-tools-to-monitor-linux/
+https://www.linuxtechi.com/squid-proxy-server-interview-questions/
+https://www.golinuxhub.com/2018/06/scenario-based-interview-question-beginner-experience-linux/
+https://github.com/mismailzz/Linux-Troubleshooting-Scenarios-with-solutions
+https://bugzilla.redhat.com/show_bug.cgi?id=1233005
+https://www.howtouselinux.com/post/check-network-performance-problems-on-the-linux-system
+
+
+ps====> process
+
+ps -ef(F): to see current running process with full list
+pidof top : to see process id with name it prints all 
+pgrep sleep : to see 
+ps -C sleep : to see pid of given command
+
+
+
+TOP=====>
+Clear yum cache
+The following command ensures that no issues exist relating to corrupted metadata files, missing references, or temporarily free up disk space.
+
+yum clean all
+Check for missing repositories
+Run the following command to ensure there are no missing repositories.
+
+yum repolist all
+You can also verify this inside the /etc/yum.repos.d folder. You can then install any missing repositories with the yum install command or add a file manually into the /etc/yum.repos.d folder.
+
+Check for disabled repositories
+If the necessary repositories are available but not working, perform the following steps to edit the repository file:
+
+Run the following command replacing [filename] with the repository filename and [extension] with the respective extension:
+
+cat [filename].[extension]
+Open the repository file in the editor of your choice and change the value enabled=0 to enabled=1.
+
+Run the following command to update the package list and install the software:
+
+yum update
+Troubleshoot a PycURL error
+Several different types of errors might display if the repository file is corrupted. For example, if the yum install command fails with the following error, it might be due to an incorrect repository URL, as shown in this example:
+
+[Errno 14]  - "The requested URL returned error: 403"  
+Trying other mirror.
+Correcting the repository URL in the repository file and cleaning the yum cache should fix this issue.
+
+yum clean all
+Additionally, you can use the yum clean metadata command to clear the metadata cache if any additional XML files caused the corruption.
+
+Troubleshoot a Fatal error, run database recovery error
+If yum fails with a Fatal error, run database recovery message, you should delete the database and manually rebuild it by using the following commands:
+
+rm -f /var/lib/rpm__db*
+rpm -rebuilddb
+yum clean all
+yum update
+Check for dependency conflicts
+If you can’t install a package because of a missing dependency or mismatched version, manually installing each dependency might fix this issue. Additionally, deleting and reinstalling the local package might resolve version mismatches.
+
+Unfortunately, there is no easy fix for most dependency issues because of the many factors involved. In those cases, consider adding a repository that contains the correct dependency.
+- Tell me the ways to see the process that listens a specific TCP port.
+- What is a run level ?
+- What are the differences between soft and hard link ?
+- What is a sparse file ?
+- What is a zombie process ?
+- How do you setup system activity reporting ?
+- What are the differences between a process and a thread ?
+- What is load average ?
+- How do you monitor system load ?
+- What is run-queue and how do you use it ?
+- What is swap space ?
+- What is paging ?
+- How can a filesystem be 110% full ?
+- What are the steps to add a new disk to a Linux system ?
+- What is a daemon process ? what differences it has than the other processes ?
+- How do you change the priority of a process ?
+- What is a major & minor number ?
+
+
+Teps to follow to trouble shoot...
+1.	 Understanding	the	problem	statement.
+2.	 Establishing	a	hypothesis.
+3.	 Trial	and	error.
+4.	 Getting	help.
+5.	 Documentation

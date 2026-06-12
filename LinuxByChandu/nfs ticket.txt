@@ -1,0 +1,98 @@
+when i tried to start nfs i got error..(Job for nfs-server.service canceled.)
+
+Error: clnt_create: RPC: Port mapper failure - Unable to receive: errno 113 (No route to host): 
+solution stop firewalls= firewall-cmd --permanent --add-service=nfs,,,,mountd,,,rpc-bind
+
+error:
+[root@yumserver ~]# mount -t nfs 192.168.56.111:* /mnt
+Job for rpc-statd.service failed because the control process exited with error code. See "systemctl status rpc-statd.service" and "journalctl -xe" for details.
+mount.nfs: rpc.statd is not running but is required for remote locking.
+mount.nfs: Either use '-o nolock' to keep locks local, or start statd.
+mount.nfs: mounting 192.168.56.111:* failed, reason given by server: No such file or directory
+
+solution : Acytually problem is rpcbind service is not working properly because rpc user not found in system users list ..
+then create rpc user and start rpcbind services first then i started nfs now nfs is working properly...
+ 
+ 
+
+1. installed
+2. enable service
+3. created directory
+4. given entry in /etc/exports
+5. exportfs -va => this is for exporting the directories which are given in export list.
+6. showmount -e
+
+=======Second
+
+ rw => If by default shared directory has full permission , if we give rw means client side can write
+ ro => even server side shared dirctory has full permision , but we can't write client side.
+ 
+ sync => what ever updates in client and server side it will sync. that means it will not sync till you run exportfs -av
+
+async => here it will write same data on server side too but it won't save instead it stores in memeory sometime then it will affect the file.
+ root_squash => this means in the client side what ever files created by the root on client side it will consider as nobody.
+               why beacuse if it will root the problem he has will access, to prevent root previlages we can use this.
+ no_root_squash => oppsite for above
+ 
+ ==============================================
+ no_all_squash => this is the default option so what it means . it will map uid and  gid client and server for suppose what it means.
+ 
+    root@server mynfs]# ll
+total 8
+-rw-r--r--. 1 root   root    0 Oct  5 15:50 apple
+-rw-r--r--. 1 root   root   29 Oct  5 15:51 appple
+-rw-r--r--. 1 rahul  rahul   0 Oct  5 16:11 bunnyfilecreatedfile
+
+[bunny@client nfs]$ touch bunnyfilecreatedfile
+[bunny@client nfs]$ ll
+total 8
+-rw-r--r--. 1 root   root    0 Oct  5  2024 apple
+-rw-r--r--. 1 root   root   29 Oct  5  2024 appple
+-rw-r--r--. 1 bunny  bunny   0 Oct  5  2024 bunnyfilecreatedfile
+client side user bunny created a file butin server side it is showing as rahul. SO acyually bunndy uid and rahul uid are same 1001. that why.
+====== if same uid not avaialbel then ?
+useradd -u 12339 vijay
+client => -rw-r--r--. 1 vijay  vijay   0 Oct  5  2024 vijay_two
+
+server.
+-rw-r--r--. 1  12339  12339  0 Oct  5 16:19 vijay_two
+
+=====================================================================================
+For automounting..
+we have to install autofs package in client server..
+
+then enable the autofs service.
+
+we have give entry two files => 
+/etc/auto.master => mountpoint from client  /etc/auto.misc
+                                    /rahul  /etc/auto.misc
+again give entry in auto.misc
+            name          -fstype      serverside sharable dir
+         Myproject
+         Anyname         -fstype=nfs,rw,sync     192.168.56.323:/swathi		 
+									
+									
+====> Through firewall-cmd
+we need to add nfs, rpc-bind , mountd 
+
+============================================
+how to unshare => exportfs -u *:/Aanchal
+
+How to unshare all => exportfs -ua 
+
+=============================
+What is etab & rmtab
+
+=> Both are located in /var/lib/nfs/
+
+etab => It show currently shared nfs directories(shares) with mount options
+rmtab => it will who are accessing or mounted files in clients
+
+what is stale nfs =>
+-------------------------
+when clients are accessing the data from nfs server. if server is down or disconnected from the network. That possition is called satle nfs.
+In this scenario the lockd dameon provides file locking service on both server and cliet side.
+when the server connected to the network we have to restart nfs service and remount the nfs share on client.
+In these process statd dameon interacts with lockd daemon and provide crash recovery function.
+==========================================
+

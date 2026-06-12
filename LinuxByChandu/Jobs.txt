@@ -1,0 +1,38 @@
+we have 2 types of jobs in linux 
+ => at jobs : single time jobs or non repetative jobs the jobs will automatically erase once executed
+ => cron jobs :cron excutes jobs repetaed , this jobs not removed untill we remove manually
+ atjobs=> 
+  config: yum install at
+         sytemctl enable --now atd
+ imp files: cd /var/spool/at -ls contains assign jobs if we want change job manually go to this dir
+            cd /etc/at.deny => to deny particular user 
+			cd /etc/sysconfig/at
+			cd /var/log/cron = to check  execution status 
+commands : at now +2 min
+           atq => to see job list
+		   at -l => to see h=joblist
+		   atrm => to remove job with job id
+		   at -r => to remove job with job id
+		   
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+cron jobs
+    =>.---------------- minute (0 - 59)
+# |  .------------- hour (0 - 23)
+# |  |  .---------- day of month (1 - 31)
+# |  |  |  .------- month (1 - 12) OR jan,feb,mar,apr ...
+# |  |  |  |  .---- day of week (0 - 6) (Sunday=0 or 7) OR sun,mon,tue,wed,thu,fri,sat
+# |  |  |  |  |
+# *  *  *  *  * 
+files :  cd /var/log/cron to see execution
+         vi /etc/cron.deny => to deny user
+		 cd /var/spool/cron => to see list of jobs
+commands : crontab -e to create a job
+           crontab -l to list the jobs of cron  
+           crontab -u to see particular user cron jobs
+           crontab -r to remove all job 
+           crontab -ru to delete particular user jobs
+		   
+ 		   
+		   
+		   
+		   

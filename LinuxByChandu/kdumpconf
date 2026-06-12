@@ -1,0 +1,44 @@
+What is Kdump?
+• Kdump is an utility used to capture the system core dump in the event of 
+system crashes.
+• These captured core dumps can be used later to analyze the exact cause of 
+the system failure and implement the necessary fix to prevent the crashes in 
+future.
+• Kdump reserves a small portion of the memory for the secondary kernel 
+called crashkernel.
+• This secondary or crash kernel is used the capture the core dump image 
+whenever the system crashes.
+
+PACKAGE:  koexec-tools
+/boot/grub2/grub.cfg – grub configuration file ( /etc/default/grub ) to upadete grub conf ==> grub2-mkconfig -o /boot/grub2/grub.cfg
+• /etc/kdump.conf – kdump configuration file
+• /var/crash - default location where vmcore file is generated
+• Kdump – service name
+• Crash - utility is used to analyze the core file captured by kdump.
+  if sys ram => below 512 -- no need to allocate ( that is the rescue case)
+             => ram 512M to 2G ---- 64M
+			 => above 2g --128M
+			 => above 4g --- 256 M
+PROCESS :
+ step 1: INSTALL THE REQUIRED PACKAGE
+      yum install kexec-tools
+ STEP 2: EDIT THE /ETC/DEFAULT/GRUB FILE FOR SETTING CRASHKERNEL=128m IF SYSTEM RAM HAS 2GB
+ STEP 3; RUN THE GRUB2-MKCONFIG -O ----- FOR UPDATING THE GRUB CONF FILE
+ not mandatory : REBOOT THE SYSTEM ( CHECK DMESG | GREP KERNEL )
+ STEP 5 : EDIT THE KUDMP CONF FILE (/ETC/KDUMP.CONF )
+         no need tochange default path if want we can change ,, and change mkdumpfile -c flag comment above dumb file line default to reboot
+ STEP 6: START THE KDUMP
+ STEP 7 : if we want check it vmcore image is generate or not we can check by using sysrq 
+          sysrq is a magic key .. it wont corrupt our filesystem ifwe has halt may be fs will be corrupted 
+		  0=> disable sysrq
+		  1=> enable all functons
+		  16=> sync
+		  s=sync
+		  c=crash
+	echo 1 > /etc/	  
+          
+		  
+		  
+		 
+  
+	  

@@ -1,0 +1,41 @@
+http://access.redhat.com/articles/yum-cheat-sheet
+
+https://www.cyberciti.biz/howto/question/linux/linux-rpm-cheat-sheet.php
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/kernel_crash_dump_guide
+
+https://tldp.org/LDP/Bash-Beginners-Guide/html/sect_06_05.html
+
+https://engineeringinterviewquestions.com/mcqs-on-sed-command-2-answers/     ===> 250 quiz
+
+https://www.geeksforgeeks.org/array-basics-shell-scripting-set-1/    ===> Array geeksforgeeks.org
+
+https://www.linuxquestions.org/questions/linux-desktop-74/value-out-of-range-error-on-a-disk-with-40-gb-free-space-4175479882/
+
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/configuring_basic_system_settings/using-chrony-to-configure-ntp_configuring-basic-system-settings#chrony-intro_using-chrony-to-configure-ntp
+
+
+****TechMahindra****
+1. Boot process and diff b/w 6 and 7
+2. what is kdump in linux ? how to configure
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/kernel_crash_dump_guide
+3. what sar?
+https://www.thegeekdiary.com/sar-command-examples-in-linux/
+4. what is chrony in linux?
+5. how to set a umask value for a user?
+6.nic bonding?
+7. Samba server config file?
+8. shell scripting?
+9. After patching rpm and yum command is not working in client side wt is the issue how to trobleshoot?
+
+
+------------my plan-------------
+1.shell scripting
+2.upload resume in naukri
+3.once after shell scripting learn azure cloud?
+https://www.secur.cc/how-to-troubleshoot-linux-user-issues/#:~:text=If%20a%20user%20cannot%20log,determine%20the%20account's%20default%20shell.
+ 
+
+================================================== Interview questions =========================
+How do you view the open ports on your system ?
+Ans :- we can use netstat -tuln or ss -tuln

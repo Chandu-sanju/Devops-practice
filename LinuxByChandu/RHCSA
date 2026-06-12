@@ -1,0 +1,65 @@
+RHCSA == EXAM PREPPARATION
+
+1. NETWORK CONFIGURATION.
+2. YUM CONFIGURATION
+     go to yum.repos.d and then create a file with .repo extension content must be 
+	  [BaseOS]
+	  name=BaseOS
+	  baseurl=/http://-----------
+	  enabled=true
+	  gpgcheck=false
+	  
+	  [AppStream]
+	  name=AppStream
+	  basurl=//http:///---------
+	  enabled=1
+	  gpgcheck=0
+	  
+	  then check with yum clean all or yum repolist all if possible install any package
+	  
+3. port labeling => if httpd port set to 82( Devug selinux)
+
+first check vim /etc/httpd/conf/httpd.conf file port number if it is set to 82 you can enable httpd service.
+
+=> check package installed or not mostly it installed
+firewall => check firewall rules for http
+              firewall-cmd --permanent --add-service=http
+              firewall-cmd --permananet --add-port=82/tcp
+              firewall-cmd --reload
+              firewall-cmd --list-all
+
+Semanage port => check semanage port for http
+                semanage port -l | grep http
+				semanage port -a -t http_port_t -p tcp 82
+				semanage port -l | grep http
+
+Now enable --now and then check & curl localhost:82
+===========================================================
+4.. Create User accounts with supplementry group.
+- create the group a named "sysadms"
+- create users as named "natasha" and "harry", will be the supplementry group
+"sysadms".
+- cerate a user as named "sarah", should have non-interactive shell and it should be not
+the member of "sysadms"
+- password for all users should be "trootent"
+
+=> groupadd sysadms - it creates a sysadms group
+=> useradd -G sysadms natasha => it will create natasha user and assign sysadms as secondary group
+=> useradd -G sysadms harry =>it will create harry user and assign sysadms as secondary group
+=> usradd -s /sbin/nologin sarah => it will create sarah user and with nolog in shell
+
+to set password for multiple users..
+chpasswd
+natasha:trootent
+harry:trootent
+sarah:trootent
+Control+D
+===============================================================
+				
+				
+				
+				
+
+	  
+	  
+	  
