@@ -57,7 +57,7 @@ A complete hands-on DevOps learning repository covering as per my knowledge
 | Linux | ✅ |
 | Shell Scripting | ✅ |
 | Git | ✅ |
-| Ansible | ✅ |
+| Ansible | 🔄 In Progress |
 
 
 ---
