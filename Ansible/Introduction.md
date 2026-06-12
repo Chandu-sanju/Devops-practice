@@ -72,3 +72,4 @@ PULL MODEL (Puppet/Chef)
 Agents periodically pull configurations from the Master.
 
 ## Ansible Architecture
+![Ansible Architecture](https://raw.githubusercontent.com/Chandu-sanju/Devops-practice/main/Ansible/Images/Ansible-architecture.png)
