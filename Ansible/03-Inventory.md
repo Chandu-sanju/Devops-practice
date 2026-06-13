@@ -112,10 +112,17 @@
             ├── mtlws9012
             └── mtlws9013
 ```
-
-
-
 </details>
+
+<details>
+<summary><b><font color="Yellow"> YAML Format </font></b></summary>
+ First master in INI format , later you can refer below doc 
+
+https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory.html#inventory-basics-formats-hosts-and-groups
+</details>
+
+
+
 
 <details>
 <summary><b><font color="green">Before Going to dive into deept about inventory file let's learn yaml syntax </font></b></summary>
