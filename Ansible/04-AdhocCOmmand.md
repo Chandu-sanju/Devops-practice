@@ -39,12 +39,18 @@ The default module for the ansible command-line utility is the ansible.builtin.c
 <details>
 <summary><b>Ad hoc Command Module example</b></summary>  
 # ansible -a "ls /tmp" all
+  
 # ansible -a "cat /etc/centos-release" ungrouped
+
 # ansible -m -a "df -h" london # it fails because if you mention -m then you should specify the module or you can use without -m
+
 # ansible -m command -a "df -h"
+
 # ansible -a "systemctl status sshd" all 
+
 # ansible -a "systemctl stop sshd" all => not recommended -> use service module for any systemd or service realted activites , service will deal in smart way
   for example if you use systemctl start sshd in command module , if service started , still it tries to start, but service module it checks smart way, if started already, it won't do anything
+  
 <details>
 <summary><b>Ad hoc Command Shell Module Examples</b></summary>
 
@@ -65,8 +71,13 @@ Your command contains shell-specific features such as:
 Examples:- 
 ```
 ansible all -m shell -a "ls /tmp | grep systemd"
+
 ansible all -m shell -a "echo hello > /tmp/test.txt"
+
 ansible all -m shell -a "yum install httpd -y && systemctl start httpd" # just for example
+
 ansible all -m shell -a "yum install httpd -y && systemctl start httpd"
+
 ansible all -m shell -a "echo $HOSTNAME" # it won't work , becuse echo $hostname runs locally and pass your hostaname to remote machine
+
 ansible all -m shell -a 'echo $HOSTNAME # it works
