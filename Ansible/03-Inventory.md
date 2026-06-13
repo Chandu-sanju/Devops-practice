@@ -140,8 +140,6 @@ https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory
 > [!NOTE]
 > After key immediate colon and a space is required
 
-> [!NOTE]
-> This adds a **Blue** bar. Great for general information.
 
 ## List
 List of items or Mutliple items
@@ -244,10 +242,4 @@ Multiline ===>
                   what are you doing
                   I hope everything fine
 ```
-</details>
-
-<details>
-<summary><b><font color="green">Before Going to dive into deept about inventory file let's learn yaml syntax </font></b></summary>
-> [!NOTE]
-> This adds a **Blue** bar. Great for general information.
 </details>
