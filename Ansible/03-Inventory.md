@@ -246,5 +246,8 @@ Multiline ===>
 ```
 </details>
 
+<details>
+<summary><b><font color="green">Before Going to dive into deept about inventory file let's learn yaml syntax </font></b></summary>
 > [!NOTE]
 > This adds a **Blue** bar. Great for general information.
+</details>
