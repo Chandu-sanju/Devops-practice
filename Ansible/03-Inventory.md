@@ -2,7 +2,7 @@
 ```
   =>>> Inventory file contains list or group of your managed nodes hostname or Ip address
 
-  =>>> Default inventory file is located at /hosts/ansible/hosts, You no need to specify explicitly
+  =>>> Default inventory file is located at /etc/ansible/hosts, You no need to specify explicitly
 
   =>>> Sometime based on our requirement, When you are handling mutiple projects, You can use inventory file
 
@@ -243,3 +243,26 @@ Multiline ===>
                   I hope everything fine
 ```
 </details>
+
+> [!NOTE]
+> if a managed node in a one group atleast and even you mentioned in top as no group, ansible not consider it has under ungrouped
+> You can cross verfiy with below command about inventory file
+
+```
+  192.168.1.23 # it is ungrouped 
+  [london]
+  apple
+  bat
+  cat
+  192.168.1.23
+  ## ansible -m ping ungrouped ; but won't works
+  because
+
+  [root@localhost chandu]# ansible-inventory -i myhosts --graph
+  @all:
+    |--@ungrouped:
+    |--@london:
+    |  |--192.168.240.129
+    |--@sydney:
+    |  |--192.168.240.129
+```
