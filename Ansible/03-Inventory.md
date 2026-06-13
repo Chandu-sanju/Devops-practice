@@ -135,9 +135,11 @@ https://docs.ansible.com/projects/ansible/latest/inventory_guide/intro_inventory
     user2: aanchal
     user3: sangam
     user4: kajal
-```    
+``` 
+   
 > [!NOTE]
 > After key immediate colon and a space is required
+
 ## List
 List of items or Mutliple items
 ```
