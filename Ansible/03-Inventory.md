@@ -17,7 +17,7 @@
 
 =====> both can be acceptable
 
-=======<details>
+<details>
 <summary><b><font color="red"> INI Format </font></b></summary>
 
 ```
