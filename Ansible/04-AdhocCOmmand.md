@@ -72,12 +72,19 @@ Your command contains shell-specific features such as:
 ```
 Examples:- 
 ```
+       
   ansible all -m shell -a "ls /tmp | grep systemd"
+
   ansible all -m shell -a "echo hello > /tmp/test.txt"
+
   ansible all -m shell -a "yum install httpd -y && systemctl start httpd" # just for example
+
   ansible all -m shell -a "yum install httpd -y && systemctl start httpd"
+
   ansible all -m shell -a "echo $HOSTNAME" # it won't work , becuse echo $hostname runs locally and pass your hostaname to remote machine
+
   ansible all -m shell -a 'echo $HOSTNAME # it works
+
 ```
 </details>
 
@@ -125,15 +132,6 @@ Examples:-
    ansible webservers -m copy -a "src=/tmp/app.conf dest=/etc/app.conf backup=yes" -b
 
 ```            
-     
-ansible all -m shell -a "ls /tmp | grep systemd"
+</details>
 
-ansible all -m shell -a "echo hello > /tmp/test.txt"
 
-ansible all -m shell -a "yum install httpd -y && systemctl start httpd" # just for example
-
-ansible all -m shell -a "yum install httpd -y && systemctl start httpd"
-
-ansible all -m shell -a "echo $HOSTNAME" # it won't work , becuse echo $hostname runs locally and pass your hostaname to remote machine
-
-ansible all -m shell -a 'echo $HOSTNAME # it works
