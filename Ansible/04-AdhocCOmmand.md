@@ -96,13 +96,21 @@ Examples:-
 
 ```
   ansible webservers -m file -a "path=/opt/app state=touch" => creates an empty file
+
   ansible webservers -m file -a "path=/opt/app state=directory" => create a directory
+
   ansible webservers -m file -a "path=/opt/app state=absent" => deletes a directory
+
   ansible webservers -m file -a "path=/tmp/test.txt mode=0644" => change permissions
+
   ansible webservers -m file -a "path=/tmp/test.txt owner=ansible group=user" => change ownership
+
   ansible webservers -m file -a "src=/opt/app/config.yml dest=/etc/app.conf state=link" => create a symlink
+
   ansible webservers -m file -a "src=/opt/app/config.yml dest=/etc/app.conf state=hard" => create a hardlink
+
   ansible webservers -m file -a "path=/tmp/test.txt state=touch owner=appuser group=appgroup mode=0644" -b => All in one
+  
   ansible all -m file -a "path=/india/ap/kadapa state=directory owner=ansible group=ansible mode=0755" -b => same like mkdir -p
 ```
 </details>
