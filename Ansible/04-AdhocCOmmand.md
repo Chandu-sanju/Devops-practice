@@ -37,7 +37,7 @@ The default module for the ansible command-line utility is the ansible.builtin.c
 
 ``` 
 <details>
-<summary><b>Ad hoc Command Module example</b></summary>  
+<summary><b>Command Module example</b></summary>  
 # ansible -a "ls /tmp" all
   
 # ansible -a "cat /etc/centos-release" ungrouped
@@ -54,7 +54,7 @@ The default module for the ansible command-line utility is the ansible.builtin.c
 
   
 <details>
-<summary><b>Ad hoc Command Shell Module Examples</b></summary>
+<summary><b>Shell Module Examples</b></summary>
 
  Use shell module when:
 
@@ -101,7 +101,7 @@ Examples:-
 </details>
 
 <details>
-<summary><b> Copy Module Module Examples </b></summary>
+<summary><b> Copy Module Examples </b></summary>
 
 ### By using copy module we can perfrom below
 
