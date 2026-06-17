@@ -265,4 +265,59 @@ The above is equal to yum update -y
             "year": "2026"
         },
 
-````
+```
+</details>
+
+<details>
+<summary><b> Service Module Examples </b></summary>
+
+### By using service module we can do "start stop restart & reload Operations "
+
+### To start a service
+```
+httpd is not started and in disabled state
+===============================================================
+ Scenario 1 :- when service is in stopped state the above command - started successfully but, still disabled
+ httpd.service - The Apache HTTP Server
+     Loaded: loaded (/usr/lib/systemd/system/httpd.service; disabled; preset: d>
+     Active: inactive (dead)
+       Docs: man:httpd.service(8)
+
+[root@server ~]# ansible all -m service -a "name=httpd state=started"
+192.168.240.129 | CHANGED => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": true,  =====> when service was stopped changed = true beacuse it started
+    "name": "httpd",
+    "state": "started",
+    "status": {
+
+  Scenario 2 :- when service is already started the above command - started successfully & changed = false
+  192.168.240.129 | SUCCESS => {
+    "ansible_facts": {
+        "discovered_interpreter_python": "/usr/bin/python3"
+    },
+    "changed": false,
+    "name": "httpd",
+    "state": "started",
+    "status": {
+
+```
+### To enable and start
+[root@server ~]# ansible all -m service -a "name=httpd state=started enabled=yes"
+
+### To stop
+[root@server ~]# ansible all -m service -a "name=httpd state=stopped"
+
+### To restart
+[root@server ~]# ansible all -m service -a "name=httpd state=restarted"
+
+### To reload
+[root@server ~]# ansible all -m service -a "name=httpd state=reloaded"
+
+# Key thing to remember -> 
+#   current = desired state ===> true
+#   current != desired state ===> false
+
+</details>
