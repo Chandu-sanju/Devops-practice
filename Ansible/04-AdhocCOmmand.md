@@ -415,4 +415,62 @@ Same state => changed: false
 Different state => changed: true
 </details>
 
+<details>
+<summary><b> Service vs Systemd Module Differences </b></summary>
+
+---
+
+## What is common?
+
+Both modules are used to:
+- Start services
+- Stop services
+- Restart services
+- Enable services at boot
+- Check service state
+
+---
+
+## Key Difference
+
+### 1. Service Module
+
+- Older, generic module
+- Works with multiple init systems
+- Can work on:
+  - SysVinit
+  - Upstart
+  - Systemd (internally maps to systemctl in modern OS)
+
+```text id="srv01"
+Service module = compatibility layer (generic)
+2. Systemd Module
+Modern module
+Works only with systemd-based systems
+Directly interacts with systemd (systemctl)
+Systemd module = native systemd controller
+Important Differences Table
+Feature	service module	systemd module
+Type	Generic module	Modern module
+Works with	SysV, Upstart, Systemd	Only Systemd
+Speed	Slightly slower	Faster
+Control level	Abstract layer	Direct systemctl control
+Recommended	Legacy systems	Modern Linux (RHEL 7+, Ubuntu 16+)
+Usage today	Less preferred	Most used
+Real-world usage
+Service module usage (legacy / compatibility)
+ansible all -b -m service -a "name=httpd state=started"
+Systemd module usage (modern preferred way)
+ansible all -b -m systemd -a "name=httpd state=started"
+Interview Key Points
+1. systemd module is preferred over service module in modern Linux
+2. service module is backward compatible wrapper
+3. systemd gives direct control via systemctl
+4. Both achieve same result, but systemd is more precise and reliable
+Final Summary
+Use service module → when you want compatibility across old systems
+
+Use systemd module → when working on modern Linux (real DevOps environments)
+
+</details>
 
