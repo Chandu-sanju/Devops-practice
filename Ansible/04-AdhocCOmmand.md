@@ -321,3 +321,98 @@ httpd is not started and in disabled state
 #   current != desired state ===> false
 
 </details>
+
+<details> <summary><b> User Module Examples </b></summary>
+
+# Used to manage users (create, modify, delete, lock)
+
+```
+  User does not exist
+  ===============================================================
+  Scenario 1 :- user created successfully
+
+  [root@server ~]# ansible all -b -m user -a "name=john"
+
+  192.168.240.129 | CHANGED => {
+      "changed": true,
+      "name": "john",
+      "state": "present"
+  }
+
+  Scenario 2 :- user already exists
+
+  192.168.240.129 | SUCCESS => {
+      "changed": false,
+      "name": "john"
+  }
+
+```
+# Create user with shell
+ ansible all -b -m user -a "name=john shell=/bin/bash"
+
+# Add user to group
+ ansible all -b -m user -a "name=john groups=wheel"
+
+# Create a user with home directory
+ ansible all -b -m user -a "name=john home=/home/john"
+
+# Delete user
+ ansible all -b -m user -a "name=john state=absent"
+
+# Delete with home
+ ansible all -b -m user -a "name=john state=absent remove=yes"
+
+# Locked user 
+ ansible all -b -m user -a "name=john password_lock=yes"
+
+</details>
+
+<details> <summary><b> Lineinfile Module Examples </b></summary>
+Used to add, modify, or remove specific lines in a file
+Add a line
+File: /tmp/test.txt
+===============================================================
+Scenario 1 :- line added
+
+[root@server ~]# ansible all -b -m lineinfile -a "path=/tmp/test.txt line='Hello World'"
+
+192.168.240.129 | CHANGED => {
+    "changed": true
+}
+
+Scenario 2 :- line already exists
+
+192.168.240.129 | SUCCESS => {
+    "changed": false
+}
+Modify existing line
+ansible all -b -m lineinfile -a "path=/etc/ssh/sshd_config regexp='^PermitRootLogin' line='PermitRootLogin no'"
+Add entry in hosts file
+ansible all -b -m lineinfile -a "path=/etc/hosts line='192.168.1.10 appserver'"
+Remove a line
+ansible all -b -m lineinfile -a "path=/etc/hosts regexp='appserver' state=absent"
+Key thing to remember
+Line exists & correct => changed: false
+Line missing or different => changed: true
+</details>
+<details> <summary><b> Systemd Module Examples </b></summary>
+Used to manage system services in modern Linux systems
+Start service
+ansible all -b -m systemd -a "name=httpd state=started"
+Stop service
+ansible all -b -m systemd -a "name=httpd state=stopped"
+Restart service
+ansible all -b -m systemd -a "name=httpd state=restarted"
+Enable service at boot
+ansible all -b -m systemd -a "name=httpd enabled=yes"
+Disable service
+ansible all -b -m systemd -a "name=httpd enabled=no"
+Reload systemd daemon
+ansible all -b -m systemd -a "daemon_reload=yes"
+Key thing to remember
+Systemd ensures desired state of service
+Same state => changed: false
+Different state => changed: true
+</details>
+
+
