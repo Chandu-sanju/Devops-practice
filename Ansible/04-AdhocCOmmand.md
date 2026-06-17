@@ -142,4 +142,127 @@ Examples:-
 ```            
 </details>
 
+<details>
+<summary><b>Yum Module Examples</b></summary>
 
+By using Yum module we can install, update, remove the packages
+
+### To install without update
+ansible -i [patotoinventory] -m yum -a "name=packagename state=present" -b (For root previlages)
+
+```
+  └─>>> ansible -i /user_data/file1/ansible/myhosts all -m yum -a "name=yakuake state=present" -b                                                          
+  mumws6703 | CHANGED => {
+      "ansible_facts": {
+          "discovered_interpreter_python": "/usr/libexec/platform-python"
+      },
+      "changed": true,
+      "msg": "",
+      "rc": 0,
+      "results": [
+          "Installed: kf5-kglobalaccel-libs-5.96.0-1.el8.x86_64",
+          "Installed: kf5-kiconthemes-5.96.0-1.el8.x86_64",
+          "Installed: kf5-kinit-5.96.0-1.el8.x86_64",
+          "Installed: kf5-kio-core-5.96.0-1.el8.x86_64",
+          "Installed: kf5-kio-core-libs-5.96.0-1.el8.x86_64",
+          "Installed: kf5-kio-doc-5.96.0-1.el8.noarch",
+          "Installed: kf5-kwallet-5.96.0-1.el8.x86_64",
+          "Installed: kf5-kwallet-libs-5.96.0-1.el8.x86_64",
+          "Installed: kf5-kwayland-5.96.0-1.el8.x86_64",
+          "Installed: yakuake-22.08.2-1.el8.x86_64",
+          "Installed: kf5-kxmlgui-5.96.0-1.el8.x86_64",
+          "Installed: kf5-kdoctools-5.96.0-1.el8.x86_64",
+          "Installed: kf5-kglobalaccel-5.96.0-1.el8.x86_64"
+      ]
+  }
+```
+### To ensure a specific version of a package is installed:
+ $ ansible -i /user_data/file1/ansible/myhosts all -m yum -a "name=yakuake-1.25 state=present" -b 
+
+### To ensure a package is at the latest version:
+ ansible -i /user_data/file1/ansible/myhosts all -m yum -a "name=yakuake-1.25 state=latest" -b
+
+### To remove a package
+```
+  └─>>> ansible -i /user_data/file1/ansible/myhosts all -m yum -a "name=yakuake state=absent" -b                                                           [Wed, Jun 17 - 19:39:00][56s]
+  mumws6703 | CHANGED => {
+      "ansible_facts": {
+          "discovered_interpreter_python": "/usr/libexec/platform-python"
+      },
+      "changed": true,
+      "msg": "",
+      "rc": 0,
+      "results": [
+          "Removed: yakuake-22.08.2-1.el8.x86_64"
+      ]
+  }
+```
+### Update All Packages
+ansible all -m yum -a "name=* state=latest" -b
+The above is equal to yum update -y  
+###   
+
+### Gathering Facts
+
+```
+  └─>>> ansible -i /user_data/file1/ansible/myhosts all -m setup                                                                                            [Wed, Jun 17 - 19:54:24][1s]
+  mumws6703 | SUCCESS => {
+    "ansible_facts": {
+        "ansible_all_ipv4_addresses": [
+            "10.25.177.15",
+            "192.168.122.1"
+        ],
+        "ansible_all_ipv6_addresses": [
+            "fe80::250:56ff:fe99:7ea7"
+        ],
+        "ansible_apparmor": {
+            "status": "disabled"
+        },
+        "ansible_architecture": "x86_64",
+        "ansible_bios_date": "11/12/2020",
+        "ansible_bios_vendor": "Phoenix Technologies LTD",
+        "ansible_bios_version": "6.00",
+        "ansible_board_asset_tag": "NA",
+        "ansible_board_name": "440BX Desktop Reference Platform",
+        "ansible_board_serial": "NA",
+        "ansible_board_vendor": "Intel Corporation",
+        "ansible_board_version": "None",
+        "ansible_chassis_asset_tag": "No Asset Tag",
+        "ansible_chassis_serial": "NA",
+        "ansible_chassis_vendor": "No Enclosure",
+        "ansible_chassis_version": "N/A",
+        "ansible_cmdline": {
+            "BOOT_IMAGE": "/vmlinuz-4.18.0-553.115.1.el8_10.x86_64",
+            "crashkernel": "256M",
+            "nouveau.modeset": "0",
+            "quiet": true,
+            "rd.driver.blacklist": "cdrom,firewire_core,firewire_ohci,nouveau,sr_mod,usb_storage,uas",
+            "rhgb": true,
+            "ro": true,
+            "root": "UUID=ed9b04d2-eda7-4eff-b6a5-5cb94b0d40b8",
+            "selinux": "0"
+        },
+        "ansible_date_time": {
+            "date": "2026-06-17",
+            "day": "17",
+            "epoch": "1781706286",
+            "epoch_int": "1781706286",
+            "hour": "19",
+            "iso8601": "2026-06-17T14:24:46Z",
+            "iso8601_basic": "20260617T195446038193",
+            "iso8601_basic_short": "20260617T195446",
+            "iso8601_micro": "2026-06-17T14:24:46.038193Z",
+            "minute": "54",
+            "month": "06",
+            "second": "46",
+            "time": "19:54:46",
+            "tz": "IST",
+            "tz_dst": "IST",
+            "tz_offset": "+0530",
+            "weekday": "Wednesday",
+            "weekday_number": "3",
+            "weeknumber": "24",
+            "year": "2026"
+        },
+
+````
