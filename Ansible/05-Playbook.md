@@ -19,7 +19,7 @@ if you want do through ad hoc command you have to run each step seperatly at mut
 <details><summary><b> Playbook for Above Task</b></summary>
 
 ## playbook for above task
-```
+```yaml
     you need to create a playboon with .yaml or yml extension
     --- # start of the playbook/ yaml document
     - name: Your playbook name or what your play book do or we can say Title of the playbook
@@ -84,5 +84,5 @@ if you want do through ad hoc command you have to run each step seperatly at mut
  ### Ansible-playbook -i [IF you have custom inventory file] playbook.yaml --check         # dry run
 
  ### ansible-playbook -i inventory.ini playbook.yaml -vvv # show detail information while execution to find the error incase Important
- 
+
  ### ansible-playbook -i inventory.ini playbook.yaml --check --diff  # Dry run and what going to change will show
