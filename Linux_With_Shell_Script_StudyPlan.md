@@ -48,7 +48,7 @@ Types of Files in Linux:-
 5. Link files (-l)
 6. pipe file (-p)
 7. Socket file (-s)
-
+```
 Related file commands:-
                       file - which will tell what type of file it is
                       touch - to create the empty files
@@ -69,6 +69,7 @@ Related file commands:-
                                set nu  => set line number
                                esc+shift+linenumber => to go the particular line
                                set nonu => to remove the line numbers
+```
    
                       cp => copy the file/direcotory
 
