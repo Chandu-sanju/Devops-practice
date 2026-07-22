@@ -1,32 +1,32 @@
-============================================= Boot Process Updated version 2026 ==============================================
-What is the boot process in Linux ?
+# ============================================= Boot Process Updated version 2026 ============================================== #
+### What is the boot process in Linux ?
 
 There is sequence of events invovled in the boot processs, from the powered on to user login screen between the process is called
 boot process.
+```
+    The Linux boot process consists of the following stages:
+    --------------------------------------------------------
 
-The Linux boot process consists of the following stages:
---------------------------------------------------------
+    Power ON
+    ↓
+    1. BIOS / UEFI
+    ↓
+    2. MBR (Legacy BIOS) or EFI System Partition (UEFI)
+    ↓
+    3. GRUB / GRUB2
+    ↓
+    4. Linux Kernel + initramfs
+    ↓
+    5. systemd (RHEL 7/8/9) or init (RHEL 5/6)
+    ↓
+    6. Services Start
+    ↓
+    7. Login Prompt
 
-Power ON
-   ↓
-1. BIOS / UEFI
-   ↓
-2. MBR (Legacy BIOS) or EFI System Partition (UEFI)
-   ↓
-3. GRUB / GRUB2
-   ↓
-4. Linux Kernel + initramfs
-   ↓
-5. systemd (RHEL 7/8/9) or init (RHEL 5/6)
-   ↓
-6. Services Start
-   ↓
-7. Login Prompt
+    6 and 7 here added extra for the detailed explanation, usually we have 5 stages in 
+```
 
-6 and 7 here added extra for the detailed explanation, usually we have 5 stages in 
-
-  --------
-Stage 1 - BIOS / UEFI
+<details> <summary><b>Stage 1 - BIOS / UEFI </b></summary>
 BIOS
 ===
 BIOS stands for Basic Input/Output System.
@@ -87,9 +87,11 @@ Example:
 5. Network (PXE)
 
 Once a bootable device is found, control is transferred to the boot loader.
+
+</details>
 ---------------------------- 
 
-Stage 2 - MBR or EFI System Partition
+<details> <summary><b>Stage 2 - MBR or EFI System Partition </b></summary>
 
 This stage depends on whether the server is using Legacy BIOS or UEFI.
 
@@ -119,8 +121,9 @@ Example:
 
 Most modern RHEL 8 and RHEL 9 servers use UEFI.
 
+</details>
 
-Stage 3 - Boot Loader (GRUB)
+<details> <summary><b>Stage 3 - Boot Loader (GRUB) </b></summary>
 ==========================================
 GRUB stands for:
 
@@ -169,8 +172,9 @@ Reinstall GRUB
 grub2-install /dev/sda
 
 Used when MBR or GRUB becomes corrupted.
+</details>
 
-Stage 4 - Linux Kernel
+<details> <summary><b>Stage 4 - Linux Kernel </b></summary>
 
 GRUB loads:
 
@@ -219,7 +223,10 @@ Initially mounted as read-only.
 
 Later remounted as read-write after filesystem checks.
 
-Stage 5 - systemd / init
+</details>
+
+
+<details> <summary><b>Stage 5 - systemd / init </b></summary>
 
 This is where the major difference exists.
 
@@ -322,8 +329,9 @@ systemd starts getty, which displays the login prompt.
 login:
 
 Boot process is complete.
+</details>
 
-Important Interview Questions
+<details> <summary><b>Important Interview Questions </b></summary>
 Q1. What is the first process in Linux?
 
 RHEL 5/6
@@ -377,9 +385,9 @@ Architecture	32-bit & 64-bit	Primarily 64-bit
 Logging	rsyslog	journald + rsyslog
 
 Note: Avoid memorizing exact kernel versions (e.g., "RHEL 7 = 3.10") or boot times (e.g., "20 seconds"). These vary depending on minor releases, hardware, and installed packages. Interviewers care more about architectural differences than fixed numbers.
-
+</details>
  		
- 
+<details> <summary><b> TO expalin in theory in the Interview </b></summary>
 ========================
 Once the power button is pressed, the power supply unit (PSU) provides power to the motherboard. After the power becomes stable, the motherboard sends a reset signal to the CPU (CPU Reset). The CPU begins executing the firmware stored on the motherboard, which is either BIOS (Legacy) or UEFI (Modern).
 
@@ -436,3 +444,4 @@ Loads the corresponding initramfs image into memory.
 Passes the configured kernel boot parameters to the Linux kernel.
 Transfers control to the Linux kernel.	
 ===	
+</details>
