@@ -141,13 +141,21 @@ GRUB stands for GRand Unified Bootloader. Its primary responsibility is to locat
 After BIOS/UEFI transfers control to GRUB2, it performs the following operations:
 
 Reads the GRUB configuration (grub.cfg) and Boot Loader Specification (BLS) entries.
+
 Displays the boot menu if multiple operating systems or multiple kernel versions are installed.
+
 Allows the user to select the operating system or kernel to boot.
+
 If no selection is made, GRUB automatically boots the default boot entry after the configured timeout (GRUB_TIMEOUT).
+
 Reads the selected boot entry and identifies the Linux kernel (vmlinuz) and the corresponding initramfs image.
+
 Loads the Linux kernel (vmlinuz) into RAM.
+
 Loads the corresponding initramfs image into RAM.
+
 Passes the configured kernel boot parameters (GRUB_CMDLINE_LINUX) to the Linux kernel.
+
 Transfers CPU control to the Linux kernel.
 
 At this point, the GRUB stage is complete, and the Linux kernel begins execution.
