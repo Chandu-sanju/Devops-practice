@@ -317,21 +317,34 @@ Check:
 
 ps -p 1
 
-Output:
+Stage 5 - systemd
 
-systemd
-systemd Responsibilities
-Mount filesystems
-Start services
-Handle dependencies
-Manage targets
-Handle logging (journald)
-Launch login prompt
-Runlevels vs Targets
+The next stage is systemd.
+
+Systemd is the first userspace process started by the Linux kernel, and its PID is always 1.
+
+Systemd performs the following tasks:
+
+Reads the default target from /etc/systemd/system/default.target to determine which target the system should boot into, such as CLI (multi-user.target) or GUI (graphical.target).
+Loads the selected target unit.
+Resolves service dependencies and reads the required service unit files from /usr/lib/systemd/system/ and /etc/systemd/system/.
+Mounts the remaining filesystems defined in /etc/fstab.
+Starts systemd-udevd to detect hardware devices and create device files under /dev.
+Starts systemd-journald for system logging.
+Starts essential services such as NetworkManager, sshd, firewalld, chronyd, crond, and others in parallel.
+
+Because systemd starts independent services in parallel, the boot process is much faster than init (RHEL 5/6), where services were started one after another.
+
+Finally, systemd starts:
+
+getty for a command-line (CLI) login, or
+GDM (GNOME Display Manager) for a graphical login.
+
+Once the login prompt or graphical login screen appears, the Linux boot process is complete, and the system is ready for users.
+
+
+============================================================
 RHEL 6
-
-Uses Runlevels.
-
 Runlevel	Meaning
 0	Power Off
 1	Single User Mode
@@ -340,6 +353,7 @@ Runlevel	Meaning
 4	Unused
 5	Graphical Mode
 6	Reboot
+
 RHEL 7/8/9
 
 Uses Targets.
