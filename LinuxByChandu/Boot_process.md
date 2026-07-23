@@ -1,4 +1,4 @@
-# ============================================= Boot Process Updated version 2026 ============================================== #
+# =====================================================Boot Process Updated version 2026 ============================================== #
 ### What is the boot process in Linux ?
 
 There is sequence of events invovled in the boot processs, from the powered on to user login screen between the process is called
