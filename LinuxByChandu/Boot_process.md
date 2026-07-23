@@ -378,27 +378,7 @@ Switch temporarily:
 systemctl isolate rescue.target
 Services Startup
 
-systemd starts services in parallel.
 
-Examples:
-
-sshd
-NetworkManager
-chronyd
-firewalld
-httpd
-
-This parallel startup is one reason RHEL 7+ boots faster than RHEL 6.
-
-Login Prompt
-
-Finally,
-
-systemd starts getty, which displays the login prompt.
-
-login:
-
-Boot process is complete.
 </details>
 
 <details> <summary><b>Important Interview Questions </b></summary>
@@ -457,7 +437,7 @@ Logging	rsyslog	journald + rsyslog
 Note: Avoid memorizing exact kernel versions (e.g., "RHEL 7 = 3.10") or boot times (e.g., "20 seconds"). These vary depending on minor releases, hardware, and installed packages. Interviewers care more about architectural differences than fixed numbers.
 </details>
  		
-<details> <summary><b> TO expalin in theory in the Interview </b></summary>
+<details> <summary><b>  TO expalin in theory in the Interview </b></summary>
 ========================
 Once the power button is pressed, the power supply unit (PSU) provides power to the motherboard. After the power becomes stable, the motherboard sends a reset signal to the CPU (CPU Reset). The CPU begins executing the firmware stored on the motherboard, which is either BIOS (Legacy) or UEFI (Modern).
 
@@ -513,5 +493,54 @@ Loads the selected Linux kernel (vmlinuz) into memory.
 Loads the corresponding initramfs image into memory.
 Passes the configured kernel boot parameters to the Linux kernel.
 Transfers control to the Linux kernel.	
-===	
+=============================
+Stage 4 - Linux Kernel
+
+The Linux Kernel is the heart (core) of the operating system. It acts as a bridge between applications and the hardware. The kernel communicates with the hardware through device drivers.
+
+After the GRUB2 bootloader loads the compressed Linux kernel image (vmlinuz) and the corresponding initramfs into memory, it transfers control to the kernel.
+
+The Linux kernel decompresses itself and starts execution. (vmlinuz is a compressed kernel image; the 'z' indicates that it is compressed to reduce disk space and improve boot performance.)
+
+During the Kernel Boot Process
+Initializes the CPU and CPU cores.
+Initializes memory management.
+Detects the hardware connected to the system.
+Loads the required device drivers and kernel modules.
+Uses initramfs (Initial RAM Filesystem), a temporary root filesystem loaded into RAM, to locate and mount the real root filesystem.
+After the real root filesystem is found, it switches from the temporary initramfs to the actual root filesystem.
+Initially, the root filesystem is mounted as read-only, then remounted as read-write after the necessary filesystem checks.
+Finally, the kernel starts systemd.
+
+
+initramfs contains:-------
+Storage drivers
+LVM tools
+RAID support
+Filesystem modules
+================================================
+systemd
+
+The next stage is systemd.
+
+Systemd is the first userspace process started by the Linux kernel, and its PID is always 1.
+
+Systemd performs the following tasks:
+
+Reads the default target from /etc/systemd/system/default.target to determine which target the system should boot into, such as CLI (multi-user.target) or GUI (graphical.target).
+Loads the selected target unit.
+Resolves service dependencies and reads the required service unit files from /usr/lib/systemd/system/ and /etc/systemd/system/.
+Mounts the remaining filesystems defined in /etc/fstab.
+Starts systemd-udevd to detect hardware devices and create device files under /dev.
+Starts systemd-journald for system logging.
+Starts essential services such as NetworkManager, sshd, firewalld, chronyd, crond, and others in parallel.
+
+Because systemd starts independent services in parallel, the boot process is much faster than init (RHEL 5/6), where services were started one after another.
+
+Finally, systemd starts:
+
+getty for a command-line (CLI) login, or
+GDM (GNOME Display Manager) for a graphical login.
+
+Once the login prompt or graphical login screen appears, the Linux boot process is complete, and the system is ready for users
 </details>
