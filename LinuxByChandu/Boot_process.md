@@ -226,13 +226,6 @@ No. GRUB can read the filesystem to locate the kernel and initramfs, but mountin
 
 <details> <summary><b>Stage 4 - Linux Kernel </b></summary>
 
-GRUB loads:
-
-Linux Kernel (vmlinuz)
-initramfs
-
-Example:
-/boot/vmlinuz-4.18
 
 ### Kernel responsibilities:
 
@@ -253,16 +246,29 @@ initramfs (Modern)
 
 Used in RHEL 6/7/8/9.
 
-Contains:
+Stage 4 - Linux Kernel
 
-Device drivers
-Kernel modules
-LVM support
+The Linux Kernel is the heart (core) of the operating system. It acts as a bridge between applications and the hardware. The kernel communicates with the hardware through device drivers.
+
+After the GRUB2 bootloader loads the compressed Linux kernel image (vmlinuz) and the corresponding initramfs into memory, it transfers control to the kernel.
+
+The Linux kernel decompresses itself and starts execution. (vmlinuz is a compressed kernel image; the 'z' indicates that it is compressed to reduce disk space and improve boot performance.)
+
+During the Kernel Boot Process
+Initializes the CPU and CPU cores.
+Initializes memory management.
+Detects the hardware connected to the system.
+Loads the required device drivers and kernel modules.
+Uses initramfs (Initial RAM Filesystem), a temporary root filesystem loaded into RAM, to locate and mount the real root filesystem.
+After the real root filesystem is found, it switches from the temporary initramfs to the actual root filesystem.
+Initially, the root filesystem is mounted as read-only, then remounted as read-write after the necessary filesystem checks.
+Finally, the kernel starts systemd (PID 1), which continues the remaining boot process.
+initramfs contains
+Storage drivers
+LVM tools
 RAID support
-Filesystem drivers
-
-It helps the kernel mount the real root filesystem.
-
+Filesystem modules
+Basic utilities and configuration files required during early boot
 Interview Definition
 
 initramfs is a temporary root filesystem loaded into RAM that contains essential drivers, kernel modules, and utilities required to mount the real root filesystem during boot.
