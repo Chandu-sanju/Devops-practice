@@ -437,7 +437,8 @@ Logging	rsyslog	journald + rsyslog
 Note: Avoid memorizing exact kernel versions (e.g., "RHEL 7 = 3.10") or boot times (e.g., "20 seconds"). These vary depending on minor releases, hardware, and installed packages. Interviewers care more about architectural differences than fixed numbers.
 </details>
 
-![Boot Process](https://github.com/Chandu-sanju/Devops-practice/blob/main/Ansible/Images/Boot.drawio.png)
+![Boot Process](https://github.com/Chandu-sanju/Devops-practice/blob/main/Ansible/Images/Boot.jpg)
+
  		
 <details> <summary><b>  TO expalin in theory in the Interview </b></summary>
 ========================
